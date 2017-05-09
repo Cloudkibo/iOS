@@ -238,7 +238,7 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
                 sqliteDB.storeMembers(uniqueid,member_displayname1: myname, member_phone1: username!, isAdmin1: "Yes", membershipStatus1: "joined", date_joined1: NSDate.init() as Date)
               
                 
-                
+                 var membersarray=[String]()
                 for var i in 0 ..< members.count
                 {
                     var isAdmin="No"
@@ -278,6 +278,15 @@ class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,U
                     
                     
                 })*/
+                var groupParams=[String:AnyObject]()
+                //groupname, groupicon1: self.imgdata, datecreation1: NSDate() as Date, uniqueid1: uniqueid
+                
+                groupParams=["unique_id":uniqueid as AnyObject,"group_name":groupname as AnyObject,"is_mute":"\(false)" as AnyObject,"date_creation":"\(NSDate() as Date)" as AnyObject]
+               
+          //loading_group_members
+                
+            UtilityFunctions.init().sendDataToDesktopApp(data1: groupParams as AnyObject ,type1: "loading_groups")
+                UtilityFunctions.init().sendDataToDesktopApp(data1: members as AnyObject ,type1: "loading_group_members")
             }
             else{
                  print(response.result.debugDescription)

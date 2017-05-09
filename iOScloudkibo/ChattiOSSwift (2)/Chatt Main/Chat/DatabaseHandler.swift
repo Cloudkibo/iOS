@@ -3872,11 +3872,13 @@ print("--------")
             var newEntry = [String : Any]()
             
             newEntry["phone"]=list.get(phone)
-            newEntry["display_name"] = self.getNameFromAddressbook(list.get(phone) as! String)
+            newEntry["display_name"] = list.get(firstname)
+                //self.getNameFromAddressbook(list.get(phone) as! String)
             newEntry["_id"]=list.get(userid) as! String
             newEntry["detailsshared"]=list.get(detailsshared) as! String
             newEntry["status"]=list.get(status) as! String
             newEntry["on_cloudkibo"]="true"
+            newEntry["display_name"]=list.get(firstname)
                 //UtilityFunctions.init().isKiboContact(phone1: list.get(phone)) as! String
             //on_cloudkibo
             allContactsList.append(newEntry)

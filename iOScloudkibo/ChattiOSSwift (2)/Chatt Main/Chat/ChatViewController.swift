@@ -22,7 +22,7 @@ import AlamofireImage
 //import Haneke
 
 class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,CNContactPickerDelegate,
-EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContactsList,UpdateMainPageChatsDelegate,CNContactViewControllerDelegate,UISearchBarDelegate,UISearchDisplayDelegate
+EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContactsList,UpdateMainPageChatsDelegate,CNContactViewControllerDelegate,UISearchBarDelegate,UISearchDisplayDelegate,UIScrollViewDelegate
 {
     var selectedFromSearch=false
     var filteredArray:NSMutableArray!
@@ -5796,8 +5796,26 @@ shareMenu.addAction(cancelAction)
         print("deinit chat view controller")
         NotificationCenter.default.removeObserver(self)
     }
- 
     
+    func scrollViewDidScrollToTop(_ scrollView: UIScrollView) {
+        
+        print("top scrolled")
+    }
+ 
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        var tab=scrollView as! UITableView
+        if(tblForChat==tab)
+        {
+            print("scroll table \(scrollView.contentOffset.y)")
+            if(scrollView.contentOffset.y < -50.0)
+            {
+                
+            }
+            //print("scroll table \(scrollvie.
+        }
+        
+    }
 }
 /*extension UILabel {
     

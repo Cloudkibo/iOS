@@ -214,12 +214,17 @@ class LoginAPI{
             
             self.delegateDesktopApp.socketReceivedDesktopAppMessage("platform_room_message", data: data as AnyObject!)
             var userid=data[0]
-            var msg=data[1] as! String
-            var jsondata=JSON(data)
-            var type=jsondata["type"].string!
+            var jsondata=JSON(data)["data"]
+            var type=JSON(data)["type"]
+           // var msg=data[1] as! String
+            //var jsondata=JSON(data)
+            //var type=jsondata["type"].string!
+            
             if(type=="loading_conversation")
             {
-                var dataconversations=sqliteDB.getChatListForDesktopApp(user1: userid as! String)
+                var phone=jsondata["phone"].string!
+
+                var dataconversations=sqliteDB.getChatListForDesktopApp(user1: phone as! String)
                 self.utilityService.sendDataToDesktopApp(data1: dataconversations as AnyObject ,type1: "loading_conversation")
                 
                 

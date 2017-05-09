@@ -261,8 +261,8 @@ var isKiboContact="false"
                         
                         if(self.messages.count>1)
                         { print("scrollinggg 224 line")
-                            //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 1)
-                            let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 1)-1, section: 0)
+                            //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                            let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
                             self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
                         }
                 }
@@ -447,7 +447,6 @@ var isKiboContact="false"
                 button.setTitle(self.selectedFirstName, for: .normal)
                 button.addSubview(subtitleLabel)
                 button.addTarget(self, action: #selector(ChatDetailViewController.contactTapped(_:)), for: .touchUpInside)
-                
                 self.NewChatNavigationTitle.titleView=button
             }
             else{
@@ -563,7 +562,7 @@ var isKiboContact="false"
 
             if(self.messages.count>1)
             {
-                //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 1)
+                //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
                 
                 if(self.searchUniqueid != nil)
                 {
@@ -581,7 +580,7 @@ var isKiboContact="false"
                     }
                     else{
                          print("scrollinggg 460 line")
-                            let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 1)-1, section: 0)
+                            let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
                             self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
                         }
                     
@@ -589,7 +588,7 @@ var isKiboContact="false"
                 }
                 else{
                  print("scrollinggg 468 line")
-                let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 1)-1, section: 0)
+                let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
                 self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
                 }
             }
@@ -1488,7 +1487,7 @@ var isKiboContact="false"
                 }
                 /* if(self.messages.count>1)
                  {
-                 var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 1)
+                 var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
                  
                  self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
                  }*/
@@ -1836,7 +1835,7 @@ var isKiboContact="false"
                     }
                     /* if(self.messages.count>1)
                      {
-                     var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 1)
+                     var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
                      
                      self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
                      }*/
@@ -2261,7 +2260,7 @@ var isKiboContact="false"
                     }
                     /* if(self.messages.count>1)
                      {
-                     var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 1)
+                     var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
                      
                      self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
                      }*/
@@ -2604,7 +2603,7 @@ var isKiboContact="false"
      self.tblForChats.reloadData()
      if(self.messages.count>1)
      {
-     var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 1)
+     var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
      self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
      }
      */
@@ -2641,17 +2640,11 @@ var isKiboContact="false"
 
     
     func tableView(_ tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
-        if(section==0)
-        {
-            return 1
-        }
-        else{
         return messages.count
-        }
     }
     
     func numberOfSectionsInTableView(_ tableView: UITableView!) -> Int {
-        return 2
+        return 1
     }
     /*func tableView(tableView: UITableView, heightForFooterInSection section: NSInteger) -> CGFloat
     {
@@ -2884,18 +2877,9 @@ var isKiboContact="false"
     
 
     func tableView(_ tableView: UITableView!, cellForRowAtIndexPath indexPath: IndexPath!) -> UITableViewCell! {
-        
-        var cell = tblForChats.dequeueReusableCell(withIdentifier: "ArchivedCell")! as UITableViewCell
-        
-
-        if(indexPath.section==0)
-        {
-            var cell = tblForChats.dequeueReusableCell(withIdentifier: "ArchivedCell")! as UITableViewCell
-            
-
-                    }
-        else{
-        var cell = tblForChats.dequeueReusableCell(withIdentifier: "ChatSentCell")! as UITableViewCell
+        var cell : UITableViewCell!
+       // print("reloading of cellsssssssss......------------===========++++++")
+        cell = tblForChats.dequeueReusableCell(withIdentifier: "ChatSentCell")! as UITableViewCell
         
                //print("cellForRowAtIndexPath called \(indexPath)")
        // if(messages.count > 0 && messages.count > indexPath.row)
@@ -3175,7 +3159,7 @@ var isKiboContact="false"
             //timeLabel.text=date2.debugDescription
         }
         if (msgType?.isEqual(to: "23"))!{
-            cell=tableView.dequeueReusableCell(withIdentifier: "ChatSentCell11")!
+            cell=tableView.dequeueReusableCell(withIdentifier: "ChatSentCell11")
             if(cell==nil)
             {
                 cell = tblForChats.dequeueReusableCell(withIdentifier: "ChatSentCell11")! as UITableViewCell
@@ -3458,7 +3442,7 @@ var isKiboContact="false"
             //timeLabel.text=date2.debugDescription
         }
         if (msgType?.isEqual(to: "22"))!{
-            cell=tableView.dequeueReusableCell(withIdentifier: "ChatReceivedCell22")!
+            cell=tableView.dequeueReusableCell(withIdentifier: "ChatReceivedCell22")
             if(cell==nil)
 {
             cell = tblForChats.dequeueReusableCell(withIdentifier: "ChatReceivedCell22")! as UITableViewCell
@@ -3741,7 +3725,7 @@ var isKiboContact="false"
            //timeLabel.text=date2.debugDescription
         }
         if (msgType?.isEqual(to: "2"))!{
-            cell=tableView.dequeueReusableCell(withIdentifier: "ChatReceivedCell")!
+            cell=tableView.dequeueReusableCell(withIdentifier: "ChatReceivedCell")
             if(cell==nil)
             {
                 cell = tblForChats.dequeueReusableCell(withIdentifier: "ChatReceivedCell")! as UITableViewCell
@@ -4576,7 +4560,7 @@ var isKiboContact="false"
         {
             
             print("UI chat type is \(msgType!)")
-            cell=tableView.dequeueReusableCell(withIdentifier: "ContactSentCell")!
+            cell=tableView.dequeueReusableCell(withIdentifier: "ContactSentCell")
             if(cell==nil)
             {
                 cell = tblForChats.dequeueReusableCell(withIdentifier: "ContactSentCell")! as UITableViewCell
@@ -5051,7 +5035,7 @@ var isKiboContact="false"
         {
             
             print("UI chat type is \(msgType!)")
-            cell=tableView.dequeueReusableCell(withIdentifier: "AudioSentCell")!
+            cell=tableView.dequeueReusableCell(withIdentifier: "AudioSentCell")
             if(cell==nil)
             {
                 cell = tblForChats.dequeueReusableCell(withIdentifier: "AudioSentCell")! as UITableViewCell
@@ -5291,7 +5275,6 @@ var isKiboContact="false"
          }
          audioPlayer.play()
  */
-        }
         return cell
            }
     
@@ -5429,8 +5412,8 @@ var isKiboContact="false"
                 
                 if(self.messages.count>1)
                 {
-                    //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 1)
-                    let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 1)-1, section: 0)
+                    //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                    let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
                      print("scrollinggg 4044 line")
                     self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
                 }
@@ -5464,10 +5447,10 @@ var isKiboContact="false"
             
             if(self.messages.count>1)
             {
-                //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 1)
-               // let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 1)-1, section: 0)
+                //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+               // let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
                 
-                let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 1)-1, section: 0)
+                let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
                 
                  print("scrollinggg 4082 line")
                 self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
@@ -5800,7 +5783,7 @@ var isKiboContact="false"
    /*  tblForChats.reloadData()
         if(messages.count>1)
         {
-            let indexPath = NSIndexPath(forRow:messages.count-1, inSection: 1)
+            let indexPath = NSIndexPath(forRow:messages.count-1, inSection: 0)
             tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
         }
  */
@@ -6292,8 +6275,8 @@ var isKiboContact="false"
                 if(self.messages.count>1)
                 {
                      print("scrollinggg 4771 line")
-                    // let indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 1)
-                    let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 1)-1, section: 0)
+                    // let indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                    let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
                     self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
                     
                     
@@ -6570,8 +6553,8 @@ var isKiboContact="false"
                         if(self.messages.count>1)
                         {
                              print("scrollinggg 5032 line")
-                            //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 1)
-                            let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 1)-1, section: 0)
+                            //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                            let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
                             self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
                         }
                 }
@@ -6823,8 +6806,8 @@ var isKiboContact="false"
                 if(self.messages.count>1)
                 {
                      print("scrollinggg 5259 line")
-                    //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 1)
-                    let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 1)-1, section: 0)
+                    //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                    let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
                     self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
                 }
                 }
@@ -6840,8 +6823,8 @@ var isKiboContact="false"
             if(self.messages.count>1)
             {
                  print("scrollinggg 5276 line")
-                //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 1)
-                let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 1)-1, section: 0)
+                //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
                 self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
             }
 
@@ -6868,9 +6851,9 @@ var isKiboContact="false"
             self.tblForChats.reloadData()
             if(self.messages.count>1)
             {
-               // var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 1)
+               // var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
                  print("scrollinggg 5306 line")
-                let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 1)-1, section: 0)
+                let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
                 self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
                 
             }
@@ -7164,8 +7147,8 @@ var isKiboContact="false"
          self.tblForChats.reloadData()
          if(self.messages.count>1)
          {
-         // let indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 1)
-         let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 1)-1, section: 0)
+         // let indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+         let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
          self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
          
          
@@ -7435,7 +7418,7 @@ var isKiboContact="false"
          self.tblForChats.reloadData()
          if(self.messages.count>1)
          {
-         var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 1)
+         var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
          
          self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
          }
@@ -7487,7 +7470,7 @@ var isKiboContact="false"
             self.retrieveChatFromSqlite(self.selectedContact)
             if(self.messages.count>1)
             {
-                var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 1)
+                var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
                 
                 self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
             }
@@ -7499,7 +7482,7 @@ var isKiboContact="false"
              self.tblForChats.reloadData()
              if(self.messages.count>1)
              {
-             var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 1)
+             var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
              
              self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
              }
@@ -7524,8 +7507,8 @@ var isKiboContact="false"
                 
                 if(self.messages.count>1)
                 {
-                    //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 1)
-                    let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 1)-1, section: 0)
+                    //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                    let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
                     self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
                 }
                 //}
@@ -7535,7 +7518,7 @@ var isKiboContact="false"
            /* self.retrieveChatFromSqlite(self.selectedContact)
             if(self.messages.count>1)
             {
-                var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 1)
+                var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
                 
                 self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
             }*/
@@ -7545,7 +7528,7 @@ var isKiboContact="false"
                 
                 if(self.messages.count>1)
                 {
-                    var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 1)
+                    var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
                     
                     self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
                 }
@@ -7946,8 +7929,8 @@ var isKiboContact="false"
                     
                     if(self.messages.count>1)
                     {
-                      //  var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 1)
-                        let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 1)-1, section: 0)
+                      //  var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                        let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
                         self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
                     }
                     }
@@ -8095,8 +8078,8 @@ var isKiboContact="false"
         self.tblForChats.reloadData()
         if(self.messages.count>1)
         {
-           // let indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 1)
-            let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 1)-1, section: 0)
+           // let indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+            let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
             self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
             
         }
@@ -8122,8 +8105,8 @@ var isKiboContact="false"
             if(self.messages.count>1)
             {
                 
-                //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 1)
-                let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 1)-1, section: 0)
+                //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+                let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
                 
                 self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
             }
@@ -8134,7 +8117,7 @@ var isKiboContact="false"
        /* self.retrieveChatFromSqlite(self.selectedContact)
         if(self.messages.count>1)
         {
-            var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 1)
+            var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
             
             self.tblForChats.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
         }*/
@@ -8179,8 +8162,8 @@ var isKiboContact="false"
         
         if(self.messages.count>1)
         {
-            //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 1)
-            let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 1)-1, section: 0)
+            //var indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+            let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
             self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
         }
         //}
@@ -8337,8 +8320,8 @@ var isKiboContact="false"
         self.tblForChats.reloadData()
         if(self.messages.count>1)
         {
-            // let indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 1)
-            let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 1)-1, section: 0)
+            // let indexPath = NSIndexPath(forRow:self.messages.count-1, inSection: 0)
+            let indexPath = IndexPath(row:self.tblForChats.numberOfRows(inSection: 0)-1, section: 0)
             self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
             
             
@@ -8433,7 +8416,7 @@ var isKiboContact="false"
         {
             var foundindex=self.messages.index(of: resultArray.first!)
              tblForChats.insertRows(at: [NSIndexPath.init(row: foundindex, section: 0) as IndexPath], with: UITableViewRowAnimation.bottom)
-            //insertRow(at: NSIndexPath(forRow: foundindex, inSection: 1), with: UITableViewRowAnimation.bottom)
+            //insertRow(at: NSIndexPath(forRow: foundindex, inSection: 0), with: UITableViewRowAnimation.bottom)
         }
        
         tblForChats.endUpdates()
