@@ -268,7 +268,13 @@ class LoginAPI{
                 managerFile.sendChatStatusUpdateMessage(uniqueid1, status: status1, sender: sender1)
                 
             }
-            
+            if(type=="asking_last_seen")
+            {
+                var jsondata1=(JSON(data[0] as! String))["data"] as! [String:AnyObject]
+                var phone=jsondata1["phone"] as! String
+                var lastseen=UtilityFunctions.init().getLastseen(phone)
+                UtilityFunctions.init().sendDataToDesktopApp(data1: ["last_seen":lastseen,"phone":phone], type1: "sending_last_seen")
+            }
             
             //desktop_requesting_attachment
             

@@ -447,6 +447,7 @@ var isKiboContact="false"
                 button.setTitle(self.selectedFirstName, for: .normal)
                 button.addSubview(subtitleLabel)
                 button.addTarget(self, action: #selector(ChatDetailViewController.contactTapped(_:)), for: .touchUpInside)
+                
                 self.NewChatNavigationTitle.titleView=button
             }
             else{

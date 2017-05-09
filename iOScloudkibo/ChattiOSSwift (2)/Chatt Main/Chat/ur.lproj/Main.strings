@@ -1007,6 +1007,7 @@
 /* Class = "UILabel"; text = "آڈیو فائل"; ObjectID = "pmE-6d-zD2"; */
 "pmE-6d-zD2.text" = "آڈیو فائل";
 
+//!!new
 /* Class = "UIButton"; normalTitle = "test"; ObjectID = "q63-Hq-0xE"; */
 "q63-Hq-0xE.normalTitle" = "test";
 

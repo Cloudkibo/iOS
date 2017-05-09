@@ -1008,7 +1008,7 @@
 "pmE-6d-zD2.text" = "Audio File";
 
 /* Class = "UIButton"; normalTitle = "test"; ObjectID = "q63-Hq-0xE"; */
-"q63-Hq-0xE.normalTitle" = "test";
+"q63-Hq-0xE.normalTitle" = "Archived Chats";
 
 /* Class = "UIBarButtonItem"; title = "Restore"; ObjectID = "q6D-yt-bjz"; */
 "q6D-yt-bjz.title" = "Restore";

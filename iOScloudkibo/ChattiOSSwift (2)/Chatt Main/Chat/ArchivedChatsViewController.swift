@@ -59,6 +59,12 @@ class ArchivedChatsViewController: UIViewController,SWTableViewCellDelegate {
         return 103
     }
     
+    //call from UI
+    
+    func unArchiveChats(phone1:String)
+    {
+        sqliteDB.updateArchiveStatus(contactPhone1: phone1, status: false)
+    }
     
     /*
     // MARK: - Navigation
