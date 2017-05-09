@@ -2502,6 +2502,23 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             alpha: CGFloat(1.0)
         )
     }
+    
+    func getLastSeen(phone1:String)->String
+    {
+        var lastseen=""
+        //  let slp = SwiftLinkPreview()
+        Alamofire.request(Constants.MainUrl+Constants.getLastSeen, method: .post, parameters: ["phone":phone1], encoding: JSONEncoding.default, headers: header).responseJSON { (response) in
+            
+            if(response.response?.statusCode==200)
+            {
+                var dataGot=JSON(response.data)
+                print(dataGot)
+                //lastseen=dataGot.description
+                lastseen=dataGot["last_seen"].string!
+            }
+        }
+        return lastseen
+    }
 
 }
 

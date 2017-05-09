@@ -272,8 +272,8 @@ class LoginAPI{
             {
                 var jsondata1=(JSON(data[0] as! String))["data"] as! [String:AnyObject]
                 var phone=jsondata1["phone"] as! String
-                var lastseen=UtilityFunctions.init().getLastseen(phone)
-                UtilityFunctions.init().sendDataToDesktopApp(data1: ["last_seen":lastseen,"phone":phone], type1: "sending_last_seen")
+                var lastseen=UtilityFunctions.init().getLastSeen(phone1: phone)
+                UtilityFunctions.init().sendDataToDesktopApp(data1: ["last_seen":lastseen,"phone":phone] as AnyObject, type1: "sending_last_seen")
             }
             
             //desktop_requesting_attachment
