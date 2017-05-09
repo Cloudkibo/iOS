@@ -24,6 +24,7 @@ import AlamofireImage
 class ChatViewController:UIViewController,SocketClientDelegate,SocketConnecting,CNContactPickerDelegate,
 EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContactsList,UpdateMainPageChatsDelegate,CNContactViewControllerDelegate,UISearchBarDelegate,UISearchDisplayDelegate,UIScrollViewDelegate
 {
+    var archivedChats=false
     var selectedFromSearch=false
     var filteredArray:NSMutableArray!
     var groupchatmessages=Array<Row>()
@@ -3303,7 +3304,10 @@ break
          }
          }
  */
-        
+        if(archivedChats==true)
+        {
+            print("adding archived cell")
+        }
         cellview.addSubview(cell)
         return cellview
 //        return nil
@@ -5810,7 +5814,16 @@ shareMenu.addAction(cancelAction)
             print("scroll table \(scrollView.contentOffset.y)")
             if(scrollView.contentOffset.y < -50.0)
             {
-                
+                print("archivedChats")
+                //show row
+                archivedChats=true
+                let cell = tblForChat.dequeueReusableCell(withIdentifier: "ChatPrivateCell") as! ContactsListCell
+                //cell.frame=CGRect.init(x: 0, y: 15, width: 100, height: 50)
+                //cell.btnNewGroupOutlet.addTarget(self, action: #selector(ChatViewController.BtnnewGroupClicked(_:)), for:.touchUpInside)
+               
+                tblForChat.tableHeaderView?.addSubview(cell)
+                tblForChat.tableHeaderView?.setNeedsDisplay()
+                tblForChat.tableHeaderView?.setNeedsLayout()
             }
             //print("scroll table \(scrollvie.
         }

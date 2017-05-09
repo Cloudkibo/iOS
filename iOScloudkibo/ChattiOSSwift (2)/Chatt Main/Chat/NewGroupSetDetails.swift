@@ -835,8 +835,13 @@ extension NewGroupSetDetails: UICollectionViewDelegate, UICollectionViewDataSour
 
         
        // var foundcontact=try contactStore.unifiedContactWithIdentifier(picquery[uniqueidentifier], keysToFetch: keys)
-        if(participants[indexPath.row].thumbnailProfileImage != nil)
-           // if(foundcontact.imageDataAvailable==true)
+            
+            //button.addTarget(self, action: #selector(ChatDetailViewController.contactTapped(_:)), for: .touchUpInside)
+            
+            cell.deletePicButton.addTarget(self, action: #selector(NewGroupSetDetails.removeMember(_:)), for: .touchUpInside)
+           
+            if(participants[indexPath.row].thumbnailProfileImage != nil)
+           //if(foundcontact.imageDataAvailable==true)
         {
             print("here image found")
          //   foundcontact.imageData
@@ -896,7 +901,60 @@ extension NewGroupSetDetails: UICollectionViewDelegate, UICollectionViewDataSour
 }
 
 
-
+    func removeMember(_ sender:UIButton)
+    {
+        //collectionView.dequeueReusableCell(withReuseIdentifier: "ParticipantsAvatarsCell", for: indexPath) as! ParticipantsCollectionCell
+       // let cell=tblNewGroupDetails.dequeueReusableCell(withIdentifier: "NewGroupParticipantsCell") as! ContactsListCell
+        //cell.lbl_participantsNumberFromOne.text="PARTICIPANTS \(participants.count) of 256"
+        
+        
+        
+        
+         var cell=sender.superview?.superview as! ParticipantsCollectionCell
+         let ind = IndexPath(row:1, section: 0)
+        var indexPath=(tblNewGroupDetails.cellForRow(at: ind) as! ContactsListCell).participantsCollection.indexPath(for: cell)
+        //var indexPath=tblForChats.indexPath(for: cell)
+        var rowselected=indexPath?.row
+        print("deleting row \(rowselected)")
+        (tblNewGroupDetails.cellForRow(at: ind) as! ContactsListCell).participantsCollection.deleteItems(at: [indexPath])
+        
+        //participants.remove(at: rowselected!)
+        tblNewGroupDetails.reloadData()
+        
+        
+        
+        
+        
+        
+        
+        
+       /*
+        let ind = IndexPath(row:1, section: 0)
+        
+        
+        let cell1=tblNewGroupDetails.dequeueReusableCell(withIdentifier: "NewGroupParticipantsCell" , for: ind) as! ContactsListCell
+        var indexPath=cell1.participantsCollection.indexPath(for: cell)
+        */
+       ///!! var indexPath = cell1.participantsCollection.indexPath(for: cell)
+        
+        // let cell2 = tblNewGroupDetails.dequeueReusableCell(withIdentifier: "ParticipantsAvatarsCell") as! ParticipantsCollectionCell
+      //  var indexPath = cell2. .participantsCollection.indexPath(for: cell)
+        
+        //var indexPath = tblNewGroupDetails.pa cell.indexPath(for: cell)
+        
+      
+        //var messageDic = messages.object(at: rowselected!) as! [String : String];
+        //let msg = messageDic["message"] as NSString!
+        
+        //sender.tag=15
+        
+       // let contactinfo=msg?.components(separatedBy: ":") ///return array string
+        //textLable.text = contactinfo[0]
+        //contactreceivedphone=(contactinfo?[1])!
+        
+        //var phonevalue=sender.value(forKey: "phone")
+        //var phoneIdentifier=sqliteDB.getIdentifierFRomPhone((contactinfo?[1])!)
+    }
     /*func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 1
     }
