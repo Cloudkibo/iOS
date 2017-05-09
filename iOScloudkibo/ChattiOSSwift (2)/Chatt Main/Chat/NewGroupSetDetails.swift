@@ -915,10 +915,12 @@ extension NewGroupSetDetails: UICollectionViewDelegate, UICollectionViewDataSour
         var indexPath=(tblNewGroupDetails.cellForRow(at: ind) as! ContactsListCell).participantsCollection.indexPath(for: cell)
         //var indexPath=tblForChats.indexPath(for: cell)
         var rowselected=indexPath?.row
-        print("deleting row \(rowselected)")
-        (tblNewGroupDetails.cellForRow(at: ind) as! ContactsListCell).participantsCollection.deleteItems(at: [indexPath])
+        print("deleting row \(rowselected) .. total rows were \(participants.count)")
+        //(tblNewGroupDetails.cellForRow(at: ind) as! ContactsListCell).participantsCollection.deleteItems(at: [indexPath!])
         
-        //participants.remove(at: rowselected!)
+        participants.remove(at: rowselected!)
+        (tblNewGroupDetails.cellForRow(at: ind) as! ContactsListCell).participantsCollection.reloadData()
+        
         tblNewGroupDetails.reloadData()
         
         
