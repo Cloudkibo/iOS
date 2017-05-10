@@ -56,7 +56,8 @@ class ArchivedChatsViewController: UIViewController,SWTableViewCellDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAtIndexPath indexPath: IndexPath) -> CGFloat {
         
-        return 103
+        return 70
+        
     }
     
     //call from UI
@@ -66,14 +67,16 @@ class ArchivedChatsViewController: UIViewController,SWTableViewCellDelegate {
         sqliteDB.updateArchiveStatus(contactPhone1: phone1, status: false)
     }
     
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+  /*  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-    }
-    */
+        
+        //archivedChatDetailsSegue
+    }*/
+    
 
 }

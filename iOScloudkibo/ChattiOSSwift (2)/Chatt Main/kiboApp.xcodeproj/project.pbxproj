@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		5BF6363219A9F3D900ABD0BA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BF6363119A9F3D900ABD0BA /* Images.xcassets */; };
 		710070341DFBB789001530B5 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 710070331DFBB789001530B5 /* Alamofire.framework */; };
+		7103C5BE1EC31F46003A12DE /* ArchivedChatModelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7103C5BD1EC31F46003A12DE /* ArchivedChatModelCell.swift */; };
 		710947731D710A63008BC238 /* NewGroupSetDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710947721D710A63008BC238 /* NewGroupSetDetails.swift */; };
 		710947751D71189E008BC238 /* ParticipantsCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710947741D71189E008BC238 /* ParticipantsCollectionCell.swift */; };
 		710CB64E1D06EB030070CA3D /* contactsDetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710CB64D1D06EB030070CA3D /* contactsDetailsTableViewController.swift */; };
@@ -518,6 +519,7 @@
 		5BF6363719A9F3D900ABD0BA /* ChatTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6CB4779A4806A1DC97422145 /* Pods-Chat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Chat.release.xcconfig"; path = "Pods/Target Support Files/Pods-Chat/Pods-Chat.release.xcconfig"; sourceTree = "<group>"; };
 		710070331DFBB789001530B5 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "../../../../../../../Library/Developer/Xcode/DerivedData/kiboApp-ckwegrnpnjdryqfinanunrzashgm/Build/Products/Debug-iphoneos/Alamofire/Alamofire.framework"; sourceTree = "<group>"; };
+		7103C5BD1EC31F46003A12DE /* ArchivedChatModelCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArchivedChatModelCell.swift; sourceTree = "<group>"; };
 		710947721D710A63008BC238 /* NewGroupSetDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewGroupSetDetails.swift; sourceTree = "<group>"; };
 		710947741D71189E008BC238 /* ParticipantsCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticipantsCollectionCell.swift; sourceTree = "<group>"; };
 		710CB64D1D06EB030070CA3D /* contactsDetailsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = contactsDetailsTableViewController.swift; sourceTree = "<group>"; };
@@ -957,6 +959,7 @@
 				7142EC981DC196DB0070826F /* GroupInfoCells.swift */,
 				719A0CE31DD5237800977C0B /* GroupMessageStatusViewController.swift */,
 				713F3DD61D7A88990072C9E9 /* ArchivedChatsViewController.swift */,
+				7103C5BD1EC31F46003A12DE /* ArchivedChatModelCell.swift */,
 				7127CC901D9D0C800047683B /* syncContactService.swift */,
 				7142EC8B1DBE33560070826F /* syncGroupsService.swift */,
 				7142EC961DBF51DC0070826F /* UtilityFunctions.swift */,
@@ -1679,6 +1682,7 @@
 				7141A51C1EB726D100BA244A /* ConnectToDesktop.swift in Sources */,
 				71E046A31D228AE700B67362 /* CallHistoryTableViewController.swift in Sources */,
 				71C84C691E44AB2400330105 /* SSLSecurity.swift in Sources */,
+				7103C5BE1EC31F46003A12DE /* ArchivedChatModelCell.swift in Sources */,
 				713D51EA1CC11896007E0B47 /* SignupViewController.swift in Sources */,
 				71D74E8F1DEBD8E400D44D59 /* NSData_Compression.swift in Sources */,
 				71EA60821D78DDAA00117B55 /* SWTableViewCell.m in Sources */,

@@ -3720,6 +3720,67 @@ print("--------")
             }
         
     }
+  
+    
+    func getArchivedChatDetails()->[[String:Any]]
+    {
+        let to = Expression<String>("to")
+        let from = Expression<String>("from")
+        let fromFullName = Expression<String>("fromFullName")
+        let msg = Expression<String>("msg")
+        let owneruser = Expression<String>("owneruser")
+        let date = Expression<Date>("date")
+        let uniqueid = Expression<String>("uniqueid")
+        let status = Expression<String>("status")
+        let contactPhone = Expression<String>("contactPhone")
+        let type = Expression<String>("type")
+        let file_type = Expression<String>("file_type")
+        let file_path = Expression<String>("file_path")
+        let broadcastlistID = Expression<String>("broadcastlistID")
+        let isBroadcastMessage = Expression<Bool>("isBroadcastMessage")
+        let isArchived = Expression<Bool>("isArchived")
+        
+        
+        
+        self.userschats = Table("userschats")
+        var allChatsList=[[String:Any]]()
+        
+        
+        //  let query = self.contactslists.select(messageuniqueid).filter(messageuniqueid == messageUniqueid1)
+        do
+        {
+            
+            let myquery=userschats?.filter(isArchived==true).group((userschats?[contactPhone])!).order(date.desc)
+            
+            var queryruncount=0
+            for list in try sqliteDB.db.prepare(myquery!) {
+                //for list in try self.db.prepare(self.userschats)
+                // {
+                var newEntry = [String : Any]()
+                
+                newEntry["date"]=list.get(date).debugDescription as AnyObject
+                newEntry["contact_phone"]=list.get(contactPhone) as! String
+                newEntry["msg"]=list.get(msg) as! String
+                newEntry["pendingMsgs"]="0"
+                if(self.getNameFromAddressbook(list.get(contactPhone)) != nil)
+                {
+                    newEntry["display_name"]=self.getNameFromAddressbook(list.get(contactPhone)) as! String
+                }
+                else{
+                    newEntry["display_name"]=list.get(contactPhone)
+                }
+                newEntry["isArchived"]=list.get(isArchived)
+                allChatsList.append(newEntry)
+            }
+        }
+        catch{
+            
+        }
+        
+        return allChatsList
+        
+        
+    }
     
     func getChatListForDesktopApp(user1:String)->[[String:Any]]
     {

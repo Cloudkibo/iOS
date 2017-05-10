@@ -189,6 +189,7 @@ class LoginAPI{
             }
             self.utilityService.sendDataToDesktopApp(data1: groupParams as AnyObject ,type1: "loading_groups")
             
+             self.utilityService.sendDataToDesktopApp(data1: sqliteDB.getArchivedChatDetails() as AnyObject ,type1: "loading_archive")
             
            //==-- serviceSendInitialData.startInitialDataLoad(phone: username!, to_connection_id: self.desktopRoomID, from_connection_id: self.mobileSocketID, data: sqliteDB.getContactDetails() as AnyObject, type: "loading_contacts")
             
@@ -214,14 +215,20 @@ class LoginAPI{
             
             self.delegateDesktopApp.socketReceivedDesktopAppMessage("platform_room_message", data: data as AnyObject!)
             var userid=data[0]
-            var jsondata=JSON(data)["data"]
-            var type=JSON(data)["type"]
+            print("data is \(data)")
+            var jsondata=JSON(data)[0]["data"]
+            var type=JSON(data)[0]["type"].string!            //var jsondata=mydata["data"]
+            //print("mydata is \(mydata)")
+            //var jsondata=JSON(data)["data"]
+            //var type=JSON(data)["type"]
+            print("jsondata is \(jsondata)")
+            print("type is \(type)")
            // var msg=data[1] as! String
             //var jsondata=JSON(data)
             //var type=jsondata["type"].string!
             
             if(type=="loading_conversation")
-            {
+            {print("inside loading_conversation")
                 var phone=jsondata["phone"].string!
 
                 var dataconversations=sqliteDB.getChatListForDesktopApp(user1: phone as! String)
@@ -240,13 +247,13 @@ class LoginAPI{
             //new_message_sent
             if(type=="new_message_sent")
             {
-                var jsondata1=(JSON(data[0] as! String))["data"] as! [String:AnyObject]
+                var jsondata1=JSON(data)[0]["data"]
                // var datapayload:[String:Any]=jsondata["data"].dictionaryObject
-                sqliteDB.SaveChat(jsondata1["to"] as! String, from1: jsondata1["from"] as! String, owneruser1: "", fromFullName1: jsondata1["fromFullName"] as! String, msg1: jsondata1["msg"] as! String, date1: jsondata1["date"] as! Date, uniqueid1: jsondata1["uniqueid"] as! String, status1: "pending", type1: jsondata1["type"] as! String, file_type1: jsondata1["file_type"] as! String, file_path1: "")
+                sqliteDB.SaveChat(jsondata1["to"].string!, from1: jsondata1["from"].string!, owneruser1: "", fromFullName1: jsondata1["fromFullName"].string!, msg1: jsondata1["msg"].string!, date1: Date(), uniqueid1: jsondata1["uniqueid"].string!, status1: "pending", type1: jsondata1["type"].string!, file_type1: jsondata1["file_type"].string!, file_path1: "")
                 
-                var imParas=["from":jsondata1["from"] as! String,"to":jsondata1["to"] as! String,"fromFullName":jsondata1["fromFullName"] as! String,"msg":jsondata1["msg"] as! String,"uniqueid":jsondata1["uniqueid"] as! String,"type":jsondata1["type"] as! String,"file_type":jsondata1["file_type"] as! String,"date":"\(jsondata1["date"] as! Date)"]
+                var imParas=["from":jsondata1["from"].string!,"to":jsondata1["to"].string!,"fromFullName":jsondata1["fromFullName"].string!,"msg":jsondata1["msg"].string!,"uniqueid":jsondata1["uniqueid"].string!,"type":jsondata1["type"].string!,"file_type":jsondata1["file_type"].string!,"date":"\(Date())"] as [String : Any]
                 
-               managerFile.sendChatMessage(imParas, completion: { (result) in
+               managerFile.sendChatMessage(imParas as! [String : String], completion: { (result) in
                 
                 print("chat message sent to server from desktop app")
                })
