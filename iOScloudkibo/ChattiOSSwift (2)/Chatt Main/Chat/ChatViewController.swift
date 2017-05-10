@@ -3774,76 +3774,6 @@ break
         // Fetch
         let cachedAvatar = imageCache.image(withIdentifier: "profile-pic1")
         cell!.profilePic.image=cachedAvatar
-        // Remove
-        //imageCache.removeImage(withIdentifier: "avatar")
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-      /*  ImageCache.default.store(profilepic!, forKey: "profile-pic1")
-        
-        var resultcache=ImageCache.default.isImageCached(forKey: "profile-pic1")
-        
-        ImageCache.default.retrieveImage(forKey: "profile-pic1", options: nil) {
-            image, cacheType in
-            if let image = image {
-                print("Get image \(image), cacheType: \(cacheType).")
-                //In this code snippet, the `cacheType` is .disk
-                //var picurl=URL(fileURLWithPath: "profile-pic1.png")
-                let fileURL = NSURL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!).appendingPathComponent("profile-pic1.png")
-                
-                
-                //var picurl=URL(fileURLWithPath: "profile-pic1")
-                cell!.profilePic.kf.setImage(with: imgURL)
-            } else {
-                print("Not exist in cache.")
-                /*ImageCache.default.store(profilepic!, forKey: "profile-pic1")
-                var resultcache=ImageCache.default.isImageCached(forKey: "profile-pic1")
-            
-                var picurl=URL(fileURLWithPath: "profile-pic1.png")
-                
-                cell!.profilePic.kf.setImage(with: ImageResource.init(downloadURL: picurl, cacheKey: "profile-pic1"))
-                */
-
-            }
-        
-        }
-            cell!.profilePic.kf.setImage(with: imgURL, placeholder: Image.init(named: "profile-pic1"), options: nil, progressBlock: { (test, test2) in
-                
-                print("set img progress block \(test) \(test)")
-            }) { (img, error1, cachetype, url1) in
-                
-                print("set image completion \(img)")
-                 print("set image completion error \(error1)")
-                  print("set image completion url \(url1)")
-        }
-        */
-
-              //----replacing image lib
-
-       // cell!.profilePic.hnk_setImage(UIImage(named: "profile-pic1.png")!, key: "profile-pic1")
-        
-        
-        //==--cell.profilePic.image=UIImage(named: "profile-pic1.png")
-        
-        ////%%%%%%%%%%%%%cell.contactName?.text=ContactNames[indexPath.row]
-        
-        /*
-        let query = users.join(posts, on: user_id == users[id])
-        // SELECT * FROM "users" INNER JOIN "posts" ON ("user_id" = "users"."id")
-        
-        select * from contacts
-        
-        */
-      //  var allcontacts=sqliteDB.allcontacts
-        //var contactsKibo=sqliteDB.contactslists
-        
         
         let phone = Expression<String>("phone")
         let usernameFromDb = Expression<String?>("username")
@@ -3853,52 +3783,18 @@ break
         cell!.statusPrivate.text=ContactLastMessage 
         cell!.lbltimePrivate.text=ContactsLastMsgDate 
     
-        
-        //cell.statusPrivate.text=ContactLastMessage[indexPath.row]
-        //cell.lbltimePrivate.text=ContactsLastMsgDate[indexPath.row]
-    
-    
-    //==----commenting for testing
-        /*if(!ContactLastMessage.isEmpty)
-        {
-        cell.statusPrivate.text=ContactLastMessage[indexPath.row]
-        }
-            if(!ContactsLastMsgDate.isEmpty)
-        {
-        cell.lbltimePrivate.text=ContactsLastMsgDate[indexPath.row]
-        }*/
-        
-        
-        
-        
-      //  do
-       //// {allkiboContactsArray = Array(try sqliteDB.db.prepare(contactsKibo))
-        
-        
+  
         
         
         if(ChatType == "single")
         {
             do{
-               // if(!ContactUsernames.isEmpty && indexPath.row<=ContactUsernames.count)
-               // {
-                //print("username count is \(messages.count) and indexpath.row is \(indexPath.row)")
-              //=====  for all in try sqliteDB.db.prepare(allcontacts) {
-                //print("id: \(account[_id]), phone: \(account[phone]), firstname: \(account[firstname])")
-                // id: 1, email: alice@mac.com, name: Optional("Alice")
-                
-                //if(all[phone]==allkiboContactsArray[indexPath.row][username])
+              
                     var matched=self.leftJoinContactsTables(ContactUsernames)
                 //==----if(all[phone]==ContactUsernames[indexPath.row])
                  if(matched.count>0)
                 {
-                    //Matched phone number. Got contact
-                    /*if(all[name] != "" || all[name] != nil)
-                    {
-                        cell.contactName?.text=all[name]
-                        print("name is \(all[name])")
-                        ContactNames[indexPath.row]=all[name]!
-                    }*/
+                   
                     if(matched[0][name] != "" || matched[0].get(name) != nil)
                     {
                         cell!.contactName?.text=matched[0].get(name)
@@ -3945,56 +3841,9 @@ break
                         
                         // Fetch
                         let cachedAvatar = imageCache.image(withIdentifier: ContactUsernames)
-                        
-                        
-                        /*ImageCache.default.retrieveImage(forKey: ContactUsernames, options: nil) {
-                            image, cacheType in
-                            if let image = image {
-                                print("Get image \(image), cacheType: \(cacheType).")
-                                //In this code snippet, the `cacheType` is .disk
-                                
-                            } else {
-                                print("Not exist in cache.")
-                                ImageCache.default.store(profilepic, forKey: ContactUsernames)
-                                ImageCache.default.isImageCached(forKey: ContactUsernames)
-                                ImageCache.default.isImageCached(forKey: ContactUsernames)
-                                
-                            }
-                        }*/
-                    
-                       // let p = Bundle.main.path(forResource: "loader", ofType: "gif")!
-                       // let data = try! Data(contentsOf: URL(fileURLWithPath: p))
-                        //// let picurl = URL(dataRepresentation: ContactsProfilePic, relativeTo: nil)
-                        /*let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
-                        let docsDir1 = dirPaths[0]
-                        var documentDir=docsDir1 as NSString
-                        var imgPath=documentDir.appendingPathComponent(filedata["file_name"] as! String)
-                        */
-                       
-                        
-                        /*var picurl=URL(dataRepresentation: ContactsProfilePic, relativeTo: URL(string: ContactUsernames))
-                        
-                        cell!.profilePic.kf.setImage(with: picurl)
-                        
-                        var scaledimage=cell!.profilePic.image?.kf.resize(to: CGSize(width: cell!.profilePic.bounds.width,height: cell!.profilePic.bounds.height))
-                        
-                        
-                        */
-                        
+         
                         cell!.profilePic.image=cachedAvatar
-                        //----replacing image lib
-                        /*
-
-                        
-                        var scaledimage=ImageResizer(size: CGSize(width: cell!.profilePic.bounds.width,height: cell!.profilePic.bounds.height), scaleMode: .AspectFill, allowUpscaling: true, compressionQuality: 0.5)
-                        //var resizedimage=scaledimage.resizeImage(UIImage(data:ContactsProfilePic)!)
-                        cell!.profilePic.hnk_setImage(scaledimage.resizeImage(UIImage(data:ContactsProfilePic)!), key: ContactUsernames)
-                        //=====-------cell.profilePic.image=UIImage(data:ContactsProfilePic, scale: scale)
-                        ///cell.profilePic.image=UIImage(data:ContactsProfilePic[indexPath.row])
-                        //UIImage(data: NSData(data: ContactsProfilePic) , scale: scale)
-                        //print("image size is s \(UIImage(data:ContactsProfilePic)?.size.width) and h \(UIImage(data:ContactsProfilePic)?.size.height)")
-                        
-                        */
+                      
                    }
                     
                     contactFound=true
@@ -4058,37 +3907,7 @@ break
                     
                      cell!.profilePic.image=cachedAvatar!
                     }
-                    /*ImageCache.default.retrieveImage(forKey: ContactUsernames, options: nil) {
-                        image, cacheType in
-                        if let image = image {
-                            print("Get image \(image), cacheType: \(cacheType).")
-                            //In this code snippet, the `cacheType` is .disk
-                            
-                        } else {
-                            print("Not exist in cache.")
-                            ImageCache.default.store(profilepic, forKey: ContactUsernames)
-                            ImageCache.default.isImageCached(forKey: ContactUsernames)
-                            ImageCache.default.isImageCached(forKey: ContactUsernames)
-                            
-                        }
-                    }
-                    
-                    var picurl=URL(fileURLWithPath: ContactUsernames)
-
-                    cell!.profilePic.kf.setImage(with: picurl)
-                    
-                    var scaledimage=cell!.profilePic.image?.kf.resize(to: CGSize(width: cell!.profilePic.bounds.width,height: cell!.profilePic.bounds.height))
-                    */
-                    
-                    //----replacing image lib
-                    /*
-                    var scaledimage=ImageResizer(size: CGSize(width: cell!.profilePic.bounds.width,height: cell!.profilePic.bounds.height), scaleMode: .AspectFill, allowUpscaling: true, compressionQuality: 0.5)
-                    //var resizedimage=scaledimage.resizeImage(UIImage(data:ContactsProfilePic)!)
-                    cell!.profilePic.hnk_setImage(scaledimage.resizeImage(UIImage(data:ContactsProfilePic)!), key: ContactUsernames)
-                    
-                    //==----cell.profilePic.image=UIImage(data:ContactsProfilePic)
-                    */
-                    
+          
                     
                 }
             }

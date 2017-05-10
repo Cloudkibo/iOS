@@ -2519,6 +2519,50 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         }
         return lastseen
     }
+    
+    func leftJoinContactsTables(_ phone1:String)->Array<Row>
+    {
+        
+        var resultrow=Array<Row>()
+        let name = Expression<String>("name")
+        let phone = Expression<String>("phone")
+        let actualphone = Expression<String>("actualphone")
+        let email = Expression<String>("email")
+        let kiboContact = Expression<Bool>("kiboContact")
+        /////////////////////let profileimage = Expression<NSData>("profileimage")
+        let uniqueidentifier = Expression<String>("uniqueidentifier")
+        //
+        var allcontacts = sqliteDB.allcontacts
+        //========================================================
+        let contactid = Expression<String>("contactid")
+        let detailsshared = Expression<String>("detailsshared")
+        let unreadMessage = Expression<Bool>("unreadMessage")
+        
+        let userid = Expression<String>("userid")
+        let firstname = Expression<String>("firstname")
+        let lastname = Expression<String>("lastname")
+        //---let email = Expression<String>("email")
+        //--- let phone = Expression<String>("phone")
+        let username = Expression<String>("username")
+        let status = Expression<String>("status")
+        
+        var contactslists = sqliteDB.contactslists
+        //=================================================
+        var joinquery=allcontacts?.join(.leftOuter, contactslists!, on: (contactslists?[phone])! == (allcontacts?[phone])!).filter((allcontacts?[phone])!==phone1)
+        
+        do{for joinresult in try sqliteDB.db.prepare(joinquery!) {
+            
+            resultrow.append(joinresult)
+            }
+        }
+        catch{
+            print("error in join query \(error)")
+        }
+        return resultrow
+        
+    }
+    
+    
 
 }
 

@@ -1916,6 +1916,7 @@ print("--------")
         let isMute = Expression<Bool>("isMute")
         let status = Expression<Bool>("status")
         
+        
          self.groups = Table("groups")
         do{
             try db.run(groups.create(ifNotExists: retainOldDatabase) { t in

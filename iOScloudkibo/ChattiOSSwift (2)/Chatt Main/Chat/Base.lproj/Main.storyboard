@@ -927,7 +927,7 @@
                                                             <rect key="frame" x="86" y="0.0" width="141" height="30"/>
                                                             <state key="normal" title="    Archived Chats     "/>
                                                             <connections>
-                                                                <segue destination="cJu-ld-BCz" kind="push" identifier="selfArchiveChatsViewSegue" id="2jB-R5-Tys"/>
+                                                                <segue destination="Kar-qX-hHJ" kind="push" identifier="goToArchivedChatListSegue" id="oWm-Hz-mqs"/>
                                                             </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MPq-UO-Sjf">
