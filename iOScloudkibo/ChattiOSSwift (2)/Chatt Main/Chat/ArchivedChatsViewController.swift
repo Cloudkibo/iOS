@@ -12,8 +12,9 @@ import SQLite
 import AlamofireImage
 import Contacts
 
-class ArchivedChatsViewController: UIViewController,SWTableViewCellDelegate {
+class ArchivedChatsViewController: UIViewController, UINavigationControllerDelegate,SWTableViewCellDelegate {
 
+    var swipeindexRow:Int!
     var messages:NSMutableArray!
     var contactPhoneNumber=""
     var contatName=""
@@ -190,15 +191,59 @@ class ArchivedChatsViewController: UIViewController,SWTableViewCellDelegate {
         
         
     }
+    func swipeableTableViewCell(_ cell: SWTableViewCell!, didTriggerLeftUtilityButtonWith index: Int) {
+        print("archive tapped")
+    }
+    func swipeableTableViewCell(_ cell: SWTableViewCell!, didTriggerRightUtilityButtonWith index: Int) {
+        print("tapped swipe \(index)")
+        swipeindexRow=tblArchivedChats.indexPath(for: cell)!.row
+        // if(index==0)
+        // {
+        var messageDic = messages.object(at: swipeindexRow) as! [String : AnyObject];
+        
+        let ContactsLastMsgDate = messageDic["ContactsLastMsgDate"] as! String
+        let ContactLastMessage = messageDic["ContactLastMessage"] as! String
+        let ContactLastNAme=messageDic["ContactLastNAme"] as! String
+        var ContactNames=messageDic["ContactNames"] as! String
+        let ContactStatus=messageDic["ContactStatus"] as! String
+        let ContactUsernames=messageDic["ContactUsernames"] as! String
+        let ContactOnlineStatus=messageDic["ContactOnlineStatus"] as! Int
+        let ContactFirstname=messageDic["ContactFirstname"] as! String
+        let ContactsPhone=messageDic["ContactsPhone"] as! String
+        let ContactCountMsgRead=messageDic["ContactCountMsgRead"] as! Int
+        let ContactsProfilePic=messageDic["ContactsProfilePic"] as! Data
+        let ChatType=messageDic["ChatType"] as! NSString
+        
+        print("RightUtilityButton index of more is \(index)")
+        //if(editButtonOutlet.title==NSLocalizedString("Edit", tableName: nil, bundle: Bundle.main, value: "", comment: "Edit"))
+            //"Edit")
+       // {//UITableViewCellEditingStyle
+            if(index==0)
+            {
+                if(ChatType != "single")
+                {
+
+                }
+                else{
+                    sqliteDB.updateArchiveStatus(contactPhone1: ContactUsernames, status: false)
+                    DispatchQueue.main.async
+                        {
+                            self.tblArchivedChats.reloadData()
+                    }
+
+                }
+            }
+        //}
+    }
     func getRightUtilityButtonsToCell()-> NSMutableArray{
         let utilityButtons: NSMutableArray = NSMutableArray()
         
         
-        utilityButtons.sw_addUtilityButton(with: UtilityFunctions.init().hexStringToUIColor("#DCDEE0"), icon: UIImage(named:"more.png".localized))
+        //!!!utilityButtons.sw_addUtilityButton(with: UtilityFunctions.init().hexStringToUIColor("#DCDEE0"), icon: UIImage(named:"more.png".localized))
         
         //utilityButtons.sw_addUtilityButtonWithColor(UIColor.redColor(), title: NSLocalizedString("ABC", comment: ""))
         //DCDEE0
-        utilityButtons.sw_addUtilityButton(with: UtilityFunctions.init().hexStringToUIColor("#24669A"), icon: UIImage(named:"archive.png".localized))
+        utilityButtons.sw_addUtilityButton(with: UtilityFunctions.init().hexStringToUIColor("#24669A"), icon: UIImage(named:"unarchive.png".localized))
         return utilityButtons
         //24669A
     }
@@ -688,16 +733,71 @@ class ArchivedChatsViewController: UIViewController,SWTableViewCellDelegate {
         sqliteDB.updateArchiveStatus(contactPhone1: phone1, status: false)
     }
     
+    func tableView(_ tableView: UITableView!, didSelectRowAtIndexPath indexPath: IndexPath!){
+        
+        //let indexPath = tableView.indexPathForSelectedRow();
+        //let currentCell = tableView.cellForRowAtIndexPath(indexPath!) as UITableViewCell!;
+        //if(indexPath.row < (ContactNames.count))
+        //{
+        //print(ContactNames[indexPath.row], terminator: "")
+        self.performSegue(withIdentifier: "archivedChatsDetailSegue", sender: nil);
+        //}
+        //slideToChat
+        
+    }
     
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-  /*  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue?, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         
-        //archivedChatDetailsSegue
-    }*/
+        //archivedChatsDetailSegue
+        if segue?.identifier == "archivedChatsDetailSegue" {
+            
+            if let destinationVC = segue!.destination as? ChatDetailViewController{
+                
+                let selectedRow = tblArchivedChats.indexPathForSelectedRow!.row
+                
+                var messageDic = messages.object(at: selectedRow) as! [String : AnyObject];
+                
+                
+                //destinationVC.selectedContact = ContactNames[selectedRow]
+                destinationVC.selectedContact = messageDic["ContactUsernames"] as! String
+                destinationVC.selectedFirstName=messageDic["ContactNames"] as! String
+                destinationVC.selectedLastName=""
+                // destinationVC.selectedID=ContactIDs[selectedRow]
+                //destinationVC.AuthToken = self.AuthToken
+                
+                //
+                /* var getUserbByIdURL=Constants.MainUrl+Constants.getSingleUserByID+ContactIDs[selectedRow]+"?access_token="+AuthToken
+                 print(getUserbByIdURL.debugDescription+"..........")
+                 Alamofire.request(.GET,"\(getUserbByIdURL)").response{
+                 request, response, data, error in
+                 print(error)
+                 
+                 if response?.statusCode==200
+                 
+                 {
+                 print("got userrrrrrr")
+                 print(data?.debugDescription)
+                 print(":::::::::")
+                 destinationVC.selectedUserObj=JSON(data!)
+                 }
+                 else
+                 {
+                 print("didnt get userrrrr")
+                 print(error)
+                 print(data)
+                 print(response)
+                 }
+                 }*/
+                
+                //
+            }
+        }
+    }
     
 
 }

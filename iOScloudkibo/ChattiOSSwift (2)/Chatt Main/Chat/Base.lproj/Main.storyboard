@@ -1349,7 +1349,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="tblArchivedChats" destination="WQb-Qp-b3G" id="Wf6-3K-Hbx"/>
-                        <segue destination="cJu-ld-BCz" kind="push" identifier="archivedChatDetailsSegue" id="DVM-6R-Nho"/>
+                        <segue destination="vqu-uk-8SN" kind="push" identifier="archivedChatsDetailSegue" id="Mz0-FN-AbK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4l4-tu-amv" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -8493,17 +8493,17 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="Sdy-kO-WHf"/>
-        <segue reference="DVM-6R-Nho"/>
-        <segue reference="1jA-Zj-XHt"/>
+        <segue reference="YcQ-tG-0CT"/>
+        <segue reference="cPW-RE-2je"/>
+        <segue reference="Wyu-u6-g5L"/>
         <segue reference="Spe-dd-EXu"/>
+        <segue reference="1jA-Zj-XHt"/>
         <segue reference="jZZ-fL-lXE"/>
         <segue reference="BY8-e2-RyW"/>
-        <segue reference="W8i-Cs-Z8T"/>
         <segue reference="ThT-lo-Acr"/>
         <segue reference="ADA-1C-gHV"/>
         <segue reference="cEg-U8-UBa"/>
-        <segue reference="Wyu-u6-g5L"/>
-        <segue reference="cPW-RE-2je"/>
+        <segue reference="Mz0-FN-AbK"/>
         <segue reference="LYu-6R-l0u"/>
         <segue reference="nfZ-gF-nDM"/>
         <segue reference="Ite-sp-zyZ"/>
