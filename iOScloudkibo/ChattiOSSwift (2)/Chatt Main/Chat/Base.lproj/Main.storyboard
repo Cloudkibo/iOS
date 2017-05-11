@@ -1456,8 +1456,12 @@
                                                         <rect key="frame" x="0.0" y="0.0" width="76" height="74"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <subviews>
-                                                            <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" image="profile-pic1" translatesAutoresizingMaskIntoConstraints="NO" id="ge6-YL-2de">
+                                                            <imageView opaque="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" image="profile-pic1" translatesAutoresizingMaskIntoConstraints="NO" id="ge6-YL-2de">
                                                                 <rect key="frame" x="10" y="2" width="57" height="57"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="57" id="04r-Hh-1fn"/>
+                                                                    <constraint firstAttribute="width" constant="57" id="snd-Zl-0EG"/>
+                                                                </constraints>
                                                             </imageView>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Sumaira" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PlT-i7-5Zi">
                                                                 <rect key="frame" x="-114" y="2" width="304" height="128"/>
@@ -1479,13 +1483,14 @@
                                                     </view>
                                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="trailingMargin" secondItem="PlT-i7-5Zi" secondAttribute="trailing" constant="-122" id="1gD-pK-dPL"/>
+                                                        <constraint firstItem="PlT-i7-5Zi" firstAttribute="trailing" secondItem="ge6-YL-2de" secondAttribute="trailing" id="Hr8-OA-eQw"/>
+                                                        <constraint firstItem="PlT-i7-5Zi" firstAttribute="top" secondItem="ge6-YL-2de" secondAttribute="top" id="J9F-qD-2Ky"/>
                                                         <constraint firstItem="IWc-zh-Pyk" firstAttribute="leading" secondItem="ge6-YL-2de" secondAttribute="trailing" constant="-15" id="N9W-cB-7C0"/>
+                                                        <constraint firstItem="PlT-i7-5Zi" firstAttribute="leading" secondItem="ge6-YL-2de" secondAttribute="leading" id="Yig-lQ-DIU"/>
+                                                        <constraint firstAttribute="bottomMargin" secondItem="PlT-i7-5Zi" secondAttribute="bottom" constant="-64" id="ZfO-73-Z2z"/>
                                                         <constraint firstAttribute="trailingMargin" secondItem="IWc-zh-Pyk" secondAttribute="trailing" constant="-8" id="b9A-ZO-ddB"/>
                                                         <constraint firstItem="ge6-YL-2de" firstAttribute="leading" secondItem="gsV-ie-YN5" secondAttribute="leadingMargin" constant="2" id="etC-3n-J7J"/>
                                                         <constraint firstItem="ge6-YL-2de" firstAttribute="top" secondItem="gsV-ie-YN5" secondAttribute="topMargin" constant="-6" id="luP-6b-ISs"/>
-                                                        <constraint firstItem="PlT-i7-5Zi" firstAttribute="leading" secondItem="gsV-ie-YN5" secondAttribute="leadingMargin" constant="-122" id="sO0-Gx-zAS"/>
-                                                        <constraint firstAttribute="bottomMargin" secondItem="PlT-i7-5Zi" secondAttribute="bottom" constant="-64" id="v9C-KR-F0A"/>
                                                         <constraint firstItem="IWc-zh-Pyk" firstAttribute="top" secondItem="ge6-YL-2de" secondAttribute="top" id="yew-em-ATE"/>
                                                     </constraints>
                                                     <connections>
@@ -7096,6 +7101,13 @@
                                                     <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MMB-Fv-YBm">
+                                                    <rect key="frame" x="188" y="43" width="124" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <color key="textColor" red="0.58376736111111116" green="0.58376736111111116" blue="0.58376736111111116" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="8W0-s8-E42" firstAttribute="top" secondItem="rfS-YZ-MMd" secondAttribute="topMargin" constant="2" id="W7l-yG-C8q"/>
@@ -7109,6 +7121,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="lblDisplayNameOutlet" destination="MMB-Fv-YBm" id="GxV-Zt-yBs"/>
                                             <outlet property="lbl_groupAdmin" destination="Bft-42-FWJ" id="anV-lF-0WV"/>
                                             <outlet property="lbl_participant_name" destination="8W0-s8-E42" id="yAk-m0-GIb"/>
                                             <outlet property="lbl_participant_status" destination="4YO-te-Ucr" id="IoN-cc-WX1"/>
@@ -8492,22 +8505,22 @@
         <simulatedScreenMetrics key="destination" type="retina4_0.fullscreen"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="Sdy-kO-WHf"/>
-        <segue reference="YcQ-tG-0CT"/>
-        <segue reference="cPW-RE-2je"/>
-        <segue reference="Wyu-u6-g5L"/>
-        <segue reference="Spe-dd-EXu"/>
-        <segue reference="1jA-Zj-XHt"/>
+        <segue reference="Jjq-iC-ovb"/>
         <segue reference="jZZ-fL-lXE"/>
-        <segue reference="BY8-e2-RyW"/>
+        <segue reference="YLQ-j7-Vcj"/>
+        <segue reference="1jA-Zj-XHt"/>
+        <segue reference="Spe-dd-EXu"/>
         <segue reference="ThT-lo-Acr"/>
-        <segue reference="ADA-1C-gHV"/>
         <segue reference="cEg-U8-UBa"/>
         <segue reference="Mz0-FN-AbK"/>
         <segue reference="LYu-6R-l0u"/>
         <segue reference="nfZ-gF-nDM"/>
         <segue reference="Ite-sp-zyZ"/>
+        <segue reference="Wyu-u6-g5L"/>
+        <segue reference="cPW-RE-2je"/>
         <segue reference="N5B-Ot-bcs"/>
+        <segue reference="Aba-99-G71"/>
+        <segue reference="0xH-LE-leu"/>
         <segue reference="Lsn-aA-q1J"/>
         <segue reference="3Qa-aS-eRu"/>
         <segue reference="Cjg-Ar-cdZ"/>

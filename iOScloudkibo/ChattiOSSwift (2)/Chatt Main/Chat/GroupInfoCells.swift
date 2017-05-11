@@ -27,5 +27,6 @@ class GroupInfoCell:SWTableViewCell {
     
     @IBOutlet weak var cameraProfilePicOutlet: UIImageView!
 
+    @IBOutlet weak var lblDisplayNameOutlet: UILabel!
     @IBOutlet weak var btnEditProfilePicOutlet: UIButton!
 }

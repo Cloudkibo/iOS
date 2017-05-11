@@ -12,10 +12,11 @@ import Alamofire
 import SQLite
 import Photos
 import AssetsLibrary
+import AlamofireImage
 
 class NewGroupSetDetails: UITableViewController,UINavigationControllerDelegate,UIImagePickerControllerDelegate,UITextFieldDelegate{
 
-    
+    let imageCache = AutoPurgingImageCache()
     var activeTextField = UITextField()
     @IBOutlet weak var btnCreateGroupOutlet: UIBarButtonItem!
     var filePathImage2=""
@@ -871,22 +872,57 @@ extension NewGroupSetDetails: UICollectionViewDelegate, UICollectionViewDataSour
             
             */
             
-            cell.participantsProfilePic.layer.masksToBounds = true
-            cell.participantsProfilePic.layer.cornerRadius = cell.participantsProfilePic.frame.size.width/2
-           
+           ///!!! cell.participantsProfilePic.layer.masksToBounds = true
+           ///!!! cell.participantsProfilePic.layer.cornerRadius = cell.participantsProfilePic.frame.size.width/2
+           ///!!!cell.participantsProfilePic.clipsToBounds=true
             
             
             // cell.participantsProfilePic.image=UIImage(data: foundcontact.imageData!, scale: scale)
            // cell.participantsProfilePic.image=UIImage(data: participants[indexPath.row].thumbnailProfileImage, scale: scale)
             //cell.participantsProfilePic=UIImageView(image: UIImage()
             
-            cell.participantsProfilePic.image=participants[indexPath.row].thumbnailProfileImage
+            ///!!!cell.participantsProfilePic.image=participants[indexPath.row].thumbnailProfileImage
             
-      
+            var img=participants[indexPath.row].thumbnailProfileImage
+            var w=img!.size.width
+            var h=img!.size.height
+            var wOld=cell.participantsProfilePic.bounds.width
+            var hOld=cell.participantsProfilePic.bounds.height
+            var scale:CGFloat=w/wOld
+            
+            ////self.ResizeImage(img!, targetSize: CGSizeMake(cell.profilePic.bounds.width,cell.profilePic.bounds.height))
+            
+            cell.participantsProfilePic.layer.borderWidth = 1.0
+            cell.participantsProfilePic.layer.masksToBounds = false
+            cell.participantsProfilePic.layer.borderColor = UIColor.white.cgColor
+            cell.participantsProfilePic.layer.cornerRadius = cell.participantsProfilePic.frame.size.width/2
+            cell.participantsProfilePic.clipsToBounds = true
+            //cell.profilePic.hnk_format=Format<UIImage>
+            
+            
+            
+            
+            
+            //let path = Bundle.main.path(forResource: "profile-pic1", ofType: "png")
+            //let imgURL = URL(fileURLWithPath: path!)
+            var profilepic=participants[indexPath.row].thumbnailProfileImage
+            
+            
+            imageCache.add(profilepic!, withIdentifier: participants[indexPath.row].getPhoneNumber())
+            
+            // Fetch
+            let cachedAvatar = imageCache.image(withIdentifier: participants[indexPath.row].getPhoneNumber())
+            
+            cell.participantsProfilePic.image=cachedAvatar
 
         }
+            else{
+                cell.participantsProfilePic.image=UIImage.init(named: "profile-pic1.png")
+                //set profile-pic-default
+            }
         }
-        catch{
+        catch
+        {
            let errormsg = UIAlertView(title: "Error".localized, message: "Failed to fetch avatar image".localized, delegate: self, cancelButtonTitle: "Ok".localized)
             errormsg.show()
             
@@ -919,9 +955,17 @@ extension NewGroupSetDetails: UICollectionViewDelegate, UICollectionViewDataSour
         //(tblNewGroupDetails.cellForRow(at: ind) as! ContactsListCell).participantsCollection.deleteItems(at: [indexPath!])
         
         participants.remove(at: rowselected!)
-        (tblNewGroupDetails.cellForRow(at: ind) as! ContactsListCell).participantsCollection.reloadData()
+        if(participants.count<1)
+        {
+            btnCreateGroupOutlet.isEnabled=false
+        }
+        else{
+             btnCreateGroupOutlet.isEnabled=true
+        }
+        (
+            tblNewGroupDetails.cellForRow(at: ind) as! ContactsListCell).participantsCollection.reloadData()
         
-        tblNewGroupDetails.reloadData()
+      tblNewGroupDetails.reloadData()
         
         
         

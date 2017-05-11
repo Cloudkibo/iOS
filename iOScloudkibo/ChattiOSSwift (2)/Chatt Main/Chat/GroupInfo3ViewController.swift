@@ -175,7 +175,22 @@ EPPickerDelegate,SWTableViewCellDelegate,UIImagePickerControllerDelegate {
                 print("found matched idss")
                 if((membersArrayOfGroup[i]["membership_status"] as! String) == "joined")
                 {
-                messages2.add(["member_phone":membersArrayOfGroup[i]["member_phone"] as! String,"name":membersArrayOfGroup[i]["group_member_displayname"] as! String,"isAdmin":membersArrayOfGroup[i]["isAdmin"] as! String])
+                    var name=""
+                    if((membersArrayOfGroup[i]["member_phone"] as! String) == username!)
+                    {
+                        name="You"
+                    }
+                    else{
+                     name=membersArrayOfGroup[i]["group_member_displayname"] as! String
+                    }
+                    /*var name=sqliteDB.getNameFromAddressbook(membersArrayOfGroup[i]["member_phone"] as! String)
+                    if(name=="" || name==nil)
+                    {
+                        name=membersArrayOfGroup[i]["member_phone"] as! String
+                      // name=membersArrayOfGroup[i]["group_member_displayname"] as! String
+                    }*/
+                    print("\(membersArrayOfGroup[i]["member_phone"] as! String) name is \(name)")
+                messages2.add(["member_phone":membersArrayOfGroup[i]["member_phone"] as! String,"name":name,"isAdmin":membersArrayOfGroup[i]["isAdmin"] as! String])
                 }
             }
             //for tblContacts in try sqliteDB.db.prepare(tbl_userchats.filter(owneruser==owneruser1)){
@@ -361,7 +376,8 @@ identifiersarray.append(identifier)
         {print()
             memberphones.append(participantsSelected[i].getPhoneNumber())
              membersnames.append(participantsSelected[i].displayName())
-            self.messages.add(["member_phone":memberphones[i],"name":membersnames[i],"isAdmin":"No"])
+            
+            self.messages.add(["member_phone":memberphones[i],"name":membersnames[i] as! String,"isAdmin":"No"])
            
             //tblGroupInfo.reloadData()
 
@@ -897,6 +913,7 @@ else{
         if(indexPath.row==0)
         {
             var cell=tblGroupInfo.dequeueReusableCell(withIdentifier: "GroupNamePicInfoCell")! as! GroupInfoCell
+            
             cell.lbl_groupName.text=singleGroupInfo["group_name"] as! String
          
             //cell.userInteractionEnabled=false
@@ -995,7 +1012,7 @@ else{
             btnNewGroup=cell.btnAddPatricipants
             //btnNewGroup=cell.btnNewGroupOutlet
             for admins in sqliteDB.getGroupAdmin(groupid){
-                if(admins==username){
+                if(admins==username!){
            // if(sqliteDB.getGroupAdmin(groupid)==username!)
             
             //cell.btnAddPatricipants.tag=section
@@ -1056,6 +1073,7 @@ else{
                 {
                     var messageDic = messages.object(at: indexPath.row-3) as! [String : String];
                     // NSLog(messageDic["message"]!, 1)
+                    let member_phone = messageDic["member_phone"] as NSString!
                     let name = messageDic["name"] as NSString!
                     let isAdmin = messageDic["isAdmin"] as NSString!
                 print("inside show participants")
@@ -1103,8 +1121,28 @@ cell.lbl_groupAdmin.hidden=false
                     }
                     
                     }
-                    cell.lbl_participant_name.text=name as! String
-                    
+                    //!!cell.lbl_participant_name.text=name as! String
+                    if(name! != "You")
+                    {print("name is \(name)")
+                        //not in addressbook, show display name in side label
+                        var addressName=sqliteDB.getNameFromAddressbook(member_phone! as String!)
+                        if(addressName==nil || addressName=="")
+                        {
+                            cell.lbl_participant_name.text=member_phone! as String?
+                             cell.lblDisplayNameOutlet.text=name! as String?
+                        }
+                        else{
+                            cell.lbl_participant_name.text=addressName
+                            cell.lblDisplayNameOutlet.text=""
+                            
+                        }
+                       
+                    }
+                    else{
+                       cell.lbl_participant_name.text=name as String?
+                        
+                        cell.lblDisplayNameOutlet.text=""
+                    }
                
 
                 return cell
