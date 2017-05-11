@@ -189,13 +189,15 @@ class LoginAPI{
             }
             self.utilityService.sendDataToDesktopApp(data1: groupParams as AnyObject ,type1: "loading_groups")
             
-             self.utilityService.sendDataToDesktopApp(data1: sqliteDB.getArchivedChatDetails() as AnyObject ,type1: "loading_archive")
+            
             
            //==-- serviceSendInitialData.startInitialDataLoad(phone: username!, to_connection_id: self.desktopRoomID, from_connection_id: self.mobileSocketID, data: sqliteDB.getContactDetails() as AnyObject, type: "loading_contacts")
             
             
-
+            //groupmembers
             
+            //loading_archive
+            self.utilityService.sendDataToDesktopApp(data1: sqliteDB.getArchivedChatDetails() as AnyObject, type1: "loading_archive")
             
             //getContactDetails
             

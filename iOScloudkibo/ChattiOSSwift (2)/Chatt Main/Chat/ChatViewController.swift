@@ -5445,10 +5445,27 @@ shareMenu.addAction(cancelAction)
                     else{
                         //single chat
                         sqliteDB.updateArchiveStatus(contactPhone1: ContactUsernames, status: true)
-                        DispatchQueue.main.async
-                        {
-                        self.tblForChat.reloadData()
-                        }
+                        
+                        
+                        //chat_archived
+                        
+                        var params=["id":ContactUsernames,"isArchived":"Yes"]
+                        //id
+                        //isArchived
+                        UtilityFunctions.init().sendDataToDesktopApp(data1: params as AnyObject, type1: "chat_archive")
+                        self.retrieveSingleChatsAndGroupsChatData({(result)-> () in
+                            
+                            
+                            
+                            DispatchQueue.main.async
+                                {print("affter archive refreshing page")
+                                    
+                                    UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+                                    UIDelegates.getInstance().UpdateSingleChatDetailDelegateCall()
+                                    UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
+                                    self.tblForChat.reloadData()
+                            }
+                        })
                     }
             
     }

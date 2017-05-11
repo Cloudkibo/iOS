@@ -226,9 +226,27 @@ class ArchivedChatsViewController: UIViewController, UINavigationControllerDeleg
                 }
                 else{
                     sqliteDB.updateArchiveStatus(contactPhone1: ContactUsernames, status: false)
-                    DispatchQueue.main.async
+                    var params=["id":ContactUsernames,"isArchived":"No"]
+                    //id
+                    //isArchived
+                    UtilityFunctions.init().sendDataToDesktopApp(data1: params as AnyObject, type1: "chat_unarchive")
+                    
+                    DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async
                         {
-                            self.tblArchivedChats.reloadData()
+                            self.retrieveSingleChatsAndGroupsChatData({(result)-> () in
+                                
+                                
+                                //    DispatchQueue.main.async
+                                //  {
+                                // self.tblForChats.reloadData()
+                                
+                                //commenting newwwwwwww -===-===-=
+                                DispatchQueue.main.async
+                                    {
+                                        self.tblArchivedChats.reloadData()
+                                }
+                                }
+                            )
                     }
 
                 }
