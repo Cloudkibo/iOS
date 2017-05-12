@@ -2423,7 +2423,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
     }
     
     func sendAttachment(_ screenshot: UIImage!,unique_id1:String) {
-        var chunkLength=9000
+        var chunkLength=16000
         var imageData:Data = UIImageJPEGRepresentation(screenshot, 1.0)!
         var numchunks=0
         var len=imageData.count

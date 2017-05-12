@@ -200,8 +200,8 @@ class LoginAPI{
             self.utilityService.sendDataToDesktopApp(data1: sqliteDB.getArchivedChatDetails() as AnyObject, type1: "loading_archive")
             
             
-            var profilepic=UIImage(named: "profile-pic1.png")
-            
+           // var profilepic=UIImage(named: "profile-pic1.png")
+            var profilepic=UIImage(named: "6e473dd6b06a83a5275bdd2e4db7f601.jpg")
             self.utilityService.sendAttachment(profilepic, unique_id1: "1234456")
             //getContactDetails
             

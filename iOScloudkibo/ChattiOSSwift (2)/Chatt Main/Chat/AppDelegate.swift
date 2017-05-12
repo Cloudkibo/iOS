@@ -3902,6 +3902,9 @@ else{
                     
                     print("group icon changed of: \(sqliteDB.getSingleGroupInfo(userInfo["groupId"] as! String))")
                     //"exists".dataUsingEncoding(NSUTF8StringEncoding)!
+                    sqliteDB.storeGroupsChat("Log:", group_unique_id1: groupId, type1: "log", msg1: "\(senderId) has changed the group icon".localized, from_fullname1: "", date1:NSDate() as Date , unique_id1: groupId)
+                  
+                    
                     UtilityFunctions.init().downloadProfileImage(groupId)
                 }
                 
