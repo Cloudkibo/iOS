@@ -175,6 +175,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UIImagePickerControllerDelegate {
                 print("found matched idss")
                 if((membersArrayOfGroup[i]["membership_status"] as! String) == "joined")
                 {
+                    //!!
                     var name=""
                     if((membersArrayOfGroup[i]["member_phone"] as! String) == username!)
                     {
@@ -183,13 +184,19 @@ EPPickerDelegate,SWTableViewCellDelegate,UIImagePickerControllerDelegate {
                     else{
                      name=membersArrayOfGroup[i]["group_member_displayname"] as! String
                     }
+                    
+                    
                     /*var name=sqliteDB.getNameFromAddressbook(membersArrayOfGroup[i]["member_phone"] as! String)
                     if(name=="" || name==nil)
                     {
                         name=membersArrayOfGroup[i]["member_phone"] as! String
                       // name=membersArrayOfGroup[i]["group_member_displayname"] as! String
                     }*/
-                    print("\(membersArrayOfGroup[i]["member_phone"] as! String) name is \(name)")
+                   // print("\(membersArrayOfGroup[i]["member_phone"] as! String) name is \(name)")
+                    //members[group_member_displayname]
+                     //messages2.add(["member_phone":membersArrayOfGroup[i]["member_phone"] as! String,"name":membersArrayOfGroup[i]["group_member_displayname"] as! String,"isAdmin":membersArrayOfGroup[i]["isAdmin"] as! String])
+                    
+                    
                 messages2.add(["member_phone":membersArrayOfGroup[i]["member_phone"] as! String,"name":name,"isAdmin":membersArrayOfGroup[i]["isAdmin"] as! String])
                 }
             }
@@ -482,6 +489,26 @@ identifiersarray.append(identifier)
                     
                     
                     sqliteDB.changeRole(self.groupid, member1: member, isAdmin1: isAdmin)
+                    if(isAdmin.lowercased() == "yes")
+                    {
+                       //store log locally and send push to other members
+                        var name=member
+                        if let addresName=sqliteDB.getNameFromAddressbook(member)
+                        {
+                            name=addresName
+                        }
+                        sqliteDB.storeGroupsChat("Log:", group_unique_id1: self.groupid, type1: "log", msg1: "You have made \(member) as Admin", from_fullname1: "", date1:NSDate() as Date , unique_id1: uniqueidMsg)
+                        
+                        
+                    }
+                    else{
+                        var name=member
+                        if let addresName=sqliteDB.getNameFromAddressbook(member)
+                        {
+                            name=addresName
+                        }
+                        sqliteDB.storeGroupsChat("Log:", group_unique_id1: self.groupid, type1: "log", msg1: "You have removed \(member) from Admin role", from_fullname1: "", date1:NSDate() as Date , unique_id1: uniqueidMsg)
+                    }
                     
                     //sqliteDB.updateMembershipStatus(memberPhone, membership_status1: "left")
                     
@@ -489,8 +516,16 @@ identifiersarray.append(identifier)
                     
                     /// sqliteDB.storeGroupsChat(username!, group_unique_id1: self.groupid, type1: "log_leftGroup", msg1: "You have left this group", from_fullname1: "", date1:NSDate() , unique_id1: uniqueidMsg)
                     
-                    self.tblGroupInfo.reloadData()
-                }
+                    self.retrieveChatFromSqlite { (result) in
+                        self.tblGroupInfo.reloadData()
+                        // if(self.messages.count>1)
+                        //{
+                        /* var indexPath = NSIndexPath(forRow:self.messages.count+2, inSection: 0)
+                         self.tblGroupInfo.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+                         */
+                        // }
+                        
+                    }                }
                 else
                 {
                     print("failed to update role")
@@ -576,6 +611,8 @@ identifiersarray.append(identifier)
         
         
     }
+    
+    
     func addGroupMembersAPI(_ groupname:String,members:[String],uniqueid:String)
         {
             //show progress wheen somewhere
@@ -1121,7 +1158,8 @@ cell.lbl_groupAdmin.hidden=false
                     }
                     
                     }
-                    //!!cell.lbl_participant_name.text=name as! String
+                    //cell.lbl_participant_name.text=name as! String
+                   // cell.lblDisplayNameOutlet.text=""
                     if(name! != "You")
                     {print("name is \(name)")
                         //not in addressbook, show display name in side label
@@ -1143,8 +1181,7 @@ cell.lbl_groupAdmin.hidden=false
                         
                         cell.lblDisplayNameOutlet.text=""
                     }
-               
-
+ 
                 return cell
                 }
                 else

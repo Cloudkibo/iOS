@@ -2077,6 +2077,8 @@ class NetworkingManager
                                sqliteDB.saveFile(groupUniqueID, from1: "", owneruser1: "", file_name1: filename, date1: nil, uniqueid1: groupUniqueID, file_size1: "1", file_type1: fileType, file_path1: filePath1, type1: "groupIcon")
                             }
                             
+                            sqliteDB.storeGroupsChat("Log:", group_unique_id1: groupUniqueID, type1: "log", msg1: "You changed this group's icon", from_fullname1: displayname, date1: Date(), unique_id1: groupUniqueID)
+                            
                             
                            //  sqliteDB.saveFile(groupUniqueID, from1: "", owneruser1: "", file_name1: filename, date1: nil, uniqueid1: groupUniqueID, file_size1: "1", file_type1: fileType, file_path1: filePath1, type1: "groupIcon")
                            //update "group_icon" as exists

@@ -2423,7 +2423,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
     }
     
     func sendAttachment(_ screenshot: UIImage!,unique_id1:String) {
-        var chunkLength=4000
+        var chunkLength=9000
         var imageData:Data = UIImageJPEGRepresentation(screenshot, 1.0)!
         var numchunks=0
         var len=imageData.count
@@ -2561,6 +2561,30 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         return resultrow
         
     }
+    
+    /*func sendLogMessageToAllMembers(logMsgType:String,groupid:String,action_by:String)
+    {
+     var groupmembers=sqliteDB.getGroupMembersOfGroup(groupid)
+        for var i in 0..<groupmembers.count
+        {
+            /*newEntry["group_unique_id"]
+            newEntry["member_phone"]
+            newEntry["isAdmin"]
+            newEntry["membership_status"]
+            newEntry["date_joined"]
+            newEntry["date_left"]
+            newEntry["group_member_displayname"]
+            */
+            switch(logMsgType)
+            {
+            case "removed-you": print("left group")
+            case "removed-member-info": print("left group")
+                
+            case "group-added": print("left group")
+            default:print("-")
+            }
+        }
+    }*/
     
     
 

@@ -1272,6 +1272,12 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                     }
                 }
                 
+                //!!
+                if(tblUserChats[type].lowercased()=="log")
+                {print("log msg 99 adding")
+                    messages2.add(["msg":tblUserChats[msg], "type":"99", "fromFullName":fullname,"date":defaultTimeeee, "uniqueid":tblUserChats[unique_id]])
+                }
+                
                 //print("===fetch date from database is tblContacts[date] ... date converted is \(defaultTimeZoneStr)... string is \(defaultTimeZoneStr2)... defaultTimeeee \(defaultTimeeee)")
                 
                 /*//print(tblContacts[to])
@@ -1376,6 +1382,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                     self.chatComposeView.isUserInteractionEnabled=false
                     }
                 }
+             
                 
                 if (tblUserChats[from]==username!)
                 {
@@ -1559,10 +1566,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                     messages2.add(["msg":tblUserChats[msg], "type":"1", "fromFullName":fullname,"date":defaultTimeeee, "uniqueid":tblUserChats[unique_id]])
                     }
                     
-                    if(tblUserChats[type].lowercased()=="log")
-                        {
-                          messages2.add(["msg":tblUserChats[msg], "type":"99", "fromFullName":fullname,"date":defaultTimeeee, "uniqueid":tblUserChats[unique_id]])
-                    }
+                    
              
                 }
                 
@@ -3077,15 +3081,17 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                                                     }
                                                     else{
                                                         
-                                                        if(msgType?.isEqual(to: "99"))
+                                                        if(msgType?.isEqual(to: "99"))!
                                                         {
                                                             //log
+                                                            print("log msg 99 showing")
                                                             cell = tblForGroupChat.dequeueReusableCell(withIdentifier: "logMessageCell")! as UITableViewCell
-                                                            let msgLabel = cell.viewWithTag(1) as! ActiveLabel
-                                                            msgLabel.text=msg as! String
-
+                                                            let msgLabel = cell.viewWithTag(1) as! UIButton
+                                                            msgLabel.titleLabel?.text = msg as! String
+                                                            msgLabel.setTitle(msg as! String, for: UIControlState.normal)
 
                                                         }
+                                                        else{
                                                 
                                                 
                                 print("got sender msg \(msg)")
@@ -3143,7 +3149,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                                                             var res=UIApplication.shared.openURL(NSURL.init(string: stringURL) as! URL)
                                                             print("open url \(res)")
                                                         })
-                                                        
+                                                        }
                                                     }
             
                                                 }

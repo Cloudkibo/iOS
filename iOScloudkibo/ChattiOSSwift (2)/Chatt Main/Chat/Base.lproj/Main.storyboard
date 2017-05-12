@@ -3044,13 +3044,13 @@
                                                 </tableViewCellContentView>
                                             </tableViewCell>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="logMessageCell" rowHeight="52" id="jlI-UY-Xea">
-                                                <rect key="frame" x="0.0" y="2114" width="320" height="52"/>
+                                                <rect key="frame" x="0.0" y="2120" width="320" height="52"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jlI-UY-Xea" id="tgi-8t-zbl">
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="52"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d7l-r6-Ah3">
+                                                        <button opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d7l-r6-Ah3">
                                                             <rect key="frame" x="138.5" y="8" width="43" height="29"/>
                                                             <color key="backgroundColor" red="0.70196078431372544" green="0.77647058823529413" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -8525,25 +8525,25 @@
         <simulatedScreenMetrics key="destination" type="retina4_0.fullscreen"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="Jjq-iC-ovb"/>
-        <segue reference="jZZ-fL-lXE"/>
-        <segue reference="YLQ-j7-Vcj"/>
-        <segue reference="1jA-Zj-XHt"/>
-        <segue reference="Spe-dd-EXu"/>
-        <segue reference="cEg-U8-UBa"/>
-        <segue reference="Mz0-FN-AbK"/>
-        <segue reference="Wyu-u6-g5L"/>
-        <segue reference="cPW-RE-2je"/>
+        <segue reference="0Ba-7e-jXB"/>
         <segue reference="Aba-99-G71"/>
+        <segue reference="jZZ-fL-lXE"/>
+        <segue reference="Jjq-iC-ovb"/>
         <segue reference="0xH-LE-leu"/>
         <segue reference="JPH-2T-Pun"/>
-        <segue reference="TtG-5C-Jez"/>
         <segue reference="tX8-Fc-8Jp"/>
+        <segue reference="TtG-5C-Jez"/>
         <segue reference="sRV-B5-zqK"/>
         <segue reference="N5B-Ot-bcs"/>
-        <segue reference="Lsn-aA-q1J"/>
-        <segue reference="3Qa-aS-eRu"/>
+        <segue reference="cEg-U8-UBa"/>
+        <segue reference="Spe-dd-EXu"/>
+        <segue reference="1jA-Zj-XHt"/>
+        <segue reference="Wyu-u6-g5L"/>
+        <segue reference="cPW-RE-2je"/>
+        <segue reference="Mz0-FN-AbK"/>
         <segue reference="Cjg-Ar-cdZ"/>
+        <segue reference="3Qa-aS-eRu"/>
+        <segue reference="Lsn-aA-q1J"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.054901960784313725" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

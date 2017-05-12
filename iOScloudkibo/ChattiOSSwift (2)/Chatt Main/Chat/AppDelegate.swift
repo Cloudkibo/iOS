@@ -3898,6 +3898,8 @@ else{
                 {
                     print("group icon is changed \(userInfo["groupId"] as! String)")
                     var groupId=userInfo["groupId"] as! String
+                    var senderId=userInfo["senderId"] as! String
+                    
                     print("group icon changed of: \(sqliteDB.getSingleGroupInfo(userInfo["groupId"] as! String))")
                     //"exists".dataUsingEncoding(NSUTF8StringEncoding)!
                     UtilityFunctions.init().downloadProfileImage(groupId)
