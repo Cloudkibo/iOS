@@ -1129,7 +1129,7 @@ cell.lbl_groupAdmin.hidden=false
                         if(addressName==nil || addressName=="")
                         {
                             cell.lbl_participant_name.text=member_phone! as String?
-                             cell.lblDisplayNameOutlet.text=name! as String?
+                             cell.lblDisplayNameOutlet.text="~"+(name! as String?)!
                         }
                         else{
                             cell.lbl_participant_name.text=addressName

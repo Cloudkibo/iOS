@@ -1558,6 +1558,11 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                     if(tblUserChats[type]=="chat"){
                     messages2.add(["msg":tblUserChats[msg], "type":"1", "fromFullName":fullname,"date":defaultTimeeee, "uniqueid":tblUserChats[unique_id]])
                     }
+                    
+                    if(tblUserChats[type].lowercased()=="log")
+                        {
+                          messages2.add(["msg":tblUserChats[msg], "type":"99", "fromFullName":fullname,"date":defaultTimeeee, "uniqueid":tblUserChats[unique_id]])
+                    }
              
                 }
                 
@@ -3071,6 +3076,16 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                                                         //timeLabel.text=date2.debugDescription
                                                     }
                                                     else{
+                                                        
+                                                        if(msgType?.isEqual(to: "99"))
+                                                        {
+                                                            //log
+                                                            cell = tblForGroupChat.dequeueReusableCell(withIdentifier: "logMessageCell")! as UITableViewCell
+                                                            let msgLabel = cell.viewWithTag(1) as! ActiveLabel
+                                                            msgLabel.text=msg as! String
+
+
+                                                        }
                                                 
                                                 
                                 print("got sender msg \(msg)")

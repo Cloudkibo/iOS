@@ -3043,6 +3043,26 @@
                                                     </subviews>
                                                 </tableViewCellContentView>
                                             </tableViewCell>
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="logMessageCell" rowHeight="52" id="jlI-UY-Xea">
+                                                <rect key="frame" x="0.0" y="2114" width="320" height="52"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jlI-UY-Xea" id="tgi-8t-zbl">
+                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="52"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <subviews>
+                                                        <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d7l-r6-Ah3">
+                                                            <rect key="frame" x="138.5" y="8" width="43" height="29"/>
+                                                            <color key="backgroundColor" red="0.70196078431372544" green="0.77647058823529413" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                            <state key="normal" title="Button"/>
+                                                        </button>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstItem="d7l-r6-Ah3" firstAttribute="centerX" secondItem="tgi-8t-zbl" secondAttribute="centerX" id="CPB-wn-ys6"/>
+                                                        <constraint firstAttribute="topMargin" secondItem="d7l-r6-Ah3" secondAttribute="top" id="XoK-lH-Vk9"/>
+                                                    </constraints>
+                                                </tableViewCellContentView>
+                                            </tableViewCell>
                                         </prototypes>
                                         <connections>
                                             <outlet property="dataSource" destination="Yvw-Fw-Qsr" id="haS-Up-uhl"/>
@@ -8510,17 +8530,17 @@
         <segue reference="YLQ-j7-Vcj"/>
         <segue reference="1jA-Zj-XHt"/>
         <segue reference="Spe-dd-EXu"/>
-        <segue reference="ThT-lo-Acr"/>
         <segue reference="cEg-U8-UBa"/>
         <segue reference="Mz0-FN-AbK"/>
-        <segue reference="LYu-6R-l0u"/>
-        <segue reference="nfZ-gF-nDM"/>
-        <segue reference="Ite-sp-zyZ"/>
         <segue reference="Wyu-u6-g5L"/>
         <segue reference="cPW-RE-2je"/>
-        <segue reference="N5B-Ot-bcs"/>
         <segue reference="Aba-99-G71"/>
         <segue reference="0xH-LE-leu"/>
+        <segue reference="JPH-2T-Pun"/>
+        <segue reference="TtG-5C-Jez"/>
+        <segue reference="tX8-Fc-8Jp"/>
+        <segue reference="sRV-B5-zqK"/>
+        <segue reference="N5B-Ot-bcs"/>
         <segue reference="Lsn-aA-q1J"/>
         <segue reference="3Qa-aS-eRu"/>
         <segue reference="Cjg-Ar-cdZ"/>
