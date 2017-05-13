@@ -2447,6 +2447,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             let range:Range<Data.Index> = start..<end
             var data=["unique_id":unique_id1,"chunk":imageData.subdata(in: range),"chunk_id":j,"total_chunks":numchunks] as [String : Any]
             print(data)
+            UtilityFunctions.init().log_papertrail("IPHONE-Desk \(username!) image START \(start) END \(end-1)")
             self.sendDataToDesktopApp(data1: data as AnyObject, type1: "mobile_sending_chunk")
             //self.sendImageUsingSocket(imageData.subdata(in: range))
             
@@ -2458,6 +2459,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             //imageData.getBytes(&imageData, length: numchunks*chunkLength)
             var data=["unique_id":unique_id1,"chunk":imageData.subdata(in: numchunks*chunkLength..<len
                 /*%chunkLength*/),"chunk_id":numchunks,"total_chunks":numchunks] as [String : Any]
+             UtilityFunctions.init().log_papertrail("IPHONE-Desk \(username!) image last chunk START \(numchunks*chunkLength) END \(len-1)")
             self.sendDataToDesktopApp(data1: data as AnyObject, type1: "mobile_sending_chunk")
            
             
