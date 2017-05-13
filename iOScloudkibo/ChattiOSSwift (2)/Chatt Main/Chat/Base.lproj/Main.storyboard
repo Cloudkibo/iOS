@@ -3050,10 +3050,13 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="52"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <button opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d7l-r6-Ah3">
-                                                            <rect key="frame" x="138.5" y="8" width="43" height="29"/>
+                                                        <button opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d7l-r6-Ah3">
+                                                            <rect key="frame" x="139.5" y="8" width="41" height="28"/>
                                                             <color key="backgroundColor" red="0.70196078431372544" green="0.77647058823529413" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" relation="lessThanOrEqual" constant="250" id="wZk-Pm-VTY"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="13"/>
                                                             <state key="normal" title="Button"/>
                                                         </button>
                                                     </subviews>

@@ -732,7 +732,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
             
             self.mycontainer = FileManager.default.url(forUbiquityContainerIdentifier:"iCloud.iCloud.MyAppTemplates.cloudkibo")
             
-            if(self.mycontainer != nil)
+           /* if(self.mycontainer != nil)
             {
                 //write
                 DispatchQueue.main.async {
@@ -750,7 +750,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                 self.showError("Failed to access iCloud".localized, message: "Please sign in to correct iCloud account to resume backup service".localized, button1: "Ok".localized)
                                 print("no permission to write to icloud")
                 }
-            }
+            }*/
         }
         
        //// NotificationCenter.default.addObserver(self, selector: "iCloudAccountAvailabilityChanged:",name: nil, object: nil)
@@ -1041,11 +1041,11 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
             if(username != nil && username != "")
             {//commentingg
                 
-                let request=Alamofire.request("\(Constants.MainUrl+Constants.urllog)", method: .post, parameters: ["data":"IPHONE_LOG: internet Reachable \(username!)"],headers:header).response{
+                /*let request=Alamofire.request("\(Constants.MainUrl+Constants.urllog)", method: .post, parameters: ["data":"IPHONE_LOG: internet Reachable \(username!)"],headers:header).response{
                     
                     response1 in
                     
-                }
+                }*/
 
              
                 
@@ -1275,9 +1275,11 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
         if(accountKit == nil){
             accountKit = AKFAccountKit(responseType: AKFResponseType.accessToken)
         }
-        if(accountKit.currentAccessToken != nil)
+       
+        
+       if(accountKit.currentAccessToken != nil)
         {
-            header=["kibo-token":self.accountKit!.currentAccessToken!.tokenString]
+            //header=["kibo-token":self.accountKit!.currentAccessToken!.tokenString]
             
             let defaults = UserDefaults.standard
             if let baseURL = defaults.string(forKey: "baseURL") {

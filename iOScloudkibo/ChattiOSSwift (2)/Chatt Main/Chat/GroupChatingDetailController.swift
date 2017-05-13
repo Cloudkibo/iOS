@@ -3088,6 +3088,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                                                             cell = tblForGroupChat.dequeueReusableCell(withIdentifier: "logMessageCell")! as UITableViewCell
                                                             let msgLabel = cell.viewWithTag(1) as! UIButton
                                                             msgLabel.titleLabel?.text = msg as! String
+                                                            msgLabel.titleLabel?.lineBreakMode = NSLineBreakMode.byWordWrapping;
                                                             msgLabel.setTitle(msg as! String, for: UIControlState.normal)
 
                                                         }

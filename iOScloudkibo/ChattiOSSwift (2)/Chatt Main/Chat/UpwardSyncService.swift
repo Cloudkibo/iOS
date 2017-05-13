@@ -616,7 +616,7 @@ class syncService{
         
         if (accountKit!.currentAccessToken != nil) {
             
-            var url=Constants.MainUrl+Constants.upwardSyncURL
+             var url=Constants.MainUrl+Constants.upwardSyncURL
             var params=["unsentMessages":self.createArrayUnsentChatMessages(),
                         "unsentGroupMessages": self.getPendingGroupChatMessages(),
                         "unsentChatMessageStatus":self.sendPendingChatStatuses(),
@@ -630,7 +630,14 @@ class syncService{
             
             DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background).async {
                 
+               
+                header=["kibo-token":accountKit!.currentAccessToken!.tokenString]
+                
+                UtilityFunctions.init().log_papertrail("IPHONE:- \(username!) header is \(header)")
                 //upwardSyncURL
+                
+                print("upwardSynccc")
+                
                 let request=Alamofire.request("\(url)", method: .post, parameters: params,encoding:JSONEncoding.default,headers:header).responseJSON { response in
                     
                     print("upward sync \(response)")

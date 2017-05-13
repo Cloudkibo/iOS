@@ -2946,7 +2946,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         }
         */
         
-        print("appwillresignactive")
+         UtilityFunctions.init().log_papertrail("IPHONE: \(username!) appwillresignactive")
     }
     
     func applicationDidEnterBackground(_ application: UIApplication) {
@@ -3127,7 +3127,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
        /// if(socketObj.socket.status == SocketIOClientStatus.disconnected) //.closed
       ///  {
          //   print("opening socket")
-            
+        
+        //!!
             if(username != nil && username != "")
             {
                 //commenting for testing
@@ -4609,8 +4610,8 @@ var uniqueid=payload["uniqueid"] as! String
     }
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-         UtilityFunctions.init().log_papertrail("IPHONE: \(username!) app willFinishLaunchingWithOptions")
-        UtilityFunctions.init().log_papertrail("IPHONE: \(launchOptions)")
+        //==-- UtilityFunctions.init().log_papertrail("IPHONE: \(username!) app willFinishLaunchingWithOptions")
+        //==--UtilityFunctions.init().log_papertrail("IPHONE: \(launchOptions)")
         print("willFinishLaunchingWithOptions")
         //!!
         /*socketObj=LoginAPI(url:"\(Constants.MainUrl)")
@@ -5173,6 +5174,7 @@ var uniqueid=payload["uniqueid"] as! String
        // UserFunctions fn = new UserFunctions();
         //retainOldDatabase=false
         //============================= commentingggggg     ----  sqliteDB.resetTables()
+        
         sqliteDB=DatabaseHandler(dbName:"cloudkibo.sqlite3")
         
         /*sqliteDB.createAccountsTable()
