@@ -1337,7 +1337,8 @@ var isKiboContact="false"
                         {
                             //checkpendingfiles
                           if(tblContacts[type]=="file")
-                          {self.addUploadInfo(self.selectedContact,uniqueid1: tblContacts[uniqueid], rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
+                          {
+                            //self.addUploadInfo(self.selectedContact,uniqueid1: tblContacts[uniqueid], rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
                             managerFile.checkPendingFiles(tblContacts[uniqueid])
                             }
                             if(tblContacts[type]=="broadcast_file")
@@ -1360,7 +1361,7 @@ var isKiboContact="false"
                         
                         if(filedownloaded==false)
                         {
-                            self.addUploadInfo(self.selectedContact,uniqueid1: tblContacts[uniqueid], rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
+                           // self.addUploadInfo(self.selectedContact,uniqueid1: tblContacts[uniqueid], rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
                             //checkpendingfiles
                             if(tblContacts[type]=="file")
                             {
@@ -1394,7 +1395,7 @@ var isKiboContact="false"
                                 
                                 if(filedownloaded==false)
                                 {
-                                    self.addUploadInfo(self.selectedContact,uniqueid1: tblContacts[uniqueid], rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
+                                   // self.addUploadInfo(self.selectedContact,uniqueid1: tblContacts[uniqueid], rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
                                     print("video is not downloaded locally")
                                     //checkpendingfiles
                                     if(tblContacts[type]=="file")
@@ -1419,7 +1420,7 @@ var isKiboContact="false"
                                     
                                     if(filedownloaded==false)
                                     {
-                                        self.addUploadInfo(self.selectedContact,uniqueid1: tblContacts[uniqueid], rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
+                                        //self.addUploadInfo(self.selectedContact,uniqueid1: tblContacts[uniqueid], rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
                                         print("audio is not downloaded locally")
                                         //checkpendingfiles
                                         if(tblContacts[type]=="file")
@@ -2124,7 +2125,7 @@ var isKiboContact="false"
                             
                             if(filedownloaded==false)
                             {
-                                self.addUploadInfo(self.selectedContact,uniqueid1: tblContacts[uniqueid], rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
+                               // self.addUploadInfo(self.selectedContact,uniqueid1: tblContacts[uniqueid], rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
                                 //checkpendingfiles
                                 
                                 if(tblContacts[type]=="file")
@@ -2150,7 +2151,7 @@ var isKiboContact="false"
                             
                             if(filedownloaded==false)
                             {
-                                self.addUploadInfo(self.selectedContact,uniqueid1: tblContacts[uniqueid], rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
+                               // self.addUploadInfo(self.selectedContact,uniqueid1: tblContacts[uniqueid], rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
                                 //checkpendingfiles
                                 
                                 if(tblContacts[type]=="file")
@@ -2187,7 +2188,7 @@ var isKiboContact="false"
                                     
                                     if(filedownloaded==false)
                                     {
-                                        self.addUploadInfo(self.selectedContact,uniqueid1: tblContacts[uniqueid], rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
+                                      //  self.addUploadInfo(self.selectedContact,uniqueid1: tblContacts[uniqueid], rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
                                         print("video is not downloaded locally")
                                         //checkpendingfiles
                                         if(tblContacts[type]=="file")
@@ -2440,10 +2441,19 @@ var isKiboContact="false"
          
         })*/
         var predicate=NSPredicate(format: "uniqueid = %@", uniqueid)
+        
         var resultArray=uploadInfo.filtered(using: predicate)
         //cfpresultArray.first
+        if(resultArray.count==0)
+        {
+            
+            self.addUploadInfo(self.selectedContact,uniqueid1: uniqueid, rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
+            resultArray=uploadInfo.filtered(using: predicate)
+
+        }
         if(resultArray.count>0)
         {
+            
         var foundInd=uploadInfo.index(of: resultArray.first!)
         var resultArrayMsgs=messages.filtered(using: predicate)
 
@@ -2493,7 +2503,13 @@ var isKiboContact="false"
                         if(intangle.intValue==360)
                         {
                             newprogressview?.isHidden=true
-                             self.tblForChats.reloadRows(at: [indexPath], with: UITableViewRowAnimation.none)
+                            
+                            self.tblForChats.beginUpdates()
+                            //var indexp=IndexPath(row:indexP, section:0)
+                            self.tblForChats.reloadRows(at: [indexPath], with: UITableViewRowAnimation.none)
+                            self.tblForChats.endUpdates()
+                            
+                             //!!self.tblForChats.reloadRows(at: [indexPath], with: UITableViewRowAnimation.none)
                         }
                         else
                         {
@@ -3972,7 +3988,7 @@ var isKiboContact="false"
             formatter2.timeZone=TimeZone.autoupdatingCurrent
             formatter2.dateFormat = "MM/dd hh:mm a";
             let displaydate=formatter2.string(from: defaultTimeZoneStr!)
-            
+            textLable.isHidden=false
             if(imgNSData != nil/* && (cell.tag == indexPath.row)*/)
             {
                 chatImage.isUserInteractionEnabled = true

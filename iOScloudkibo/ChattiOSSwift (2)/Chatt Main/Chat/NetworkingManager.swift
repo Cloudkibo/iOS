@@ -1668,7 +1668,10 @@ class NetworkingManager
             
             
             
-            
+                if(self.delegateProgressUpload != nil)
+                    
+                {self.delegateProgressUpload.updateProgressUpload(Float(1.0), uniqueid: fileuniqueid)
+                }
             
             //filedownloaded’ to with parameters ‘senderoffile’, ‘receiveroffile’
             
