@@ -1337,7 +1337,7 @@ var isKiboContact="false"
                         {
                             //checkpendingfiles
                           if(tblContacts[type]=="file")
-                          {
+                          {self.addUploadInfo(self.selectedContact,uniqueid1: tblContacts[uniqueid], rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
                             managerFile.checkPendingFiles(tblContacts[uniqueid])
                             }
                             if(tblContacts[type]=="broadcast_file")
@@ -1360,6 +1360,7 @@ var isKiboContact="false"
                         
                         if(filedownloaded==false)
                         {
+                            self.addUploadInfo(self.selectedContact,uniqueid1: tblContacts[uniqueid], rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
                             //checkpendingfiles
                             if(tblContacts[type]=="file")
                             {
@@ -1393,6 +1394,7 @@ var isKiboContact="false"
                                 
                                 if(filedownloaded==false)
                                 {
+                                    self.addUploadInfo(self.selectedContact,uniqueid1: tblContacts[uniqueid], rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
                                     print("video is not downloaded locally")
                                     //checkpendingfiles
                                     if(tblContacts[type]=="file")
@@ -1417,6 +1419,7 @@ var isKiboContact="false"
                                     
                                     if(filedownloaded==false)
                                     {
+                                        self.addUploadInfo(self.selectedContact,uniqueid1: tblContacts[uniqueid], rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
                                         print("audio is not downloaded locally")
                                         //checkpendingfiles
                                         if(tblContacts[type]=="file")
@@ -2121,6 +2124,7 @@ var isKiboContact="false"
                             
                             if(filedownloaded==false)
                             {
+                                self.addUploadInfo(self.selectedContact,uniqueid1: tblContacts[uniqueid], rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
                                 //checkpendingfiles
                                 
                                 if(tblContacts[type]=="file")
@@ -2146,6 +2150,7 @@ var isKiboContact="false"
                             
                             if(filedownloaded==false)
                             {
+                                self.addUploadInfo(self.selectedContact,uniqueid1: tblContacts[uniqueid], rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
                                 //checkpendingfiles
                                 
                                 if(tblContacts[type]=="file")
@@ -2182,6 +2187,7 @@ var isKiboContact="false"
                                     
                                     if(filedownloaded==false)
                                     {
+                                        self.addUploadInfo(self.selectedContact,uniqueid1: tblContacts[uniqueid], rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
                                         print("video is not downloaded locally")
                                         //checkpendingfiles
                                         if(tblContacts[type]=="file")
@@ -2436,7 +2442,8 @@ var isKiboContact="false"
         var predicate=NSPredicate(format: "uniqueid = %@", uniqueid)
         var resultArray=uploadInfo.filtered(using: predicate)
         //cfpresultArray.first
-        
+        if(resultArray.count>0)
+        {
         var foundInd=uploadInfo.index(of: resultArray.first!)
         var resultArrayMsgs=messages.filtered(using: predicate)
 
@@ -2486,6 +2493,7 @@ var isKiboContact="false"
                         if(intangle.intValue==360)
                         {
                             newprogressview?.isHidden=true
+                             self.tblForChats.reloadRows(at: [indexPath], with: UITableViewRowAnimation.none)
                         }
                         else
                         {
@@ -2508,7 +2516,7 @@ var isKiboContact="false"
                     })
  */
  
-                    //self.tblForChats.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
+                   
                     
                     //var cell=self.tblForChats.dequeueReusableCellWithIdentifier("")! as UITableViewCell
                     }
@@ -2521,6 +2529,7 @@ var isKiboContact="false"
                 }
                 
             }
+    }
     }
     
     
@@ -3925,6 +3934,7 @@ var isKiboContact="false"
             
             //////chatImage.contentMode = .Center
             
+            chatImage.image = nil
             //chatImage.frame = CGRectMake(80, chatImage.frame.origin.y, 220, 220)
             /*let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first as String!
              let photoURL          = NSURL(fileURLWithPath: documentDirectory)

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		5BF6363219A9F3D900ABD0BA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BF6363119A9F3D900ABD0BA /* Images.xcassets */; };
 		710070341DFBB789001530B5 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 710070331DFBB789001530B5 /* Alamofire.framework */; };
+		710315761EC97E5F0068D69C /* brown_maze_empty.png in Resources */ = {isa = PBXBuildFile; fileRef = 710315751EC97E5F0068D69C /* brown_maze_empty.png */; };
 		7103C5BE1EC31F46003A12DE /* ArchivedChatModelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7103C5BD1EC31F46003A12DE /* ArchivedChatModelCell.swift */; };
 		710947731D710A63008BC238 /* NewGroupSetDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710947721D710A63008BC238 /* NewGroupSetDetails.swift */; };
 		710947751D71189E008BC238 /* ParticipantsCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710947741D71189E008BC238 /* ParticipantsCollectionCell.swift */; };
@@ -519,6 +520,7 @@
 		5BF6363719A9F3D900ABD0BA /* ChatTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6CB4779A4806A1DC97422145 /* Pods-Chat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Chat.release.xcconfig"; path = "Pods/Target Support Files/Pods-Chat/Pods-Chat.release.xcconfig"; sourceTree = "<group>"; };
 		710070331DFBB789001530B5 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "../../../../../../../Library/Developer/Xcode/DerivedData/kiboApp-ckwegrnpnjdryqfinanunrzashgm/Build/Products/Debug-iphoneos/Alamofire/Alamofire.framework"; sourceTree = "<group>"; };
+		710315751EC97E5F0068D69C /* brown_maze_empty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = brown_maze_empty.png; sourceTree = "<group>"; };
 		7103C5BD1EC31F46003A12DE /* ArchivedChatModelCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArchivedChatModelCell.swift; sourceTree = "<group>"; };
 		710947721D710A63008BC238 /* NewGroupSetDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewGroupSetDetails.swift; sourceTree = "<group>"; };
 		710947741D71189E008BC238 /* ParticipantsCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParticipantsCollectionCell.swift; sourceTree = "<group>"; };
@@ -871,6 +873,7 @@
 				713D51881CC11896007E0B47 /* Accounts.swift */,
 				71585F011DC8A4030067CD4A /* UIDelegates.swift */,
 				713D51891CC11896007E0B47 /* AppDelegate.swift */,
+				710315751EC97E5F0068D69C /* brown_maze_empty.png */,
 				71C401821CF715C500D38126 /* audioOff.png */,
 				71C401831CF715C500D38126 /* audioOff@2x.png */,
 				71C401841CF715C500D38126 /* audioOn.png */,
@@ -1542,6 +1545,7 @@
 				71C4018A1CF715C500D38126 /* audioOn.png in Resources */,
 				7134C6991EA79E7C00FF588E /* InfoPlist.strings in Resources */,
 				71C401761CF7159F00D38126 /* videoOff.png in Resources */,
+				710315761EC97E5F0068D69C /* brown_maze_empty.png in Resources */,
 				71301E4D1E9FBB4A00F40772 /* Main.storyboard in Resources */,
 				71C401751CF7159F00D38126 /* video-camera-icon@2x.png in Resources */,
 				71C401741CF7159F00D38126 /* video-camera-icon.png in Resources */,

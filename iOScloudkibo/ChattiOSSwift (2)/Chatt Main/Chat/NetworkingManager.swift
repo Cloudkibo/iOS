@@ -1616,7 +1616,13 @@ class NetworkingManager
         print("downloading call unique id \(fileuniqueid)")
         
         //uncomment change later
-        Alamofire.download("\(downloadURL)", method: .post, parameters: ["uniqueid":fileuniqueid], encoding: JSONEncoding.default, headers: header, to: destination1).response { (response) in
+        Alamofire.download("\(downloadURL)", method: .post, parameters: ["uniqueid":fileuniqueid], encoding: JSONEncoding.default, headers: header, to: destination1).downloadProgress { progress in
+            print("Download Progress: \(progress.fractionCompleted)")
+            
+            if(self.delegateProgressUpload != nil)
+            {self.delegateProgressUpload.updateProgressUpload(Float(progress.fractionCompleted), uniqueid: fileuniqueid)
+            }
+            }.response { (response) in
             
             print(response)
             print("1...... \(response.request?.url)")
@@ -1639,12 +1645,17 @@ class NetworkingManager
                 sqliteDB.saveFile(filePendingTo, from1: filefrom, owneruser1: username!, file_name1: filePendingName, date1: nil, uniqueid1: fileuniqueid, file_size1: filePendingSize, file_type1: filetype, file_path1: filePendingPath, type1: "document")
                 
             }
-            if(socketObj.delegateChat != nil)
+            
+                /*if(socketObj.delegateChat != nil)
             {
                 socketObj.delegateChat.socketReceivedMessageChat("updateUI", data: nil)
             }
-            
-            
+            */
+                if(self.delegateProgressUpload != nil)
+                    
+                {self.delegateProgressUpload.updateProgressUpload(Float(1.0), uniqueid: fileuniqueid)
+                }
+                
             //===
             //refresh UI file download commented==--- uncomment later ====================================----------
             /*
