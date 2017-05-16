@@ -29,7 +29,7 @@ import MessageUI
 //import URLEmbeddedView
 //import GoogleMaps
 
-class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,FileManagerDelegate,showUploadProgressDelegate,UpdateChatViewsDelegate,UpdateSingleChatDetailDelegate,CNContactPickerDelegate,CNContactViewControllerDelegate,UIPickerViewDelegate,AVAudioRecorderDelegate,CLLocationManagerDelegate,insertChatAtLastDelegate,updateChatStatusRowDelegate,insertBulkChatsSyncDelegate,insertBulkChatsStatusesSyncDelegate,ActiveLabelDelegate,MFMessageComposeViewControllerDelegate
+class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,FileManagerDelegate,showUploadProgressDelegate,UpdateChatViewsDelegate,UpdateSingleChatDetailDelegate,CNContactPickerDelegate,CNContactViewControllerDelegate,UIPickerViewDelegate,AVAudioRecorderDelegate,CLLocationManagerDelegate,insertChatAtLastDelegate,updateChatStatusRowDelegate,insertBulkChatsSyncDelegate,insertBulkChatsStatusesSyncDelegate,ActiveLabelDelegate,MFMessageComposeViewControllerDelegate,CheckConversationWindowOpenDelegate
 {
     
 var swipe=false
@@ -49,6 +49,7 @@ var isKiboContact="false"
     var delegateUpdateChatStatusRow:updateChatStatusRowDelegate!
     var delegateInsertBulkChatSync:insertBulkChatsSyncDelegate!
     var delegateBulkChatStatus:insertBulkChatsStatusesSyncDelegate!
+    var checkConvWindowUser:CheckConversationWindowOpenDelegate!
     
     var searchUniqueid:String!=nil
     var scrolledRowIndex = -1
@@ -459,6 +460,10 @@ var isKiboContact="false"
     override func viewWillAppear(_ animated: Bool) {
         //print("chat will appear")
         socketObj.socket.emit("logClient","IPHONE-LOG: chat page will appear")
+        
+        
+        delegateCheckConvWindow=self
+        
         
         let blockedByMe = Expression<Bool>("blockedByMe")
         let IamBlocked = Expression<Bool>("IamBlocked")
@@ -4077,6 +4082,7 @@ var isKiboContact="false"
             formatter2.dateFormat = "MM/dd hh:mm a";
             let displaydate=formatter2.string(from: defaultTimeZoneStr!)
             textLable.isHidden=false
+            chatImage.image=nil
             if(imgNSData != nil/* && (cell.tag == indexPath.row)*/)
             {
                 chatImage.isUserInteractionEnabled = true
@@ -4142,6 +4148,7 @@ var isKiboContact="false"
                 timeLabel.text="\(displaydate) (\(status))"
                 //timeLabel.text=date2.debugDescription
             }
+            
             
             timeLabel.text="\(displaydate) (\(status))" /* var imgNSURL = NSURL(fileURLWithPath: msg as String)
              var imgNSData=NSFileManager.default.contents(atPath:imgNSURL.path!)
@@ -6811,6 +6818,7 @@ var isKiboContact="false"
            let fileAttributes : NSDictionary? = try FileManager.default.attributesOfItem(atPath: filePathImage2) as NSDictionary?
             if let _attr = fileAttributes {
                 self.fileSize1 = _attr.fileSize();
+                print("........ filetype -- \(_attr.fileType())")
                 //print("file size is \(self.fileSize1)")
                 //// ***april 2016 neww self.fileSize=(fileSize1 as! NSNumber).integerValue
             }
@@ -8256,6 +8264,7 @@ var isKiboContact="false"
         UIDelegates.getInstance().delegateInsertBulkChatsSync1=nil
         UIDelegates.getInstance().delegateInsertBulkChatsStatusesSync=nil
         UIDelegates.getInstance().delegateUpdateChatStatusRow1=nil
+        delegateCheckConvWindow=nil
        /////  NSNotificationCenter.defaultCenter().removeObserver(self, name:UIKeyboardWillShowNotification, object: nil)    
     }
     
@@ -8665,7 +8674,17 @@ var isKiboContact="false"
         
     }
     
-    
+    func checkConversationWindowOpen(phone: String)->Bool {
+        print("checking conversation window compare \(phone) .. \(selectedContact)")
+        if(phone==selectedContact)
+        {
+            return true
+        }
+        else
+        {
+            return false
+        }
+    }
     
 }
 

@@ -129,6 +129,7 @@ var iOSstartedCall=false
 var firstTimeLogin=false
 var header:[String:String]=["kibo-token":""]
 var delegateRefreshChat:UpdateChatViewsDelegate!
+var delegateCheckConvWindow:CheckConversationWindowOpenDelegate!
 //var appJustInstalled=[Bool]()
 var reachability:Reachability!;
 var contactsarray=[CNContact]()
@@ -683,6 +684,51 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void)
         {
             
+            
+            
+            
+            if(delegateCheckConvWindow != nil)
+            {
+            var userInfo=notification.request.content.userInfo
+            if  let singleuniqueid = userInfo["uniqueId"] as? String {
+                // Printout of (userInfo["aps"])["type"]
+                print("\nFrom APS-dictionary with key \"singleuniqueid\":  \( singleuniqueid)")
+                if  let notifType = userInfo["type"] as? String {
+                    print("payload of satus or iOS chat")
+                    
+                        if(notifType=="chat" || notifType=="file" || notifType=="broadcast_file" || notifType=="contact" || notifType=="location" || notifType=="link" || notifType=="log")
+                            
+                        {print("payload of iOS chat")
+                            var res=delegateCheckConvWindow.checkConversationWindowOpen(phone: (userInfo["senderId"] as? String)!)
+                            if(res==false)
+                            { print("res is \(res)")
+                                
+                                completionHandler([.alert, .badge, .sound])
+                            }
+                            else{
+                                print("res else is \(res)")
+                                
+                                completionHandler([.badge])
+                            }
+                            
+                            
+                           //// fetchSingleChatMessage(singleuniqueid)
+                        }
+                    }
+                }
+            
+            }
+            else{
+                 completionHandler([.alert, .badge, .sound])
+            }
+            
+            
+            
+            /*
+            
+            
+            //if delegate not equals 1
+            //delegateFunction pass phone number, return true/false
             var myview=ChatDetailViewController()
             var userInfo=notification.request.content.userInfo
             let appDelegate = UIApplication.shared.delegate
@@ -727,6 +773,11 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             
             UtilityFunctions.init().getAppState(currentState: UIApplication.shared.applicationState.rawValue)
             UtilityFunctions.init().log_papertrail("IPHONE: \(username!) willpresent iOS10 \(userInfo)")
+            
+            
+            
+            */
+            
             
            /* if(UIApplication.shared.applicationState.rawValue != UIApplicationState.inactive.rawValue)
             {
@@ -1243,6 +1294,12 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
             }
         completionHandler([.alert, .badge, .sound])
             */
+    
+    
+    
+    
+    
+    
     }
     
 
@@ -5330,8 +5387,13 @@ var uniqueid=payload["uniqueid"] as! String
 protocol UpdateChatViewsDelegate:class
 {
     func refreshChatsUI(_ message: String!, uniqueid:String!, from:String!, date1:Date!, type:String!);
+   
 }
-
+protocol CheckConversationWindowOpenDelegate:class
+{
+    
+    func checkConversationWindowOpen(phone:String)->Bool;
+}
 
 
 
