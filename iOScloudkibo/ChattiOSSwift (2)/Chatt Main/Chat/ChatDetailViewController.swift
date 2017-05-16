@@ -2440,8 +2440,96 @@ var isKiboContact="false"
             
          
         })*/
-        var predicate=NSPredicate(format: "uniqueid = %@", uniqueid)
         
+        var predicate=NSPredicate(format:"uniqueid = %@", uniqueid)
+        var resultArray=self.messages.filtered(using: predicate)
+        if(resultArray.count > 0)
+        {
+            print("scrollinggg 451 line")
+            var foundindex=self.messages.index(of: resultArray.first!)
+            let indexPath = IndexPath(row:foundindex, section: 0)
+            // self.tblForChats.seth
+          
+            var newcell=self.tblForChats.cellForRow(at: indexPath)
+           
+            //self.tblForChats.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: false)
+            if(newcell != nil)
+            {
+                do{
+                    var newprogressview = try newcell!.viewWithTag(14) as! KDCircularProgress!
+                    var intangle=(progress*360) as NSNumber
+                    
+                    //print("from \(newprogressview.angle) to \(intangle.integerValue)")
+                    newprogressview?.isHidden=false
+                    newprogressview?.animate(toAngle: Double(intangle), duration: 0.7, completion: { (result) in
+                        if(intangle.intValue==360)
+                        {
+                            newprogressview?.isHidden=true
+                            
+                            self.tblForChats.beginUpdates()
+                            //var indexp=IndexPath(row:indexP, section:0)
+                            self.tblForChats.reloadRows(at: [indexPath] as! [IndexPath], with: UITableViewRowAnimation.none)
+                            self.tblForChats.endUpdates()
+                            
+                            //!!self.tblForChats.reloadRows(at: [indexPath], with: UITableViewRowAnimation.none)
+                        }
+                        else
+                        {
+                            newprogressview?.isHidden=false
+                        }
+                        
+                        
+                    })
+                }
+            }
+        }
+        
+            
+            
+            
+            
+            
+            /*
+            
+        var predicate=NSPredicate(format: "uniqueid = %@", uniqueid)
+        var foundcellIndex=messages.filtered(using: predicate)
+        if(foundcellIndex.count>0)
+        {
+            var newcell=self.tblForChats.ind cellForRow(at: foundcellIndex.first as! IndexPath)
+            if(newcell != nil)
+            {
+                do{
+                var newprogressview = try newcell!.viewWithTag(14) as! KDCircularProgress!
+                var intangle=(progress*360) as NSNumber
+                
+                //print("from \(newprogressview.angle) to \(intangle.integerValue)")
+                newprogressview?.isHidden=false
+                newprogressview?.animate(toAngle: Double(intangle), duration: 0.7, completion: { (result) in
+                    if(intangle.intValue==360)
+                    {
+                        newprogressview?.isHidden=true
+                        
+                        self.tblForChats.beginUpdates()
+                        //var indexp=IndexPath(row:indexP, section:0)
+                        self.tblForChats.reloadRows(at: foundcellIndex as! [IndexPath], with: UITableViewRowAnimation.none)
+                        self.tblForChats.endUpdates()
+                        
+                        //!!self.tblForChats.reloadRows(at: [indexPath], with: UITableViewRowAnimation.none)
+                    }
+                    else
+                    {
+                        newprogressview?.isHidden=false
+                    }
+                    
+                    
+                })
+        }
+            }
+        }*/
+    }
+    
+            
+            /*
         var resultArray=uploadInfo.filtered(using: predicate)
         //cfpresultArray.first
         if(resultArray.count==0)
@@ -2480,13 +2568,13 @@ var isKiboContact="false"
                 
                 
                 //let newObject=["selectedUser":newuser,"uniqueid":newuniqueid,"rowIndex":newrowindex,"uploadProgress":newuploadProgress,"isCompleted":newIsCompleted]
-                uploadInfo.replaceObject(at: foundInd, with: aaa)
+                uploadInfo.replaceObject(at: messages.index(of: resultArrayMsgs.first!), with: aaa)
                 /*
  ["selectedUser":selectedUser1,"uniqueid":uniqueid1,"rowIndex":rowindex,"uploadProgress":uploadProgress,"isCompleted":isCompleted]
  */
                 //=progress
                // var foundMsgInd=messages.indexOfObject(messages.valueForKey("uniqueid") as! String==uniqueid)
-                var indexPath = IndexPath(row: foundMsgInd, section: 0)
+                var indexPath = IndexPath(row: messages.index(of: resultArrayMsgs.first!), section: 0)
                 
                 DispatchQueue.main.async
                 {
@@ -2548,7 +2636,7 @@ var isKiboContact="false"
     }
     }
     
-    
+    */
     
     
     func addUploadInfo(_ selectedUser1:String,uniqueid1:String,rowindex:Int,uploadProgress:Float,isCompleted:Bool)
