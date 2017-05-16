@@ -30,8 +30,11 @@ import ActiveLabel
 //import PHAsset
 //import PhotosUI
 //import Haneke
-class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,FileManagerDelegate,UpdateGroupChatDetailsDelegate,CNContactPickerDelegate,CNContactViewControllerDelegate,UIPickerViewDelegate,AVAudioRecorderDelegate,CLLocationManagerDelegate {
+class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,FileManagerDelegate,UpdateGroupChatDetailsDelegate,CNContactPickerDelegate,CNContactViewControllerDelegate,UIPickerViewDelegate,AVAudioRecorderDelegate,CLLocationManagerDelegate,CheckConversationWindowOpenDelegate {
     
+    
+    
+     var checkConvWindowUser:CheckConversationWindowOpenDelegate!
     var contactreceivedphone=""
     var contactCardSelected="0"
     var contactshared=false
@@ -964,6 +967,9 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
         
         tblForGroupChat.addGestureRecognizer(swipeRecognizer)
         */
+        
+         delegateCheckConvWindow=self
+        
  
         UIDelegates.getInstance().delegateGroupChatDetails1=self
         membersList=sqliteDB.getGroupMembersOfGroup(self.groupid1)
@@ -5120,9 +5126,25 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
 
         
     }
+    
+    func checkConversationWindowOpen(phone: String)->Bool {
+        print("checking conversation window compare \(phone) .. \(selectedContact)")
+        if(phone==selectedContact)
+        {
+            return true
+        }
+        else
+        {
+            return false
+        }
+    }
+
+    
+    
     override func viewWillDisappear(_ animated: Bool) {
         
         UIDelegates.getInstance().delegateGroupChatDetails1=nil
+         delegateCheckConvWindow=nil
     }
     
     func showError(_ title:String,message:String,button1:String) {

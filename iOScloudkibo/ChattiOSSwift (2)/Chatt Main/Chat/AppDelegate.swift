@@ -716,7 +716,54 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         }
                     }
                 }
+            else{
+                if  let type = userInfo["type"] as? String {
+                    print(userInfo)
+                    // Printout of (userInfo["aps"])["type"]
+                    print("group push unique_id is \( type)")
+                    // if  let notifType = userInfo["type"] as? String {
+                    
+                    if(type=="group:you_are_added")
+                    {
+                        var senderid = userInfo["senderId"] as! String
+                        var groupId = userInfo["groupId"] as? String
+                        
+                        var res=delegateCheckConvWindow.checkConversationWindowOpen(phone: (userInfo["senderId"] as? String)!)
+                        if(res==false)
+                        { print("res is \(res)")
+                            
+                            completionHandler([.alert, .badge, .sound])
+                        }
+                        else{
+                            print("res else is \(res)")
+                            
+                            completionHandler([.badge])
+                        }
+
+                }
+                    if(type=="group:chat_received")
+                    {
+                        
+                        
+                        var senderId=userInfo["senderId"] as? String  //from
+                        var groupId=userInfo["groupId"] as? String
+                        
+                        var res=delegateCheckConvWindow.checkConversationWindowOpen(phone: (userInfo["senderId"] as? String)!)
+                        if(res==false)
+                        { print("res is \(res)")
+                            
+                            completionHandler([.alert, .badge, .sound])
+                        }
+                        else{
+                            print("res else is \(res)")
+                            
+                            completionHandler([.badge])
+                        }
+                     
+                    }
             
+            }
+                }
             }
             else{
                  completionHandler([.alert, .badge, .sound])
