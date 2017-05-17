@@ -1053,7 +1053,9 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
     override func viewDidLoad() {
         
         
+        self.tblForGroupChat.estimatedRowHeight = 60.0
         
+        self.tblForGroupChat.rowHeight = UITableViewAutomaticDimension;
         locationManager.delegate = self
         
         self.btnSendChat.isEnabled=true
@@ -1622,7 +1624,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
     }
     
     
-    func tableView(_ tableView: UITableView, heightForRowAtIndexPath indexPath: IndexPath) -> CGFloat {
+    /*func tableView(_ tableView: UITableView, heightForRowAtIndexPath indexPath: IndexPath) -> CGFloat {
         
         ////======return 60
         if(messages.count > 0 && (messages.count > indexPath.row))
@@ -1704,7 +1706,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
 
         }
     }
-    
+    */
     func numberOfSectionsInTableView(_ tableView: UITableView) -> Int {
         
         return 1
@@ -3113,16 +3115,30 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             let nameLabel = cell.viewWithTag(15) as! UILabel
            
             let timeLabel = cell.viewWithTag(11) as! UILabel
-            
-            //!!chatImage.frame = CGRect(x: chatImage.frame.origin.x, y: chatImage.frame.origin.y, width: ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), height: sizeOFStr.height + 60)
+              msgLabel.text=msg as! String
+           
+                                                            
+                                                            //!!chatImage.frame = CGRect(x: chatImage.frame.origin.x, y: chatImage.frame.origin.y, width: ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), height: sizeOFStr.height + 60)
             chatImage.image = UIImage(named: "chat_receive")?.stretchableImage(withLeftCapWidth: 40,topCapHeight: 20);
             //******
             
             
-           //!! msgLabel.frame = CGRect(x: msgLabel.frame.origin.x, y: msgLabel.frame.origin.y, width: msgLabel.frame.size.width, height: sizeOFStr.height)
+            msgLabel.frame = CGRect(x: msgLabel.frame.origin.x, y: msgLabel.frame.origin.y, width: msgLabel.frame.size.width, height: sizeOFStr.height)
             
-            
-            
+                                                            //!!
+                                                            
+                                                           /* let correctheight=getSizeOfStringHeight(msg!).height
+                                                            
+                                                            chatImage.frame = CGRect(x: chatImage.frame.origin.x, y: chatImage.frame.origin.y,width: ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), height: correctheight + 20)
+                                                            //====new  chatImage.frame = CGRectMake(chatImage.frame.origin.x, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
+                                                            chatImage.image = UIImage(named: "chat_receive")?.stretchableImage(withLeftCapWidth: 40,topCapHeight: 20);
+                                                            // ******
+                                                            
+                                                            msgLabel.frame = CGRect(x: msgLabel.frame.origin.x, y: msgLabel.frame.origin.y, width: chatImage.frame.width-36, height: correctheight)
+ 
+                                                            
+                                                        */
+ 
             let formatter = DateFormatter();
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
             //formatter.dateFormat = "MM/dd hh:mm a"";
@@ -3134,7 +3150,10 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             formatter2.timeZone=TimeZone.autoupdatingCurrent
             formatter2.dateFormat = "MM/dd hh:mm a";
             let displaydate=formatter2.string(from: defaultTimeZoneStr!)
-            timeLabel.frame = CGRect(x: msgLabel.frame.origin.x, y: msgLabel.frame.origin.y+msgLabel.frame.height+5, width: chatImage.frame.size.width-46, height: timeLabel.frame.size.height)
+            
+                                                            
+                                                            
+                                                            //!!timeLabel.frame = CGRect(x: msgLabel.frame.origin.x, y: msgLabel.frame.origin.y+msgLabel.frame.height+5, width: chatImage.frame.size.width-46, height: timeLabel.frame.size.height)
             
             timeLabel.text = displaydate
             nameLabel.textColor=UIColor.blue
