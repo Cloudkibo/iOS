@@ -1763,10 +1763,10 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             
             
             
-            let distanceFactor = (197.0 - sizeOFStr.width) < 107 ? (197.0 - sizeOFStr.width) : 107
+           //!! let distanceFactor = (197.0 - sizeOFStr.width) < 107 ? (197.0 - sizeOFStr.width) : 107
             //// //print("distanceFactor for \(msg) is \(distanceFactor)")
             
-            chatImage.frame = CGRect(x: 20 + distanceFactor, y: chatImage.frame.origin.y, width: ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), height: sizeOFStr.height + 40)
+           //!! chatImage.frame = CGRect(x: 20 + distanceFactor, y: chatImage.frame.origin.y, width: ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), height: sizeOFStr.height + 40)
             ////    //print("chatImage.x for \(msg) is \(20 + distanceFactor) and chatimage.wdith is \(chatImage.frame.width)")
             
             
@@ -1775,7 +1775,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             chatImage.image = UIImage(named: "chat_send")?.stretchableImage(withLeftCapWidth: 40,topCapHeight: 20);
             //*********
             
-            msgLabel.frame = CGRect(x: 36 + distanceFactor, y: msgLabel.frame.origin.y, width: msgLabel.frame.size.width, height: sizeOFStr.height)
+           //!! msgLabel.frame = CGRect(x: 36 + distanceFactor, y: msgLabel.frame.origin.y, width: msgLabel.frame.size.width, height: sizeOFStr.height)
             
             // //print("date received in chat is \(date2.debugDescription)")
             let formatter = DateFormatter();
@@ -1784,7 +1784,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             formatter.timeZone = TimeZone.autoupdatingCurrent
             let defaultTimeZoneStr = formatter.date(from: date2 as! String)
             //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
-            timeLabel.frame = CGRect(x: 36 + distanceFactor, y: msgLabel.frame.origin.y+msgLabel.frame.height+10, width: chatImage.frame.size.width-46, height: timeLabel.frame.size.height)
+            //!!timeLabel.frame = CGRect(x: 36 + distanceFactor, y: msgLabel.frame.origin.y+msgLabel.frame.height+10, width: chatImage.frame.size.width-46, height: timeLabel.frame.size.height)
             
             if(defaultTimeZoneStr == nil)
             {
@@ -2157,12 +2157,12 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                          print("previous height is \(textLable.frame.height) msg is \(msg)")
                          var correctheight=textLable.frame.height
                          */
-                        let correctheight=getSizeOfStringHeight(UtilityFunctions.init().compareLongerString(txt1: timeLabel.text!, txt2: textLable.text!) as NSString).height
+                       //! let correctheight=getSizeOfStringHeight(UtilityFunctions.init().compareLongerString(txt1: timeLabel.text!, txt2: textLable.text!) as NSString).height
                         
-                        sizeOFStr=getSizeOfString(UtilityFunctions.init().compareLongerString(txt1: timeLabel.text!, txt2: textLable.text!) as NSString)
+                        //!sizeOFStr=getSizeOfString(UtilityFunctions.init().compareLongerString(txt1: timeLabel.text!, txt2: textLable.text!) as NSString)
                         
                         //Setting Chat cell area
-                        chatImage.frame = CGRect(x: chatImage.frame.origin.x, y: chatImage.frame.origin.y,width: ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), height: ((correctheight + 20)  > 85 ? (correctheight+20) : 85))
+                       //! chatImage.frame = CGRect(x: chatImage.frame.origin.x, y: chatImage.frame.origin.y,width: ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), height: ((correctheight + 20)  > 85 ? (correctheight+20) : 85))
                         
                         chatImage.image = UIImage(named: "chat_receive")?.stretchableImage(withLeftCapWidth: 40,topCapHeight: 20);
                         
@@ -2173,7 +2173,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                         profileImage.center = CGPoint(x: CGFloat(Float(chatImage.image!.leftCapWidth)+30.0), y: chatImage.frame.height/2)
                         
                         //Setting Contact Name
-                        textLable.frame = CGRect(x: profileImage.center.x+35, y: profileImage.center.y-15, width: chatImage.frame.width-36, height: correctheight)
+                        //!!textLable.frame = CGRect(x: profileImage.center.x+35, y: profileImage.center.y-15, width: chatImage.frame.width-36, height: correctheight)
                         
                         
                         // textLable.text = msg! as! String
@@ -2226,7 +2226,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                          textLable.text = newtextlabel
                          }*/
                         textLable.text=msg as! String
-                        sizeOFStr=getSizeOfString(textLable.text! as! NSString)
+                        //!!sizeOFStr=getSizeOfString(textLable.text! as! NSString)
                         print("sizeOFStr of \(textLable.text!) is \(sizeOFStr)")
                         //// //print("here 905 msgtype is \(msgType)")
                         let distanceFactor = (197.0 - sizeOFStr.width) < 90 ? (197.0 - sizeOFStr.width) : 90
@@ -2234,11 +2234,11 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                         //textLable.text = msg! as! String
                         
                         
-                        let correctheight=getSizeOfStringHeight(msg!).height
+                        //!!let correctheight=getSizeOfStringHeight(msg!).height
                         //chatImage.frame = CGRect(x: 20 + distanceFactor, y: chatImage.frame.origin.y, width: ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), height: ((correctheight + 20)  > 100 ? (correctheight+20) : 100))
                         
                         
-                        chatImage.frame = CGRect(x: /*chatImage.frame.origin.x*/ 20 + distanceFactor, y: chatImage.frame.origin.y,width: ((sizeOFStr.width + 107)  > 210 ? (sizeOFStr.width + 107) : 210), height: ((correctheight + 20)  > 75 ? (correctheight+20) : 75))
+                        //!!chatImage.frame = CGRect(x: /*chatImage.frame.origin.x*/ 20 + distanceFactor, y: chatImage.frame.origin.y,width: ((sizeOFStr.width + 107)  > 210 ? (sizeOFStr.width + 107) : 210), height: ((correctheight + 20)  > 75 ? (correctheight+20) : 75))
                         
                         
                         
@@ -2254,7 +2254,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                         profileImage.center = CGPoint(x: chatImage.frame.origin.x+30, y: chatImage.frame.height/2)
                         
                         //Setting Contact Name
-                        textLable.frame = CGRect(x: profileImage.center.x+35, y: profileImage.center.y-15, width: chatImage.frame.width-36, height: correctheight)
+                       //!! textLable.frame = CGRect(x: profileImage.center.x+35, y: profileImage.center.y-15, width: chatImage.frame.width-36, height: correctheight)
                         
                         
                         
@@ -2327,7 +2327,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                             
                             // let distanceFactor = (170.0 - sizeOFStr.width) < 100 ? (170.0 - sizeOFStr.width) : 100
                             
-                            let distanceFactor = (197.0 - sizeOFStr.width) < 107 ? (197.0 - sizeOFStr.width) : 107
+                            //!!let distanceFactor = (197.0 - sizeOFStr.width) < 107 ? (197.0 - sizeOFStr.width) : 107
                             
                             //===== neww  let distanceFactor = (197.0 - sizeOFStr.width) < 107 ? (197.0 - sizeOFStr.width) : 107
                             //print("distanceFactor for \(msg) is \(distanceFactor)")
@@ -2369,13 +2369,13 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                              */
                             let correctheight=getSizeOfStringHeight(msg!).height
                             
-                            chatImage.frame = CGRect(x: 20 + distanceFactor, y: chatImage.frame.origin.y, width: ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), height: correctheight + 30)
+                           //!! chatImage.frame = CGRect(x: 20 + distanceFactor, y: chatImage.frame.origin.y, width: ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), height: correctheight + 30)
                             chatImage.image = UIImage(named: "chat_send")?.stretchableImage(withLeftCapWidth: 40,topCapHeight: 20);
                             //*********
                             
                             //getSizeOfStringHeight(msg).height
                             
-                            textLable.frame = CGRect(x: 60 + distanceFactor, y: textLable.frame.origin.y, width: chatImage.frame.width-70, height: correctheight)
+                          //!!  textLable.frame = CGRect(x: 60 + distanceFactor, y: textLable.frame.origin.y, width: chatImage.frame.width-70, height: correctheight)
                             
                             
                             // newwwwwwwwww textLable.frame = CGRectMake(26 + distanceFactor, textLable.frame.origin.y, chatImage.frame.width-36, getSizeOfStringHeight(msg).height)
@@ -2383,9 +2383,9 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                             //=====newwwwwww  textLable.frame = CGRectMake(26 + distanceFactor,
                             
                             
-                            timeLabel.frame = CGRect(x: 36 + distanceFactor, y: textLable.frame.origin.y+textLable.frame.height, width: chatImage.frame.size.width-46, height: timeLabel.frame.size.height)
+                           //!! timeLabel.frame = CGRect(x: 36 + distanceFactor, y: textLable.frame.origin.y+textLable.frame.height, width: chatImage.frame.size.width-46, height: timeLabel.frame.size.height)
                             
-                            profileImage.center = CGPoint(x: 45+distanceFactor, y: chatImage.frame.origin.y + (profileImage.frame.size.height)/2+5)
+                            //!!profileImage.center = CGPoint(x: 45+distanceFactor, y: chatImage.frame.origin.y + (profileImage.frame.size.height)/2+5)
                             
                             
                             
@@ -2491,18 +2491,18 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                                 //  chatImage.frame = CGRectMake(chatImage.frame.origin.x, chatImage.frame.origin.y, 200, 200)
                                 
                                 ///chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
-                                let correctheight=getSizeOfStringHeight(msg!).height
+                               //!! let correctheight=getSizeOfStringHeight(msg!).height
                                 
                                 textLable.isHidden=false
                                 //chatImage.frame = CGRectMake(20 + distanceFactor, chatImage.frame.origin.y, ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), sizeOFStr.height + 40)
                                 chatImage.image = UIImage(named: "chat_receive")?.stretchableImage(withLeftCapWidth: 40,topCapHeight: 20);
                                 
-                                chatImage.frame = CGRect(x: chatImage.frame.origin.x, y: chatImage.frame.origin.y, width: ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), height: correctheight + 50)
+                                //!!chatImage.frame = CGRect(x: chatImage.frame.origin.x, y: chatImage.frame.origin.y, width: ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), height: correctheight + 50)
                                 
                                 
                                 
                                 
-                                textLable.frame = CGRect(x: 60, y: textLable.frame.origin.y, width: chatImage.frame.width-70, height: correctheight)
+                                //!!textLable.frame = CGRect(x: 60, y: textLable.frame.origin.y, width: chatImage.frame.width-70, height: correctheight)
                                 
                                 
                                 // newwwwwwwwww textLable.frame = CGRectMake(26 + distanceFactor, textLable.frame.origin.y, chatImage.frame.width-36, getSizeOfStringHeight(msg).height)
@@ -2927,12 +2927,12 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                                                      print("previous height is \(textLable.frame.height) msg is \(msg)")
                                                      var correctheight=textLable.frame.height
                                                      */
-                                                    let correctheight=getSizeOfStringHeight(UtilityFunctions.init().compareLongerString(txt1: timeLabel.text!, txt2: textLable.text!) as NSString).height
+                                                    //!!let correctheight=getSizeOfStringHeight(UtilityFunctions.init().compareLongerString(txt1: timeLabel.text!, txt2: textLable.text!) as NSString).height
                                                     
-                                                    sizeOFStr=getSizeOfString(UtilityFunctions.init().compareLongerString(txt1: timeLabel.text!, txt2: textLable.text!) as NSString)
+                                                   //!! sizeOFStr=getSizeOfString(UtilityFunctions.init().compareLongerString(txt1: timeLabel.text!, txt2: textLable.text!) as NSString)
                                                     
                                                     //Setting Chat cell area
-                                                    chatImage.frame = CGRect(x: chatImage.frame.origin.x, y: chatImage.frame.origin.y,width: ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), height: ((correctheight + 20)  > 75 ? (correctheight+20) : 75))
+                                                   //!! chatImage.frame = CGRect(x: chatImage.frame.origin.x, y: chatImage.frame.origin.y,width: ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), height: ((correctheight + 20)  > 75 ? (correctheight+20) : 75))
                                                     
                                                     chatImage.image = UIImage(named: "chat_receive")?.stretchableImage(withLeftCapWidth: 40,topCapHeight: 20);
                                                     buttonsView.frame=CGRect(x:chatImage.frame.origin.x,y: buttonsView.frame.origin.y,width:chatImage.frame.width,height:buttonsView.frame.height)
@@ -2945,7 +2945,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                                                     profileImage.center = CGPoint(x: CGFloat(Float(chatImage.image!.leftCapWidth)+30.0), y: chatImage.frame.height/2 + 10)
                                                     
                                                     //Setting Contact Name
-                                                    textLable.frame = CGRect(x: profileImage.center.x+35, y: profileImage.center.y-15, width: chatImage.frame.width-36, height: correctheight)
+                                                   //!! textLable.frame = CGRect(x: profileImage.center.x+35, y: profileImage.center.y-15, width: chatImage.frame.width-36, height: correctheight)
                                                     
                                                     
                                                     // textLable.text = msg! as! String
@@ -3006,16 +3006,16 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                                                         sizeOFStr=getSizeOfString(textLable.text! as! NSString)
                                                         print("sizeOFStr of \(textLable.text!) is \(sizeOFStr)")
                                                         //// //print("here 905 msgtype is \(msgType)")
-                                                        let distanceFactor = (197.0 - sizeOFStr.width) < 90 ? (197.0 - sizeOFStr.width) : 90
+                                                       //!! let distanceFactor = (197.0 - sizeOFStr.width) < 90 ? (197.0 - sizeOFStr.width) : 90
                                                         textLable.isHidden=false
                                                         //textLable.text = msg! as! String
                                                         
                                                         
-                                                        let correctheight=getSizeOfStringHeight(msg!).height
+                                                        //!!let correctheight=getSizeOfStringHeight(msg!).height
                                                         //chatImage.frame = CGRect(x: 20 + distanceFactor, y: chatImage.frame.origin.y, width: ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), height: ((correctheight + 20)  > 100 ? (correctheight+20) : 100))
                                                         
                                                         
-                                                        chatImage.frame = CGRect(x: /*chatImage.frame.origin.x*/ 20 + distanceFactor, y: chatImage.frame.origin.y,width: ((sizeOFStr.width + 107)  > 210 ? (sizeOFStr.width + 107) : 210), height: ((correctheight + 20)  > 75 ? (correctheight+20) : 75))
+                                                        //!!chatImage.frame = CGRect(x: /*chatImage.frame.origin.x*/ 20 + distanceFactor, y: chatImage.frame.origin.y,width: ((sizeOFStr.width + 107)  > 210 ? (sizeOFStr.width + 107) : 210), height: ((correctheight + 20)  > 75 ? (correctheight+20) : 75))
                                                         
                                                         
                                                         buttonsView.frame=CGRect(x:chatImage.frame.origin.x,y: buttonsView.frame.origin.y,width:chatImage.frame.width,height:buttonsView.frame.height)
@@ -3038,7 +3038,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                                                         profileImage.center = CGPoint(x: chatImage.frame.origin.x+30, y: chatImage.frame.height/2)
                                                         
                                                         //Setting Contact Name
-                                                        textLable.frame = CGRect(x: profileImage.center.x+35, y: profileImage.center.y-15, width: chatImage.frame.width-36, height: correctheight)
+                                                     //!!   textLable.frame = CGRect(x: profileImage.center.x+35, y: profileImage.center.y-15, width: chatImage.frame.width-36, height: correctheight)
                                                         
                                                         
                                                         
@@ -3114,12 +3114,12 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
            
             let timeLabel = cell.viewWithTag(11) as! UILabel
             
-            chatImage.frame = CGRect(x: chatImage.frame.origin.x, y: chatImage.frame.origin.y, width: ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), height: sizeOFStr.height + 60)
+            //!!chatImage.frame = CGRect(x: chatImage.frame.origin.x, y: chatImage.frame.origin.y, width: ((sizeOFStr.width + 100)  > 200 ? (sizeOFStr.width + 100) : 200), height: sizeOFStr.height + 60)
             chatImage.image = UIImage(named: "chat_receive")?.stretchableImage(withLeftCapWidth: 40,topCapHeight: 20);
             //******
             
             
-            msgLabel.frame = CGRect(x: msgLabel.frame.origin.x, y: msgLabel.frame.origin.y, width: msgLabel.frame.size.width, height: sizeOFStr.height)
+           //!! msgLabel.frame = CGRect(x: msgLabel.frame.origin.x, y: msgLabel.frame.origin.y, width: msgLabel.frame.size.width, height: sizeOFStr.height)
             
             
             
@@ -5128,8 +5128,8 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
     }
     
     func checkConversationWindowOpen(phone: String)->Bool {
-        print("checking conversation window compare \(phone) .. \(selectedContact)")
-        if(phone==selectedContact)
+        print("checking conversation window compare \(phone) .. \(groupid1)")
+        if(phone==groupid1)
         {
             return true
         }
