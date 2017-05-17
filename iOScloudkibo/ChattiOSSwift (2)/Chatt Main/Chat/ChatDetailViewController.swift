@@ -8676,7 +8676,7 @@ var isKiboContact="false"
     
     func checkConversationWindowOpen(phone: String)->Bool {
         print("checking group conversation window compare \(phone) .. \(selectedContact)")
-        if(phone==self.groupid1)
+        if(phone==self.selectedContact)
         {
             return true
         }
