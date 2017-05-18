@@ -1513,11 +1513,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/BroadcastListViewController.swift"
-            timestampString = "504494153.264419"
+            timestampString = "516809585.506884"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "321"
-            endingLineNumber = "321"
+            startingLineNumber = "341"
+            endingLineNumber = "341"
             landmarkName = "prepare(for:sender:)"
             landmarkType = "7">
          </BreakpointContent>

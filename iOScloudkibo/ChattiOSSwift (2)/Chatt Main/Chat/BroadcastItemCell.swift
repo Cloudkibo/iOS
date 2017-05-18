@@ -8,7 +8,7 @@
 
 import Foundation
 
-class BroadcastItemCell:UITableViewCell
+class BroadcastItemCell:SWTableViewCell//UITableViewCell
 {
     
     @IBOutlet weak var lbl_recipents_count: UILabel!

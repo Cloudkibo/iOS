@@ -3700,6 +3700,30 @@ print("--------")
         return IAMblockedByList
     }
     
+    //updateArchiveStatusBroadcast
+    
+    func updateArchiveStatusBroadcast(bid:String,status:Bool)
+    {
+        let isArchived = Expression<Bool>("isArchived")
+        let broadcastlistID = Expression<String>("broadcastlistID")
+        
+        
+        let tbl_userchats=sqliteDB.userschats
+        
+        let query = tbl_userchats?.select(broadcastlistID)           // SELECT "email" FROM "users"
+            .filter(broadcastlistID == bid)     // WHERE "name" IS NOT NULL
+        
+        do{for tblContacts in try sqliteDB.db.prepare((tbl_userchats?.filter(broadcastlistID == bid))!)
+        {
+            var res=try sqliteDB.db.run((query?.update(isArchived <- status))!)
+            }
+        }
+        catch{
+            print("eror: in updating archive status of broadcast")
+        }
+        
+    }
+    
     func updateArchiveStatus(contactPhone1:String,status:Bool)
     {
         let isArchived = Expression<Bool>("isArchived")

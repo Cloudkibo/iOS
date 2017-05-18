@@ -16,6 +16,8 @@ import Photos
 class BroadcastListViewController: UIViewController,UINavigationControllerDelegate,CNContactPickerDelegate,EPPickerDelegate,SWTableViewCellDelegate,UIImagePickerControllerDelegate {
     
     
+    var swipeindexRow:Int!
+
     var indexForInfo = -1
     
     @IBOutlet weak var editButtonOutlet: UIBarButtonItem!
@@ -75,7 +77,18 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
     }
     */
     
-    
+    func getRightUtilityButtonsToCell()-> NSMutableArray{
+        let utilityButtons: NSMutableArray = NSMutableArray()
+        
+        
+        //!!!utilityButtons.sw_addUtilityButton(with: UtilityFunctions.init().hexStringToUIColor("#DCDEE0"), icon: UIImage(named:"more.png".localized))
+        
+        //utilityButtons.sw_addUtilityButtonWithColor(UIColor.redColor(), title: NSLocalizedString("ABC", comment: ""))
+        //DCDEE0
+        utilityButtons.sw_addUtilityButton(with: UtilityFunctions.init().hexStringToUIColor("#24669A"), icon: UIImage(named:"archive.png".localized))
+        return utilityButtons
+        //24669A
+    }
     
     
     
@@ -99,6 +112,12 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
             
     //delete
             
+        }
+        else{
+            if(editingStyle == UITableViewCellEditingStyle.insert)
+            {
+          print("another swipe button")
+            }
         }
     }
     func tableView(_ tableView: UITableView, canEditRowAtIndexPath indexPath: IndexPath) -> Bool {
@@ -268,6 +287,63 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
         
         return 90
     }
+    
+    
+    func swipeableTableViewCell(_ cell: SWTableViewCell!, didTriggerRightUtilityButtonWith index: Int) {
+        print("tapped swipe \(index)")
+        swipeindexRow=tblBroadcastList.indexPath(for: cell)!.row
+        // if(index==0)
+        // {
+        var messageDic = broadcastlistmessages.object(at: swipeindexRow) as! [String : AnyObject];
+       /*
+        let ContactsLastMsgDate = messageDic["ContactsLastMsgDate"] as! String
+        let ContactLastMessage = messageDic["ContactLastMessage"] as! String
+        let ContactLastNAme=messageDic["ContactLastNAme"] as! String
+        var ContactNames=messageDic["ContactNames"] as! String
+        let ContactStatus=messageDic["ContactStatus"] as! String
+        let ContactUsernames=messageDic["ContactUsernames"] as! String
+        let ContactOnlineStatus=messageDic["ContactOnlineStatus"] as! Int
+        let ContactFirstname=messageDic["ContactFirstname"] as! String
+        let ContactsPhone=messageDic["ContactsPhone"] as! String
+        let ContactCountMsgRead=messageDic["ContactCountMsgRead"] as! Int
+        let ContactsProfilePic=messageDic["ContactsProfilePic"] as! Data
+        let ChatType=messageDic["ChatType"] as! NSString
+        */
+        print("RightUtilityButton index of more is \(index)")
+        //if(editButtonOutlet.title==NSLocalizedString("Edit", tableName: nil, bundle: Bundle.main, value: "", comment: "Edit"))
+        //"Edit")
+        // {//UITableViewCellEditingStyle
+        if(index==0)
+        {
+           
+                sqliteDB.updateArchiveStatusBroadcast(bid: messageDic["uniqueid"] as! NSString, status: true)
+               // var params=["id":ContactUsernames,"isArchived":"No"]
+                //id
+                //isArchived
+                //UtilityFunctions.init().sendDataToDesktopApp(data1: params as AnyObject, type1: "chat_unarchive")
+                
+                DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async
+                    {
+                        retrieveBroadCastLists()
+                            //    DispatchQueue.main.async
+                            //  {
+                            // self.tblForChats.reloadData()
+                            
+                            //commenting newwwwwwww -===-===-=
+                            DispatchQueue.main.async
+                                {
+                                    tblBroadcastList.reloadData()
+                                    
+                            }
+                            }
+            
+                
+                
+            
+        }
+        //}
+    }
+    
 
     
     func tableView(_ tableView: UITableView!, cellForRowAtIndexPath indexPath: IndexPath!) -> UITableViewCell! {
@@ -280,6 +356,9 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
         let membersnames=messageDic["membersnames"] as! NSString
         
         let cell = tblBroadcastList.dequeueReusableCell(withIdentifier: "BroadcastListCell")! as! BroadcastItemCell
+        cell.rightUtilityButtons=self.getRightUtilityButtonsToCell() as [AnyObject]
+        cell.delegate=self
+        
         if(listname == "")
         {let memberscount=membersnames.components(separatedBy: ",").count
         cell.lbl_recipents_count.text="Recipents:".localized+"\(memberscount)"
