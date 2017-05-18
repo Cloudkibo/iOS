@@ -2046,6 +2046,8 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
     func readChatsFile(filename:String)
     {
         var ubiquityURL=FileManager.init().url(forUbiquityContainerIdentifier: "iCloud.iCloud.MyAppTemplates.cloudkibo")
+        if(ubiquityURL != nil)
+        {
         ubiquityURL=ubiquityURL!.appendingPathComponent("Backup", isDirectory: true)
         ubiquityURL=ubiquityURL!.appendingPathComponent("\(filename)")
         
@@ -2055,6 +2057,10 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         }
         catch{
             print("error reading \(filename.removeCharsFromEnd(5)) table from icloud")
+        }
+        }
+        else{
+        //sign in icloud
         }
     }
     

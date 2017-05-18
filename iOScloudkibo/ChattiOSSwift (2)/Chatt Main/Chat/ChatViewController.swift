@@ -732,7 +732,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
             
             self.mycontainer = FileManager.default.url(forUbiquityContainerIdentifier:"iCloud.iCloud.MyAppTemplates.cloudkibo")
             
-           /* if(self.mycontainer != nil)
+            if(self.mycontainer != nil)
             {
                 //write
                 DispatchQueue.main.async {
@@ -750,7 +750,7 @@ EPPickerDelegate,SWTableViewCellDelegate,UpdateChatViewsDelegate,RefreshContacts
                 self.showError("Failed to access iCloud".localized, message: "Please sign in to correct iCloud account to resume backup service".localized, button1: "Ok".localized)
                                 print("no permission to write to icloud")
                 }
-            }*/
+            }
         }
         
        //// NotificationCenter.default.addObserver(self, selector: "iCloudAccountAvailabilityChanged:",name: nil, object: nil)

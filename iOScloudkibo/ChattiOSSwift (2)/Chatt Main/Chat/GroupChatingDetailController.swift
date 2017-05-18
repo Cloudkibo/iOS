@@ -1765,7 +1765,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             
             
             
-           //!! let distanceFactor = (197.0 - sizeOFStr.width) < 107 ? (197.0 - sizeOFStr.width) : 107
+            let distanceFactor = (197.0 - sizeOFStr.width) < 107 ? (197.0 - sizeOFStr.width) : 107
             //// //print("distanceFactor for \(msg) is \(distanceFactor)")
             
            //!! chatImage.frame = CGRect(x: 20 + distanceFactor, y: chatImage.frame.origin.y, width: ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), height: sizeOFStr.height + 40)
@@ -1777,7 +1777,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             chatImage.image = UIImage(named: "chat_send")?.stretchableImage(withLeftCapWidth: 40,topCapHeight: 20);
             //*********
             
-           //!! msgLabel.frame = CGRect(x: 36 + distanceFactor, y: msgLabel.frame.origin.y, width: msgLabel.frame.size.width, height: sizeOFStr.height)
+           msgLabel.frame = CGRect(x: 36 + distanceFactor, y: msgLabel.frame.origin.y, width: msgLabel.frame.size.width, height: sizeOFStr.height)
             
             // //print("date received in chat is \(date2.debugDescription)")
             let formatter = DateFormatter();
@@ -3015,16 +3015,16 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                                                         sizeOFStr=getSizeOfString(textLable.text! as! NSString)
                                                         print("sizeOFStr of \(textLable.text!) is \(sizeOFStr)")
                                                         //// //print("here 905 msgtype is \(msgType)")
-                                                       //!! let distanceFactor = (197.0 - sizeOFStr.width) < 90 ? (197.0 - sizeOFStr.width) : 90
+                                                       let distanceFactor = (197.0 - sizeOFStr.width) < 90 ? (197.0 - sizeOFStr.width) : 90
                                                         textLable.isHidden=false
                                                         //textLable.text = msg! as! String
                                                         
                                                         
-                                                        //!!let correctheight=getSizeOfStringHeight(msg!).height
+                                                        let correctheight=getSizeOfStringHeight(msg!).height
                                                         //chatImage.frame = CGRect(x: 20 + distanceFactor, y: chatImage.frame.origin.y, width: ((sizeOFStr.width + 107)  > 207 ? (sizeOFStr.width + 107) : 200), height: ((correctheight + 20)  > 100 ? (correctheight+20) : 100))
                                                         
                                                         
-                                                        //!!chatImage.frame = CGRect(x: /*chatImage.frame.origin.x*/ 20 + distanceFactor, y: chatImage.frame.origin.y,width: ((sizeOFStr.width + 107)  > 210 ? (sizeOFStr.width + 107) : 210), height: ((correctheight + 20)  > 75 ? (correctheight+20) : 75))
+                                                        chatImage.frame = CGRect(x: /*chatImage.frame.origin.x*/ 20 + distanceFactor, y: chatImage.frame.origin.y,width: ((sizeOFStr.width + 107)  > 210 ? (sizeOFStr.width + 107) : 210), height: ((correctheight + 20)  > 75 ? (correctheight+20) : 75))
                                                         
                                                         
                                                         buttonsView.frame=CGRect(x:chatImage.frame.origin.x,y: buttonsView.frame.origin.y,width:chatImage.frame.width,height:buttonsView.frame.height)
@@ -3047,7 +3047,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                                                         profileImage.center = CGPoint(x: chatImage.frame.origin.x+30, y: chatImage.frame.height/2)
                                                         
                                                         //Setting Contact Name
-                                                     //!!   textLable.frame = CGRect(x: profileImage.center.x+35, y: profileImage.center.y-15, width: chatImage.frame.width-36, height: correctheight)
+                                                        textLable.frame = CGRect(x: profileImage.center.x+35, y: profileImage.center.y-15, width: chatImage.frame.width-36, height: correctheight)
                                                         
                                                         
                                                         
