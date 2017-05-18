@@ -1815,6 +1815,8 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             chatImage.addGestureRecognizer(swipeRecognizer)
             msgLabel.text=msg as! String
             
+            
+            
           //  textLable.text = msg! as! String
             msgLabel.numberOfLines = 0
             msgLabel.enabledTypes = [.mention, .hashtag, .url]
@@ -1997,6 +1999,10 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                         
                         let progressView = cell.viewWithTag(14) as! KDCircularProgress!
                         
+                        let lbl_name = cell.viewWithTag(15) as! UILabel
+                        
+                        lbl_name.text=fullname as! String
+                        lbl_name.textColor=UIColor.blue
                         //////chatImage.contentMode = .Center
                         
                         //chatImage.frame = CGRectMake(80, chatImage.frame.origin.y, 220, 220)
@@ -2005,6 +2011,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                          let imgPath         = photoURL.URLByAppendingPathComponent(msg as! String)
                          
                          */
+                        
                         let status=messageDic["status"] as NSString!
                         
                         let filename=messageDic["filename"] as NSString!
@@ -2091,7 +2098,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                             
                             chatImage.frame = CGRect(x: chatImage.frame.origin.x, y: chatImage.frame.origin.y, width: 200, height: 200)
                             
-                            chatImage.image = UIImage(data: imgNSData!)!
+                            //chatImage.image = UIImage(data: imgNSData!)!
                             ///.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
                             chatImage.contentMode = .scaleAspectFill
                             //===== uncomment later chatImage.setNeedsDisplay()
