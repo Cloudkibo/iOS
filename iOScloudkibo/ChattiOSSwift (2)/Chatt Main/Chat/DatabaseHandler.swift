@@ -741,12 +741,14 @@ print("alter table needed")
         //let kiboContact = Expression<Bool>("kiboContact")
         let uniqueid = Expression<String>("uniqueid")
         let listname = Expression<String>("listname")
+        let listIsArchived = Expression<Bool>("listIsArchived")
         //
         self.broadcastlisttable = Table("broadcastlisttable")
         do{
             try db.run(broadcastlisttable.create(ifNotExists: retainOldDatabase) { t in     // CREATE TABLE "accounts" (
                 t.column(uniqueid, unique:true)
                 t.column(listname)
+                t.column(listIsArchived, default:false)
                 //////////////t.column(profileimage, defaultValue:NSData.init())
                 })
             
@@ -3294,6 +3296,7 @@ print("--------")
         let uniqueid = Expression<String>("uniqueid")
         let listname = Expression<String>("listname")
         //
+        //listIsArchived
         self.broadcastlisttable = Table("broadcastlisttable")
         do {
             let rowid = try db.run(broadcastlisttable.insert(
@@ -3414,13 +3417,15 @@ print("--------")
         
         let uniqueid = Expression<String>("uniqueid")
         let listname = Expression<String>("listname")
-        //
+        let listIsArchived = Expression<Bool>("listIsArchived")
+        //listIsArchived
         self.broadcastlisttable = Table("broadcastlisttable")
         let query = self.broadcastlisttable.select(uniqueid,listname).filter(uniqueid == uniqueid1)
         do
         {for list in try self.db.prepare(query)
         {   newEntry["uniqueid"]=list.get(uniqueid)
             newEntry["listname"]=list.get(listname)
+            newEntry["listIsArchived"]=list.get(listIsArchived)
             
         
             }
@@ -3438,6 +3443,7 @@ print("--------")
         
         let uniqueid = Expression<String>("uniqueid")
         let listname = Expression<String>("listname")
+        let listIsArchived = Expression<Bool>("listIsArchived")
         //
         self.broadcastlisttable = Table("broadcastlisttable")
        
@@ -3448,6 +3454,7 @@ print("--------")
             var aaa=list.get(listname)
             newEntry["uniqueid"]=list.get(uniqueid) as AnyObject
             newEntry["listname"]=list.get(listname) as AnyObject
+            ewEntry["listIsArchived"]=list.get(listIsArchived) as AnyObject
             broadcastlist.append(newEntry)
             
             }
@@ -3701,14 +3708,20 @@ print("--------")
     }
     
     //updateArchiveStatusBroadcast
+    func checkIfArchived()
+    {
+        
+    }
     
     func updateArchiveStatusBroadcast(bid:String,status:Bool)
     {
         let isArchived = Expression<Bool>("isArchived")
         let broadcastlistID = Expression<String>("broadcastlistID")
-        
-        
+        let listIsArchived = Expression<Bool>("listIsArchived")
+        //listIsArchived
         let tbl_userchats=sqliteDB.userschats
+        let tbl_broadcastlisttable=sqliteDB.broadcastlisttable
+
         
         let query = tbl_userchats?.select(broadcastlistID)           // SELECT "email" FROM "users"
             .filter(broadcastlistID == bid)     // WHERE "name" IS NOT NULL
@@ -3717,6 +3730,13 @@ print("--------")
         {
             var res=try sqliteDB.db.run((query?.update(isArchived <- status))!)
             }
+            for tblContacts in try sqliteDB.db.prepare((tbl_broadcastlisttable?.filter(broadcastlistID == bid))!)
+            {
+                var res=try sqliteDB.db.run((query?.update(listIsArchived <- status))!)
+            }
+
+            
+            
         }
         catch{
             print("eror: in updating archive status of broadcast")

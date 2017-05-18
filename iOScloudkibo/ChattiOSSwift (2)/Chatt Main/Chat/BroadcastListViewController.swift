@@ -135,7 +135,10 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
         print("aaa is \(aaa.description)")
         for i in 0 ..< aaa.count
         {
+            if(aaa[i]["listIsArchived"] == false)
+            {
         broadcastlistmessages2.add(["listname":aaa[i]["listname"] as! String,"membersnames":aaa[i]["membersnames"] as! String,"uniqueid":aaa[i]["uniqueid"] as! String])
+            }
         }
         
         broadcastlistmessages.setArray(broadcastlistmessages2 as [AnyObject])
