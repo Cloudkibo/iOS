@@ -422,7 +422,7 @@
                   moduleName = "Chat"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/cloudkibo/Documents/kiboChatTry/iOS/iOS/iOScloudkibo/ChattiOSSwift%20(2)/Chatt%20Main/Chat/ChatDetailViewController.swift"
-                  timestampString = "516632948.455303"
+                  timestampString = "516895001.763231"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "1088"
@@ -437,7 +437,7 @@
                   moduleName = "Chat"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/cloudkibo/Documents/kiboChatTry/iOS/iOS/iOScloudkibo/ChattiOSSwift%20(2)/Chatt%20Main/Chat/ChatDetailViewController.swift"
-                  timestampString = "516632948.458129"
+                  timestampString = "516895001.764976"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "1088"
@@ -1135,7 +1135,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "45"
             endingLineNumber = "45"
-            landmarkName = "hubname"
+            landmarkName = "connectionstring"
             landmarkType = "24">
             <Locations>
                <Location
@@ -1593,11 +1593,11 @@
                   moduleName = "Chat"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/cloudkibo/Documents/kiboChatTry/iOS/iOS/iOScloudkibo/ChattiOSSwift%20(2)/Chatt%20Main/Chat/AppDelegate.swift"
-                  timestampString = "516632948.512586"
+                  timestampString = "516895001.796386"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "4518"
-                  endingLineNumber = "4518"
+                  startingLineNumber = "4567"
+                  endingLineNumber = "4567"
                   offsetFromSymbolStart = "2584">
                </Location>
                <Location
@@ -1608,11 +1608,11 @@
                   moduleName = "Chat"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/cloudkibo/Documents/kiboChatTry/iOS/iOS/iOScloudkibo/ChattiOSSwift%20(2)/Chatt%20Main/Chat/AppDelegate.swift"
-                  timestampString = "516632948.515475"
+                  timestampString = "516895001.79784"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "4518"
-                  endingLineNumber = "4518"
+                  startingLineNumber = "4567"
+                  endingLineNumber = "4567"
                   offsetFromSymbolStart = "10424">
                </Location>
             </Locations>
@@ -1945,7 +1945,7 @@
                   moduleName = "Chat"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/cloudkibo/Documents/kiboChatTry/iOS/iOS/iOScloudkibo/ChattiOSSwift%20(2)/Chatt%20Main/Chat/ChatMainViewController.swift"
-                  timestampString = "516632948.577044"
+                  timestampString = "516895001.831187"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "858"
@@ -1960,7 +1960,7 @@
                   moduleName = "Chat"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/cloudkibo/Documents/kiboChatTry/iOS/iOS/iOScloudkibo/ChattiOSSwift%20(2)/Chatt%20Main/Chat/ChatMainViewController.swift"
-                  timestampString = "516632948.57986"
+                  timestampString = "516895001.832648"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "858"
@@ -3644,11 +3644,11 @@
                   moduleName = "Chat"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/cloudkibo/Documents/kiboChatTry/iOS/iOS/iOScloudkibo/ChattiOSSwift%20(2)/Chatt%20Main/Chat/AppDelegate.swift"
-                  timestampString = "516632948.643628"
+                  timestampString = "516895001.862429"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "3442"
-                  endingLineNumber = "3442"
+                  startingLineNumber = "3491"
+                  endingLineNumber = "3491"
                   offsetFromSymbolStart = "28">
                </Location>
                <Location
@@ -3659,11 +3659,11 @@
                   moduleName = "Chat"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/cloudkibo/Documents/kiboChatTry/iOS/iOS/iOScloudkibo/ChattiOSSwift%20(2)/Chatt%20Main/Chat/AppDelegate.swift"
-                  timestampString = "516632948.647477"
+                  timestampString = "516895001.863875"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "3442"
-                  endingLineNumber = "3442"
+                  startingLineNumber = "3491"
+                  endingLineNumber = "3491"
                   offsetFromSymbolStart = "32">
                </Location>
                <Location
@@ -3674,11 +3674,11 @@
                   moduleName = "Chat"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/cloudkibo/Documents/kiboChatTry/iOS/iOS/iOScloudkibo/ChattiOSSwift%20(2)/Chatt%20Main/Chat/AppDelegate.swift"
-                  timestampString = "516632948.650423"
+                  timestampString = "516895001.865304"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "3442"
-                  endingLineNumber = "3442"
+                  startingLineNumber = "3491"
+                  endingLineNumber = "3491"
                   offsetFromSymbolStart = "172">
                </Location>
             </Locations>
@@ -3707,11 +3707,11 @@
                   moduleName = "Chat"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/cloudkibo/Documents/kiboChatTry/iOS/iOS/iOScloudkibo/ChattiOSSwift%20(2)/Chatt%20Main/Chat/AppDelegate.swift"
-                  timestampString = "516632948.656161"
+                  timestampString = "516895001.868662"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "3442"
-                  endingLineNumber = "3442"
+                  startingLineNumber = "3491"
+                  endingLineNumber = "3491"
                   offsetFromSymbolStart = "28">
                </Location>
                <Location
@@ -3722,11 +3722,11 @@
                   moduleName = "Chat"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/cloudkibo/Documents/kiboChatTry/iOS/iOS/iOScloudkibo/ChattiOSSwift%20(2)/Chatt%20Main/Chat/AppDelegate.swift"
-                  timestampString = "516632948.659089"
+                  timestampString = "516895001.870142"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "3442"
-                  endingLineNumber = "3442"
+                  startingLineNumber = "3491"
+                  endingLineNumber = "3491"
                   offsetFromSymbolStart = "32">
                </Location>
                <Location
@@ -3737,11 +3737,11 @@
                   moduleName = "Chat"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/cloudkibo/Documents/kiboChatTry/iOS/iOS/iOScloudkibo/ChattiOSSwift%20(2)/Chatt%20Main/Chat/AppDelegate.swift"
-                  timestampString = "516632948.662051"
+                  timestampString = "516895001.871706"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "3442"
-                  endingLineNumber = "3442"
+                  startingLineNumber = "3491"
+                  endingLineNumber = "3491"
                   offsetFromSymbolStart = "172">
                </Location>
             </Locations>
@@ -4282,11 +4282,11 @@
                   moduleName = "Chat"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/cloudkibo/Documents/kiboChatTry/iOS/iOS/iOScloudkibo/ChattiOSSwift%20(2)/Chatt%20Main/Chat/AppDelegate.swift"
-                  timestampString = "516632948.809632"
+                  timestampString = "516895001.908863"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "3442"
-                  endingLineNumber = "3442"
+                  startingLineNumber = "3491"
+                  endingLineNumber = "3491"
                   offsetFromSymbolStart = "28">
                </Location>
                <Location
@@ -4297,11 +4297,11 @@
                   moduleName = "Chat"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/cloudkibo/Documents/kiboChatTry/iOS/iOS/iOScloudkibo/ChattiOSSwift%20(2)/Chatt%20Main/Chat/AppDelegate.swift"
-                  timestampString = "516632948.812429"
+                  timestampString = "516895001.910331"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "3442"
-                  endingLineNumber = "3442"
+                  startingLineNumber = "3491"
+                  endingLineNumber = "3491"
                   offsetFromSymbolStart = "32">
                </Location>
                <Location
@@ -4312,11 +4312,11 @@
                   moduleName = "Chat"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/cloudkibo/Documents/kiboChatTry/iOS/iOS/iOScloudkibo/ChattiOSSwift%20(2)/Chatt%20Main/Chat/AppDelegate.swift"
-                  timestampString = "516632948.81529"
+                  timestampString = "516895001.911754"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "3442"
-                  endingLineNumber = "3442"
+                  startingLineNumber = "3491"
+                  endingLineNumber = "3491"
                   offsetFromSymbolStart = "172">
                </Location>
             </Locations>
@@ -4393,11 +4393,11 @@
                   moduleName = "Chat"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/cloudkibo/Documents/kiboChatTry/iOS/iOS/iOScloudkibo/ChattiOSSwift%20(2)/Chatt%20Main/Chat/AppDelegate.swift"
-                  timestampString = "516632948.821122"
+                  timestampString = "516895001.914921"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "3442"
-                  endingLineNumber = "3442"
+                  startingLineNumber = "3491"
+                  endingLineNumber = "3491"
                   offsetFromSymbolStart = "28">
                </Location>
                <Location
@@ -4408,11 +4408,11 @@
                   moduleName = "Chat"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/cloudkibo/Documents/kiboChatTry/iOS/iOS/iOScloudkibo/ChattiOSSwift%20(2)/Chatt%20Main/Chat/AppDelegate.swift"
-                  timestampString = "516632948.823858"
+                  timestampString = "516895001.916392"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "3442"
-                  endingLineNumber = "3442"
+                  startingLineNumber = "3491"
+                  endingLineNumber = "3491"
                   offsetFromSymbolStart = "32">
                </Location>
                <Location
@@ -4423,11 +4423,11 @@
                   moduleName = "Chat"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/cloudkibo/Documents/kiboChatTry/iOS/iOS/iOScloudkibo/ChattiOSSwift%20(2)/Chatt%20Main/Chat/AppDelegate.swift"
-                  timestampString = "516632948.826451"
+                  timestampString = "516895001.917821"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "3442"
-                  endingLineNumber = "3442"
+                  startingLineNumber = "3491"
+                  endingLineNumber = "3491"
                   offsetFromSymbolStart = "172">
                </Location>
             </Locations>
@@ -4974,6 +4974,22 @@
             startingLineNumber = "704"
             endingLineNumber = "704"
             landmarkName = "userNotificationCenter(_:willPresent:withCompletionHandler:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Chat/ChatDetailViewController.swift"
+            timestampString = "516894839.094583"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "4696"
+            endingLineNumber = "4696"
+            landmarkName = "tableView(_:cellForRowAtIndexPath:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

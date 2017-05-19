@@ -4707,16 +4707,16 @@ var isKiboContact="false"
             let number2=number.components(separatedBy: ":")
                number=number2[0]
             let kibo2=number.components(separatedBy: " ")
-         isKiboContact=number2[0]
+         isKiboContact="\(UtilityFunctions.init().isKiboContact(phone1:number2[0]))"
             
             btnSaveView.addTarget(self, action: #selector(ChatDetailViewController.BtnSaveContactClicked(_:)), for:.touchUpInside)
             
 
-            
+            print("isKiboContact is \(isKiboContact)")
             if(isKiboContact=="false")
             {print("isKiboContact is \(isKiboContact)")
                 btnInviteView.isHidden=false
-                btnSaveView.isHidden=true
+                btnSaveView.isHidden=false
                 btnMessageView.isHidden=true
                 
                 
