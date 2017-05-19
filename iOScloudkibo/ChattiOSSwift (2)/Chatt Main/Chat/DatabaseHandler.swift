@@ -748,7 +748,7 @@ print("alter table needed")
             try db.run(broadcastlisttable.create(ifNotExists: retainOldDatabase) { t in     // CREATE TABLE "accounts" (
                 t.column(uniqueid, unique:true)
                 t.column(listname)
-                t.column(listIsArchived, default:false)
+                t.column(listIsArchived, defaultValue:false)
                 //////////////t.column(profileimage, defaultValue:NSData.init())
                 })
             
@@ -3454,7 +3454,7 @@ print("--------")
             var aaa=list.get(listname)
             newEntry["uniqueid"]=list.get(uniqueid) as AnyObject
             newEntry["listname"]=list.get(listname) as AnyObject
-            ewEntry["listIsArchived"]=list.get(listIsArchived) as AnyObject
+            newEntry["listIsArchived"]=list.get(listIsArchived) as AnyObject
             broadcastlist.append(newEntry)
             
             }
@@ -3472,7 +3472,7 @@ print("--------")
         
         let uniqueid = Expression<String>("uniqueid")
         let listname = Expression<String>("listname")
-        
+        //let listIsArchived = Expression<Bool>("listIsArchived")
         var listdata = getSinglebroadcastlist()
         for i in 0 ..< listdata.count
         {
@@ -3487,7 +3487,7 @@ print("--------")
             }
             listDetailSingle["listname"]=listdata[i]["listname"] as! String
             listDetailSingle["uniqueid"]=listdata[i]["uniqueid"] as! String
-            
+            listDetailSingle["listIsArchived"]="\(listdata[i]["listIsArchived"]!)" as! String
             listDetailSingle["membersnames"]=memberslistnames.joined(separator: ",")
             listDataController.append(listDetailSingle as [String : AnyObject])
         }

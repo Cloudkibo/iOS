@@ -4186,7 +4186,9 @@ var isKiboContact="false"
            // var status=messageDic["status"] as! NSString
             
             let filename=messageDic["filename"] as! NSString
-            let status=(msg as! String).replacingOccurrences(of: filename as String, with: "", options: NSString.CompareOptions.literal, range: nil)
+            let status=messageDic["status"] as! NSString
+            
+            //!!let status=(msg as! String).replacingOccurrences(of: filename as String, with: "", options: NSString.CompareOptions.literal, range: nil)
             
             let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
             let docsDir1 = dirPaths[0]
@@ -4278,11 +4280,11 @@ var isKiboContact="false"
                 
                 
                 //print("date received in chat is \(date2.debugDescription)")
-              
-                  timeLabel.text="\(displaydate) \(status)"
+              print("image status is \(status)")
+                  timeLabel.text="\(displaydate) (\(status))"
                // timeLabel.text=date2.debugDescription
             }
-             timeLabel.text="\(displaydate) \(status)"
+             timeLabel.text="\(displaydate) (\(status))"
             
             /* var imgNSURL = NSURL(fileURLWithPath: msg as String)
              var imgNSData=NSFileManager.default.contents(atPath:imgNSURL.path!)

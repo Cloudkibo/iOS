@@ -136,9 +136,6 @@
 		719EFCFD1C9260FF000FD52F /* fileTestingDoc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 719EFCFC1C9260FF000FD52F /* fileTestingDoc.swift */; };
 		71A98F961C4D6434009D04D7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71A98F951C4D6434009D04D7 /* Foundation.framework */; };
 		71AEC9891D01D67300DF58BD /* AllContactsViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71AEC9881D01D67300DF58BD /* AllContactsViewCell.swift */; };
-		71B58FE71ECCAD44006A51B8 /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7141A53D1EB9A42E00BA244A /* GoogleMaps.bundle */; };
-		71B58FE81ECCAD44006A51B8 /* GooglePlacePicker.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 71636DC91E8D3042007D7A02 /* GooglePlacePicker.bundle */; };
-		71B58FE91ECCAD44006A51B8 /* GooglePlaces.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 71636DC51E8D2FA2007D7A02 /* GooglePlaces.bundle */; };
 		71B6DD731E4D860D0078DE01 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7181049D1E4344F800AC688C /* SQLite.framework */; };
 		71B6DD741E4D860D0078DE01 /* SQLite.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7181049D1E4344F800AC688C /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		71BFD46F1CFD13CC004ACCBF /* AccountKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71BFD46E1CFD13CC004ACCBF /* AccountKit.framework */; };
@@ -1545,9 +1542,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				71B58FE71ECCAD44006A51B8 /* GoogleMaps.bundle in Resources */,
-				71B58FE81ECCAD44006A51B8 /* GooglePlacePicker.bundle in Resources */,
-				71B58FE91ECCAD44006A51B8 /* GooglePlaces.bundle in Resources */,
 				71C4018A1CF715C500D38126 /* audioOn.png in Resources */,
 				7134C6991EA79E7C00FF588E /* InfoPlist.strings in Resources */,
 				71C401761CF7159F00D38126 /* videoOff.png in Resources */,

@@ -134,8 +134,8 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
         var aaa = sqliteDB.getBroadcastListDataForController()
         print("aaa is \(aaa.description)")
         for i in 0 ..< aaa.count
-        {
-            if(aaa[i]["listIsArchived"] == false)
+        {print("isarchivedbroadcast \(aaa[i]["listIsArchived"]! as! String)")
+            if(aaa[i]["listIsArchived"]! as! String == "0")
             {
         broadcastlistmessages2.add(["listname":aaa[i]["listname"] as! String,"membersnames":aaa[i]["membersnames"] as! String,"uniqueid":aaa[i]["uniqueid"] as! String])
             }
@@ -319,7 +319,7 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
         if(index==0)
         {
            
-                sqliteDB.updateArchiveStatusBroadcast(bid: messageDic["uniqueid"] as! NSString, status: true)
+                sqliteDB.updateArchiveStatusBroadcast(bid: (messageDic["uniqueid"] as! NSString) as String, status: true)
                // var params=["id":ContactUsernames,"isArchived":"No"]
                 //id
                 //isArchived
@@ -327,7 +327,7 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
                 
                 DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async
                     {
-                        retrieveBroadCastLists()
+                        self.retrieveBroadCastLists()
                             //    DispatchQueue.main.async
                             //  {
                             // self.tblForChats.reloadData()
@@ -335,7 +335,7 @@ class BroadcastListViewController: UIViewController,UINavigationControllerDelega
                             //commenting newwwwwwww -===-===-=
                             DispatchQueue.main.async
                                 {
-                                    tblBroadcastList.reloadData()
+                                    self.tblBroadcastList.reloadData()
                                     
                             }
                             }

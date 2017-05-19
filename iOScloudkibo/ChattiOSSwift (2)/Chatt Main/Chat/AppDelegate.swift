@@ -166,20 +166,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate,
 
     func pushRegistry(_ registry: PKPushRegistry, didReceiveIncomingPushWith payload: PKPushPayload, forType type: PKPushType) {
         
-        UtilityFunctions.init().log_papertrail("IPHONE- VOIP push received by \(username!)")
+        UtilityFunctions.init().log_papertrail("IPHONE- VOIP push received by \(username!) is \(payload.dictionaryPayload)")
         print("Process the received push")
         
-        /*socketObj=LoginAPI(url:"\(Constants.MainUrl)")
+        socketObj=LoginAPI(url:"\(Constants.MainUrl)")
         ///socketObj.connect()
         socketObj.addHandlers()
         socketObj.addWebRTCHandlers()
- */
+ 
         
        // UtilityFunctions.init().backupFiles()
-       /* for var i in 0..<99999
+        for var i in 0..<99999
         {
             print("helloo \(i)")
-        }*/
+        }
     }
 
     

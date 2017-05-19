@@ -2311,11 +2311,11 @@
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" selectionStyle="default" indentationWidth="10" reuseIdentifier="FileImageReceivedCell" rowHeight="208" id="Hjl-HG-BeW" userLabel="FileImageReceivedCell">
                                                 <rect key="frame" x="0.0" y="301" width="320" height="208"/>
                                                 <autoresizingMask key="autoresizingMask"/>
-                                                <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" ambiguous="YES" preservesSuperviewLayoutMargins="YES" tableViewCell="Hjl-HG-BeW" id="jdN-oe-4uB">
+                                                <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" tableViewCell="Hjl-HG-BeW" id="jdN-oe-4uB">
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="208"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="1" contentMode="redraw" verticalHuggingPriority="1000" ambiguous="YES" preservesSuperviewLayoutMargins="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qoq-aN-fue">
+                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="1" contentMode="redraw" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qoq-aN-fue">
                                                             <rect key="frame" x="80" y="0.0" width="228" height="200"/>
                                                             <color key="backgroundColor" red="0.089366517961025238" green="0.68537509441375732" blue="0.33751887083053589" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <constraints>
@@ -2323,14 +2323,6 @@
                                                                 <constraint firstAttribute="width" constant="228" id="a5o-a3-Yuf"/>
                                                             </constraints>
                                                         </imageView>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="12:45 PM" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gTZ-pQ-l6j">
-                                                            <rect key="frame" x="96" y="4" width="212" height="17"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
                                                         <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="13" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Delivered" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="daX-KL-LVH">
                                                             <rect key="frame" x="245" y="59" width="67" height="21"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -2382,11 +2374,22 @@
                                                                 </userDefinedRuntimeAttribute>
                                                             </userDefinedRuntimeAttributes>
                                                         </view>
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="12:45 PM" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gTZ-pQ-l6j">
+                                                            <rect key="frame" x="88" y="180" width="212" height="17"/>
+                                                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
                                                     </subviews>
                                                     <constraints>
+                                                        <constraint firstItem="gTZ-pQ-l6j" firstAttribute="leading" secondItem="qoq-aN-fue" secondAttribute="trailing" constant="-220" id="1eF-xq-ft2"/>
                                                         <constraint firstAttribute="bottomMargin" secondItem="qoq-aN-fue" secondAttribute="bottom" constant="-11" id="38t-6n-V2C"/>
                                                         <constraint firstItem="qoq-aN-fue" firstAttribute="top" secondItem="jdN-oe-4uB" secondAttribute="topMargin" constant="-11" id="fCW-g9-gVc"/>
+                                                        <constraint firstAttribute="trailingMargin" secondItem="gTZ-pQ-l6j" secondAttribute="trailing" constant="12" id="gNf-vA-z91"/>
                                                         <constraint firstAttribute="trailingMargin" secondItem="qoq-aN-fue" secondAttribute="trailing" constant="4" id="h0b-X7-WfK"/>
+                                                        <constraint firstAttribute="bottomMargin" secondItem="gTZ-pQ-l6j" secondAttribute="bottom" id="j5H-b1-0GV"/>
+                                                        <constraint firstItem="gTZ-pQ-l6j" firstAttribute="top" secondItem="jdN-oe-4uB" secondAttribute="topMargin" constant="169" id="lRY-xt-Jn5"/>
                                                     </constraints>
                                                 </tableViewCellContentView>
                                             </tableViewCell>
@@ -4111,13 +4114,6 @@
                                                             <rect key="frame" x="0.0" y="0.0" width="320" height="208"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                                             <subviews>
-                                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12:45 PM" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WGz-pr-vqs">
-                                                                    <rect key="frame" x="208" y="151" width="50" height="14"/>
-                                                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
                                                                 <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="13" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Delivered" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KYt-5z-Qfz">
                                                                     <rect key="frame" x="245" y="59" width="67" height="21"/>
                                                                     <constraints>
@@ -4131,7 +4127,7 @@
                                                                 <imageView hidden="YES" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="2" contentMode="top" ambiguous="YES" image="profile-pic4" translatesAutoresizingMaskIntoConstraints="NO" id="SAZ-oZ-lyL">
                                                                     <rect key="frame" x="260" y="0.0" width="52" height="52"/>
                                                                 </imageView>
-                                                                <view hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" alpha="0.5" tag="14" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Ne-pu-iPC" customClass="KDCircularProgress" customModule="Chat" customModuleProvider="target">
+                                                                <view hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" alpha="0.5" tag="14" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2Ne-pu-iPC" customClass="KDCircularProgress" customModule="Chat" customModuleProvider="target">
                                                                     <rect key="frame" x="164" y="84" width="33" height="0.0"/>
                                                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <userDefinedRuntimeAttributes>
@@ -4163,7 +4159,7 @@
                                                                     </userDefinedRuntimeAttributes>
                                                                 </view>
                                                                 <label hidden="YES" opaque="NO" tag="12" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" text="File upload Failed" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="50" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="60V-Nx-Fpd">
-                                                                    <rect key="frame" x="187" y="13" width="92" height="48"/>
+                                                                    <rect key="frame" x="187" y="13" width="92" height="13.5"/>
                                                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -4177,19 +4173,27 @@
                                                                         <constraint firstAttribute="width" constant="208" id="IIj-kl-UST"/>
                                                                     </constraints>
                                                                 </imageView>
+                                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12:45 PM" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WGz-pr-vqs">
+                                                                    <rect key="frame" x="113" y="183" width="190" height="14"/>
+                                                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                    <color key="shadowColor" red="0.48216540404040409" green="0.48216540404040409" blue="0.48216540404040409" alpha="1" colorSpace="calibratedRGB"/>
+                                                                </label>
                                                             </subviews>
                                                             <constraints>
                                                                 <constraint firstAttribute="trailing" secondItem="2Ne-pu-iPC" secondAttribute="trailing" constant="123" id="82R-cE-6e8"/>
+                                                                <constraint firstAttribute="trailingMargin" secondItem="WGz-pr-vqs" secondAttribute="trailing" constant="9" id="EGi-H2-4Cb"/>
                                                                 <constraint firstItem="KYt-5z-Qfz" firstAttribute="top" secondItem="SAZ-oZ-lyL" secondAttribute="bottom" constant="7" id="FjN-Zl-63d"/>
                                                                 <constraint firstAttribute="trailingMargin" secondItem="60V-Nx-Fpd" secondAttribute="trailing" constant="33" id="H3Z-yz-ZQ1"/>
                                                                 <constraint firstItem="SAZ-oZ-lyL" firstAttribute="trailing" secondItem="ecS-lf-buK" secondAttribute="trailingMargin" id="IZh-Im-1N7"/>
                                                                 <constraint firstItem="60V-Nx-Fpd" firstAttribute="top" secondItem="ecS-lf-buK" secondAttribute="topMargin" constant="2" id="POZ-fD-MrO"/>
                                                                 <constraint firstItem="2Ne-pu-iPC" firstAttribute="top" secondItem="ecS-lf-buK" secondAttribute="topMargin" constant="73" id="SQQ-Mu-d8K"/>
-                                                                <constraint firstItem="WGz-pr-vqs" firstAttribute="top" secondItem="2Ne-pu-iPC" secondAttribute="bottom" constant="67" id="THV-zZ-wvJ"/>
                                                                 <constraint firstItem="FkP-kq-pPS" firstAttribute="top" secondItem="ecS-lf-buK" secondAttribute="topMargin" constant="-10" id="YMd-b5-Awc"/>
                                                                 <constraint firstItem="SAZ-oZ-lyL" firstAttribute="trailing" secondItem="KYt-5z-Qfz" secondAttribute="trailing" id="bHk-n1-Wx4"/>
-                                                                <constraint firstItem="60V-Nx-Fpd" firstAttribute="centerX" secondItem="WGz-pr-vqs" secondAttribute="centerX" id="gY7-fG-bsp"/>
-                                                                <constraint firstItem="WGz-pr-vqs" firstAttribute="top" secondItem="60V-Nx-Fpd" secondAttribute="bottom" constant="90" id="iGj-vr-9Zv"/>
+                                                                <constraint firstAttribute="bottomMargin" secondItem="WGz-pr-vqs" secondAttribute="bottom" id="lbi-lQ-RNh"/>
+                                                                <constraint firstItem="WGz-pr-vqs" firstAttribute="leading" secondItem="FkP-kq-pPS" secondAttribute="trailing" constant="-199" id="uls-Ey-qbv"/>
                                                                 <constraint firstAttribute="bottomMargin" secondItem="FkP-kq-pPS" secondAttribute="bottom" constant="-4" id="wZ7-DO-JeJ"/>
                                                                 <constraint firstAttribute="trailingMargin" secondItem="FkP-kq-pPS" secondAttribute="trailing" id="xaY-oo-eId"/>
                                                                 <constraint firstItem="2Ne-pu-iPC" firstAttribute="leading" secondItem="ecS-lf-buK" secondAttribute="leading" constant="164" id="xml-wU-4Ir"/>
@@ -8972,25 +8976,25 @@
         <simulatedScreenMetrics key="destination" type="retina4_0.fullscreen"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="Spe-dd-EXu"/>
+        <segue reference="0Ba-7e-jXB"/>
         <segue reference="Aba-99-G71"/>
         <segue reference="jZZ-fL-lXE"/>
-        <segue reference="0Ba-7e-jXB"/>
-        <segue reference="Spe-dd-EXu"/>
-        <segue reference="cEg-U8-UBa"/>
-        <segue reference="1jA-Zj-XHt"/>
-        <segue reference="Wyu-u6-g5L"/>
-        <segue reference="cPW-RE-2je"/>
-        <segue reference="Mz0-FN-AbK"/>
         <segue reference="Jjq-iC-ovb"/>
         <segue reference="0xH-LE-leu"/>
-        <segue reference="tX8-Fc-8Jp"/>
-        <segue reference="TtG-5C-Jez"/>
-        <segue reference="sRV-B5-zqK"/>
-        <segue reference="JPH-2T-Pun"/>
+        <segue reference="1jA-Zj-XHt"/>
+        <segue reference="cEg-U8-UBa"/>
+        <segue reference="Mz0-FN-AbK"/>
+        <segue reference="LYu-6R-l0u"/>
+        <segue reference="SBG-bF-djg"/>
+        <segue reference="nfZ-gF-nDM"/>
+        <segue reference="Ite-sp-zyZ"/>
         <segue reference="N5B-Ot-bcs"/>
+        <segue reference="Wyu-u6-g5L"/>
+        <segue reference="cPW-RE-2je"/>
         <segue reference="Lsn-aA-q1J"/>
-        <segue reference="Cjg-Ar-cdZ"/>
         <segue reference="3Qa-aS-eRu"/>
+        <segue reference="Cjg-Ar-cdZ"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.054901960784313725" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>
