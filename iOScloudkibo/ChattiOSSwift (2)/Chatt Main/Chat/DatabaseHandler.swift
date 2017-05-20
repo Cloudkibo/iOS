@@ -3715,14 +3715,32 @@ print("--------")
     
     func updateArchiveStatusBroadcast(bid:String,status:Bool)
     {
-        let isArchived = Expression<Bool>("isArchived")
+        print("bid is \(bid) status is \(status)")
+        /*let isArchived = Expression<Bool>("isArchived")
         let broadcastlistID = Expression<String>("broadcastlistID")
-        let listIsArchived = Expression<Bool>("listIsArchived")
-        //listIsArchived
         let tbl_userchats=sqliteDB.userschats
+        */
         let tbl_broadcastlisttable=sqliteDB.broadcastlisttable
 
         
+        let uniqueid = Expression<String>("uniqueid")
+       // let listname = Expression<String>("listname")
+        let listIsArchived = Expression<Bool>("listIsArchived")
+        
+        let query = tbl_broadcastlisttable?.select(uniqueid)           // SELECT "email" FROM "users"
+            .filter(uniqueid == bid)     // WHERE "name" IS NOT NULL
+        
+        do{
+            var res=try sqliteDB.db.run((query?.update(listIsArchived <- status))!)
+           print("archive broadcast list rows updated \(res)")
+            
+            
+            
+        }
+        catch{
+            print("eror: in updating archive status of broadcast")
+        }
+       /*
         let query = tbl_userchats?.select(broadcastlistID)           // SELECT "email" FROM "users"
             .filter(broadcastlistID == bid)     // WHERE "name" IS NOT NULL
         
@@ -3740,7 +3758,7 @@ print("--------")
         }
         catch{
             print("eror: in updating archive status of broadcast")
-        }
+        }*/
         
     }
     

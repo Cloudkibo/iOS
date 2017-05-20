@@ -32,6 +32,7 @@ import MessageUI
 class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,FileManagerDelegate,showUploadProgressDelegate,UpdateChatViewsDelegate,UpdateSingleChatDetailDelegate,CNContactPickerDelegate,CNContactViewControllerDelegate,UIPickerViewDelegate,AVAudioRecorderDelegate,CLLocationManagerDelegate,insertChatAtLastDelegate,updateChatStatusRowDelegate,insertBulkChatsSyncDelegate,insertBulkChatsStatusesSyncDelegate,ActiveLabelDelegate,MFMessageComposeViewControllerDelegate,CheckConversationWindowOpenDelegate
 {
     
+    var imgCaption=""
 var swipe=false
 var isKiboContact="false"
     //var view: UIView!
@@ -6139,6 +6140,8 @@ var isKiboContact="false"
             //}
             picker.sourceType = UIImagePickerControllerSourceType.photoLibrary
             picker.mediaTypes=["public.image"]
+            //var popview=picker.popoverPresentationController
+            
             ////picker.mediaTypes=[kUTTypeMovie as NSString as String,kUTTypeMovie as NSString as String]
             //[self presentViewController:picker animated:YES completion:NULL];
             DispatchQueue.main.async
@@ -6525,6 +6528,8 @@ var isKiboContact="false"
                 if stringType == kUTTypeMovie as! String {
                     let urlOfVideo = info[UIImagePickerControllerMediaURL] as! URL
                     print("url video is \(urlOfVideo)")
+                    
+                    
                     self.dismiss(animated: true, completion: { 
                         
                         self.sendVideo(urlOfVideoGetMetadata: videoURL!, urlOfVideoPath: urlOfVideo)
@@ -6548,7 +6553,33 @@ var isKiboContact="false"
                     if (picker.sourceType == UIImagePickerControllerSourceType.camera) {
                         print ("from camera")
                     }
-                    self.imagePickerController(picker, didFinishPickingImage: (info[UIImagePickerControllerOriginalImage] as? UIImage)!, editingInfo: info as [String : AnyObject]?)
+                    
+                     //!!  self.imagePickerController(picker, didFinishPickingImage: (info[UIImagePickerControllerOriginalImage] as? UIImage)!, editingInfo: info as [String : AnyObject]?)
+                    
+                    
+                    var labelcaption=""
+                    let alert = UIAlertController(title: "Add caption".localized, message: "", preferredStyle: .alert)
+                    
+                    //2. Add the text field. You can configure it however you need.
+                    alert.addTextField(configurationHandler: { (textField) -> Void in
+                         self.imgCaption = ""
+                        textField.text = ""
+                    })
+                    
+                    
+                    //3. Grab the value from the text field, and print it when the user clicks OK.
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
+                        let textField = alert.textFields![0] as UITextField
+                        self.imgCaption = textField.text!
+                        
+                        
+                    }))
+                      self.present(alert, animated: true, completion: { 
+                        self.imagePickerController(picker, didFinishPickingImage: (info[UIImagePickerControllerOriginalImage] as? UIImage)!, editingInfo: info as [String : AnyObject]?)
+                        
+                      })
+                
+                    
                     
                    
                 }
