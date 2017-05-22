@@ -5302,15 +5302,34 @@ break
                     print("more button tapped")
                     let shareMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
                     
-                    /*let Mute = UIAlertAction(title: "Mute", style: UIAlertActionStyle.Default,handler: { (action) -> Void in
+                    let Mute = UIAlertAction(title: "Mute", style: UIAlertActionStyle.default,handler: { (action) -> Void in
                         
-                        var groupid=self.ContactUsernames[self.swipeindexRow]
-                        sqliteDB.UpdateMuteGroupStatus(groupid, isMute1: true)
+                        let mutemenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+                        
+                        let eightHours = UIAlertAction(title: "8 hours", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+                            
+                            UtilityFunctions.init().getEpochSeconds(startDate: Date(), numMinutes: 8*60)
+                        })
+                        let oneWeek = UIAlertAction(title: "1 week", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+                        })
+                        let oneYear = UIAlertAction(title: "1 year", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+                        })
+                        let cancelAction = UIAlertAction(title: "Cancel".localized, style: UIAlertActionStyle.cancel, handler: { (action) -> Void in
+                        })
+                        mutemenu.addAction(eightHours)
+                        mutemenu.addAction(oneWeek)
+                        mutemenu.addAction(oneYear)
+                        self.present(shareMenu, animated: true, completion: {
+                        })
+                       // call API
+                        //save locally
+                        //var groupid=self.ContactUsernames[self.swipeindexRow]
+                       // sqliteDB.UpdateMuteGroupStatus(groupid, isMute1: true)
                         
                         //// self.removeChatHistory(self.ContactUsernames[indexPath.row],indexPath: indexPath)
                         
                         //call Mute delegate or method
-                    })*/
+                    })
                     
                     let GroupInfo = UIAlertAction(title: "Group Info".localized, style: UIAlertActionStyle.default,handler: { (action) -> Void in
                         
@@ -5354,7 +5373,7 @@ break
                          */
                     })
                     
-                    // commented shareMenu.addAction(Mute)
+                    shareMenu.addAction(Mute)
                     shareMenu.addAction(GroupInfo)
                     /*shareMenu.addAction(ExportChat)
                     shareMenu.addAction(ClearChat)

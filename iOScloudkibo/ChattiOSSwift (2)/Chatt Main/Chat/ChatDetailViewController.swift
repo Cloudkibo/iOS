@@ -4284,7 +4284,7 @@ var isKiboContact="false"
                 
                 chatImage.image = UIImage(data: imgNSData!)!
                 ///.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
-                chatImage.contentMode = .scaleAspectFill
+                chatImage.contentMode = .scaleAspectFit
                 //======= uncomment later chatImage.setNeedsDisplay()
                 //print("file shownnnnnnnnn")
                 //!!textLable.isHidden=true

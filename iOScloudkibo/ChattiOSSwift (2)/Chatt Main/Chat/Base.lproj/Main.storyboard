@@ -4114,17 +4114,17 @@
                                                             <rect key="frame" x="0.0" y="0.0" width="320" height="256"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
-                                                                <view tag="1" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N1s-nV-Znn">
+                                                                <view tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N1s-nV-Znn">
                                                                     <rect key="frame" x="84" y="5" width="228" height="243"/>
                                                                     <subviews>
-                                                                        <imageView userInteractionEnabled="NO" tag="2" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="YCM-oU-Fsr">
-                                                                            <rect key="frame" x="12" y="8" width="208" height="200.5"/>
+                                                                        <imageView userInteractionEnabled="NO" tag="2" contentMode="scaleToFill" horizontalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="YCM-oU-Fsr">
+                                                                            <rect key="frame" x="12" y="13" width="208" height="200.5"/>
                                                                             <constraints>
                                                                                 <constraint firstAttribute="height" constant="200.5" id="Db3-oQ-2m3"/>
                                                                                 <constraint firstAttribute="width" constant="208" id="oRZ-85-9CP"/>
                                                                             </constraints>
                                                                         </imageView>
-                                                                        <label opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" misplaced="YES" text="Caption" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Jq-pX-Cn0">
+                                                                        <label opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" misplaced="YES" text="Caption" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Jq-pX-Cn0">
                                                                             <rect key="frame" x="12" y="214" width="208" height="21"/>
                                                                             <constraints>
                                                                                 <constraint firstAttribute="width" constant="208" id="lXy-5U-zAf"/>
@@ -4136,19 +4136,19 @@
                                                                     </subviews>
                                                                     <color key="backgroundColor" red="0.090196078430000007" green="0.68235294120000001" blue="0.31372549020000001" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <constraints>
+                                                                        <constraint firstAttribute="trailing" secondItem="YCM-oU-Fsr" secondAttribute="trailing" constant="8" id="4Go-Xh-Mps"/>
                                                                         <constraint firstItem="5Jq-pX-Cn0" firstAttribute="top" secondItem="YCM-oU-Fsr" secondAttribute="bottom" constant="8" id="CO9-v8-sDc"/>
                                                                         <constraint firstAttribute="width" constant="228" id="HS7-dL-VM5"/>
-                                                                        <constraint firstItem="YCM-oU-Fsr" firstAttribute="top" secondItem="N1s-nV-Znn" secondAttribute="top" constant="8" id="Nhf-e8-DlI"/>
                                                                         <constraint firstAttribute="bottom" secondItem="5Jq-pX-Cn0" secondAttribute="bottom" constant="7" id="TOT-i0-qgg"/>
                                                                         <constraint firstItem="5Jq-pX-Cn0" firstAttribute="leading" secondItem="N1s-nV-Znn" secondAttribute="leading" constant="12" id="qJj-IN-5CA"/>
-                                                                        <constraint firstAttribute="trailing" secondItem="YCM-oU-Fsr" secondAttribute="trailing" constant="8" id="vOc-AY-ImC"/>
+                                                                        <constraint firstItem="YCM-oU-Fsr" firstAttribute="top" secondItem="N1s-nV-Znn" secondAttribute="top" constant="13" id="xrC-wL-v0i"/>
                                                                     </constraints>
                                                                 </view>
                                                             </subviews>
                                                             <constraints>
-                                                                <constraint firstItem="N1s-nV-Znn" firstAttribute="top" secondItem="pa6-tj-Pox" secondAttribute="topMargin" constant="-3" id="1nB-uC-cN2"/>
-                                                                <constraint firstAttribute="trailingMargin" secondItem="N1s-nV-Znn" secondAttribute="trailing" id="Smd-ZC-Vhx"/>
-                                                                <constraint firstAttribute="bottomMargin" secondItem="N1s-nV-Znn" secondAttribute="bottom" constant="5" id="lwy-15-AIp"/>
+                                                                <constraint firstAttribute="trailingMargin" secondItem="N1s-nV-Znn" secondAttribute="trailing" id="AEy-y9-T0p"/>
+                                                                <constraint firstAttribute="bottomMargin" secondItem="N1s-nV-Znn" secondAttribute="bottom" id="cQd-ei-00z"/>
+                                                                <constraint firstItem="N1s-nV-Znn" firstAttribute="top" secondItem="pa6-tj-Pox" secondAttribute="topMargin" constant="-3" id="gxo-gW-bxz"/>
                                                             </constraints>
                                                         </tableViewCellContentView>
                                                     </tableViewCell>
@@ -9022,25 +9022,25 @@
         <simulatedScreenMetrics key="destination" type="retina4_0.fullscreen"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="Spe-dd-EXu"/>
+        <segue reference="N5B-Ot-bcs"/>
+        <segue reference="SBG-bF-djg"/>
+        <segue reference="Mz0-FN-AbK"/>
         <segue reference="0Ba-7e-jXB"/>
         <segue reference="ADA-1C-gHV"/>
         <segue reference="0xH-LE-leu"/>
-        <segue reference="1jA-Zj-XHt"/>
-        <segue reference="jZZ-fL-lXE"/>
         <segue reference="cEg-U8-UBa"/>
-        <segue reference="Jjq-iC-ovb"/>
-        <segue reference="Mz0-FN-AbK"/>
-        <segue reference="LYu-6R-l0u"/>
-        <segue reference="SBG-bF-djg"/>
-        <segue reference="nfZ-gF-nDM"/>
-        <segue reference="Ite-sp-zyZ"/>
-        <segue reference="N5B-Ot-bcs"/>
+        <segue reference="1jA-Zj-XHt"/>
+        <segue reference="Spe-dd-EXu"/>
+        <segue reference="jZZ-fL-lXE"/>
         <segue reference="Wyu-u6-g5L"/>
         <segue reference="cPW-RE-2je"/>
+        <segue reference="Jjq-iC-ovb"/>
+        <segue reference="nfZ-gF-nDM"/>
+        <segue reference="Ite-sp-zyZ"/>
+        <segue reference="LYu-6R-l0u"/>
         <segue reference="Lsn-aA-q1J"/>
-        <segue reference="3Qa-aS-eRu"/>
         <segue reference="Cjg-Ar-cdZ"/>
+        <segue reference="3Qa-aS-eRu"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.054901960784313725" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

@@ -2596,8 +2596,37 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         }
     }*/
     
-    
+    func muteGroup(group_unique_id1:String,start_time1:String,end_time1:String)
+    {
+        var url=Constants.MainUrl+Constants.muteURL
+        //group_unique_id, start_time, end_time (these times are epoch seconds)
+        Alamofire.request("\(url)", method: .post, parameters: ["group_unique_id":group_unique_id1,"start_time":start_time1, "end_time":end_time1],encoding: JSONEncoding.default,headers:header).responseJSON { response in
+            
+            if(response.result.isSuccess)
+            {
+                //success
+            }
+            else{
+                //failure
+            }
 
+        }
+    }
+
+    func unmutegroup()
+    {
+        
+    }
+    
+    func getEpochSeconds(startDate:Date,numMinutes:Int)->String
+    {
+        let calendar = Calendar.current
+        let date = calendar.date(byAdding: .minute, value: numMinutes, to: startDate)
+        print(date?.timeIntervalSince1970)
+        print("epoch seconds")
+        return (date?.timeIntervalSince1970.description)!
+        
+    }
 }
 
 extension PHAsset {
