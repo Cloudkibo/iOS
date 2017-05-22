@@ -88,11 +88,11 @@ protocol UpdateSingleChatDetailDelegate:class
 
 protocol insertChatAtLastDelegate:class
 {
-    func insertChatRowAtLast(_ message:String,uniqueid:String,status:String,filename:String,type:String,date:String,from:String);
+    func insertChatRowAtLast(_ message:String,uniqueid:String,status:String,filename:String,type:String,date:String,from:String,caption:String);
 }
 protocol updateChatStatusRowDelegate:class
 {
-    func updateChatStatusRow(_ message:String,uniqueid:String,status:String,filename:String,type:String,date:String);
+    func updateChatStatusRow(_ message:String,uniqueid:String,status:String,filename:String,type:String,date:String,caption:String);
 }
 protocol insertBulkChatsSyncDelegate:class
 {

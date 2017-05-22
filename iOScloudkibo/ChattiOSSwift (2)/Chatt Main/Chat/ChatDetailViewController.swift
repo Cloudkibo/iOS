@@ -4094,7 +4094,7 @@ var isKiboContact="false"
             {
                 chatImage.isUserInteractionEnabled = true
                 var filesData=sqliteDB.getFilesData(uniqueidDictValue as! String)
-                caption=filesData["file_caption"] as! String
+                caption=filesData["file_caption"] as! NSString?
                 
                 /*var predicate=NSPredicate(format: "uniqueid = %@", uniqueidDictValue)
                 var resultArray=uploadInfo.filteredArrayUsingPredicate(predicate)
@@ -4232,7 +4232,7 @@ var isKiboContact="false"
             {
                 chatImage.isUserInteractionEnabled = true
                 var filesData=sqliteDB.getFilesData(uniqueidDictValue as! String)
-                caption=filesData["file_caption"] as! String
+                caption=filesData["file_caption"] as! NSString
                 //now you need a tap gesture recognizer
                 //note that target and action point to what happens when the action is recognized.
                 let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(ChatDetailViewController.imageTapped(_:)))
@@ -4280,7 +4280,7 @@ var isKiboContact="false"
                 chatImage.addGestureRecognizer(tapRecognizer)
                 
                 
-                //!!!chatImage.frame = CGRect(x: chatImage.frame.origin.x, y: chatImage.frame.origin.y, width: 218, height: 200)
+              chatImage.frame = CGRect(x: chatImage.frame.origin.x, y: chatImage.frame.origin.y, width: 218, height: 200)
                 
                 chatImage.image = UIImage(data: imgNSData!)!
                 ///.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
@@ -6576,7 +6576,7 @@ var isKiboContact="false"
                             var aa=self.messages.object(at: ind) as! [String:AnyObject]
                             var actualmsg=aa["message"] as! String
                             
-                            self.updateChatStatusRow(aa["message"] as! String, uniqueid: aa["uniqueid"] as! String, status: aa["status"] as! String, filename: "", type: aa["type"] as! String, date: aa["date"] as! String)
+                            self.updateChatStatusRow(aa["message"] as! String, uniqueid: aa["uniqueid"] as! String, status: aa["status"] as! String, filename: "", type: aa["type"] as! String, date: aa["date"] as! String,caption:"")
                             
                             
                             /*actualmsg=actualmsg.removeCharsFromEnd(10)
@@ -7454,7 +7454,7 @@ var isKiboContact="false"
         //  self.insertChatRowAtLast(msggg/*+" (\(statusNow))"*/, uniqueid: uniqueID, status: statusNow, filename: "", type: "22", date: defaultTimeZoneStr, from: username!)
         // }
         // else{
-        self.insertChatRowAtLast(msggg+" (\(statusNow))", uniqueid: uniqueID, status: statusNow, filename: "", type: "2", date: defaultTimeZoneStr, from: username!)
+        self.insertChatRowAtLast(msggg+" (\(statusNow))", uniqueid: uniqueID, status: statusNow, filename: "", type: "2", date: defaultTimeZoneStr, from: username!,caption:"")
         //}
         
         /*self.addMessage(msggg+" (\(statusNow))",status:statusNow,ofType: "2",date:defaultTimeZoneStr, uniqueid: uniqueID)
@@ -7509,7 +7509,7 @@ var isKiboContact="false"
                     /// {
                     //==--- self.tblForChats.reloadData()
                     print("update2 rowss 5628")
-                    self.updateChatStatusRow(aa["message"] as! String, uniqueid: aa["uniqueid"] as! String, status: aa["status"] as! String, filename: "", type: aa["type"] as! String, date: aa["date"] as! String)
+                    self.updateChatStatusRow(aa["message"] as! String, uniqueid: aa["uniqueid"] as! String, status: aa["status"] as! String, filename: "", type: aa["type"] as! String, date: aa["date"] as! String,caption:"")
                     
                     /*
                      self.tblForChats.beginUpdates()
@@ -8721,7 +8721,7 @@ var isKiboContact="false"
     
  
     
-    func insertChatRowAtLast(_ message: String, uniqueid: String, status: String, filename: String, type: String, date: String,from:String) {
+    func insertChatRowAtLast(_ message: String, uniqueid: String, status: String, filename: String, type: String, date: String,from:String,caption:String) {
         
         /*tblForChats.beginUpdates()
         messages.add(["message":message,"filename":filename,"type":type,"date":date,"uniqueid":uniqueid])
@@ -8738,7 +8738,7 @@ var isKiboContact="false"
         tblForChats.endUpdates()
         */
         print("message \(message) .. filename \(filename) .. type is \(type)")
-        messages.add(["message":message,"filename":filename,"type":type,"date":date,"uniqueid":uniqueid, "status":status])
+        messages.add(["message":message,"filename":filename,"type":type,"date":date,"uniqueid":uniqueid, "status":status,"caption":caption])
         //tblForChats.beginUpdates()
         
         tblForChats.insertRows(at: [NSIndexPath.init(row: messages.count-1, section: 0) as IndexPath], with: UITableViewRowAnimation.bottom)
@@ -8790,7 +8790,7 @@ var isKiboContact="false"
         tblForChats.endUpdates()
     }
     
-    func updateChatStatusRow(_ message: String, uniqueid: String, status: String, filename: String, type: String, date: String) {
+    func updateChatStatusRow(_ message: String, uniqueid: String, status: String, filename: String, type: String, date: String,caption:String) {
         
         var predicate=NSPredicate(format: "uniqueid = %@", uniqueid)
         var resultArray=self.messages.filtered(using: predicate)

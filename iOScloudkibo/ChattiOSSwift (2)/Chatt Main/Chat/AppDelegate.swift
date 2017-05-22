@@ -5055,7 +5055,7 @@ var uniqueid=payload["uniqueid"] as! String
                     
                     if(UIDelegates.getInstance().delegateInsertChatAtLast1 != nil)
                     {
-                        UIDelegates.getInstance().delegateInsertChatAtLast1.insertChatRowAtLast(chatJson[0]["msg"].string!, uniqueid: chatJson[0]["uniqueid"].string!, status: status, filename: filename, type: "\(type)", date: defaultTimeeee,from:chatJson[0]["from"].string!)
+                        UIDelegates.getInstance().delegateInsertChatAtLast1.insertChatRowAtLast(chatJson[0]["msg"].string!, uniqueid: chatJson[0]["uniqueid"].string!, status: status, filename: filename, type: "\(type)", date: defaultTimeeee,from:chatJson[0]["from"].string!,caption:"")
                     }
                 UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
                     
@@ -5131,7 +5131,7 @@ var uniqueid=payload["uniqueid"] as! String
             }
         if(UIDelegates.getInstance().delegateUpdateChatStatusRow1 != nil)
         {
-        UIDelegates.getInstance().delegateUpdateChatStatusRow1.updateChatStatusRow(message, uniqueid: uniqueID, status: status, filename: "", type: msgtype as! String, date: "")
+            UIDelegates.getInstance().delegateUpdateChatStatusRow1.updateChatStatusRow(message, uniqueid: uniqueID, status: status, filename: "", type: msgtype as! String, date: "",caption:"")
         }
         //==--UIDelegates.getInstance().UpdateSingleChatDetailDelegateCall()
         UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
