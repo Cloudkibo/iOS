@@ -33,7 +33,7 @@ import ActiveLabel
 class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,FileManagerDelegate,UpdateGroupChatDetailsDelegate,CNContactPickerDelegate,CNContactViewControllerDelegate,UIPickerViewDelegate,AVAudioRecorderDelegate,CLLocationManagerDelegate,CheckConversationWindowOpenDelegate {
     
     
-    
+    var caption=""
      var checkConvWindowUser:CheckConversationWindowOpenDelegate!
     var contactreceivedphone=""
     var contactCardSelected="0"
@@ -425,7 +425,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                          }*/
                         
                         
-                        sqliteDB.saveFile(self.groupid1, from1: username!, owneruser1: username!, file_name1: fname+"."+ftype, date1: nil, uniqueid1: uniqueID, file_size1: "\(self.fileSize1)", file_type1: ftype, file_path1: filePathImage2, type1: "document")
+                        sqliteDB.saveFile(self.groupid1, from1: username!, owneruser1: username!, file_name1: fname+"."+ftype, date1: nil, uniqueid1: uniqueID, file_size1: "\(self.fileSize1)", file_type1: ftype, file_path1: filePathImage2, type1: "document",caption1:"")
                         
                         
                        ///// self.addUploadInfo(self.selectedContact,uniqueid1: uniqueID, rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
@@ -704,7 +704,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
         print(url)
         print("..")
         
-        let request=Alamofire.request("\(url)", method: .post, parameters: ["group_unique_id":group_id,"from":from,"type":type,"msg":msg,"from_fullname":fromFullname,"unique_id":uniqueidChat],headers:header).responseJSON { response in            
+        let request=Alamofire.request("\(url)", method: .post, parameters: ["group_unique_id":group_id,"from":from,"type":type,"msg":msg,"from_fullname":fromFullname,"unique_id":uniqueidChat],headers:header).responseJSON { response in
         
       //  let request = Alamofire.request(.POST, "\(url)", parameters: ["group_unique_id":group_id,"from":from,"type":type,"msg":msg,"from_fullname":fromFullname,"unique_id":uniqueidChat],headers:header).responseJSON { response in
             
@@ -861,7 +861,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                     print("adding group chat status for \(self.membersList[i]["member_phone"])")
                     sqliteDB.storeGRoupsChatStatus(uniqueID, status1: "pending", memberphone1: self.membersList[i]["member_phone"]! as! String, delivereddate1: UtilityFunctions.init().minimumDate(), readDate1: UtilityFunctions.init().minimumDate())
                     
-                    sqliteDB.saveFile(self.membersList[i]["member_phone"]! as! String, from1: username!, owneruser1: username!, file_name1: self.filename, date1: nil, uniqueid1: uniqueID, file_size1: "\(filesize1)", file_type1: ftype, file_path1: filePathImage2, type1: "audio")
+                    sqliteDB.saveFile(self.membersList[i]["member_phone"]! as! String, from1: username!, owneruser1: username!, file_name1: self.filename, date1: nil, uniqueid1: uniqueID, file_size1: "\(filesize1)", file_type1: ftype, file_path1: filePathImage2, type1: "audio",caption1:"")
                     
                 }
             }
@@ -4722,7 +4722,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                     print("adding group chat status for \(self.membersList[i]["member_phone"])")
                     sqliteDB.storeGRoupsChatStatus(uniqueid_chat, status1: "pending", memberphone1: self.membersList[i]["member_phone"]! as! String, delivereddate1: UtilityFunctions.init().minimumDate(), readDate1: UtilityFunctions.init().minimumDate())
                     
-                    sqliteDB.saveFile(self.membersList[i]["member_phone"]! as! String, from1: username!, owneruser1: username!, file_name1: self.filename, date1: nil, uniqueid1: uniqueid_chat, file_size1: "\(filesize1)", file_type1: ftype, file_path1: filePathImage2, type1: "video")
+                    sqliteDB.saveFile(self.membersList[i]["member_phone"]! as! String, from1: username!, owneruser1: username!, file_name1: self.filename, date1: nil, uniqueid1: uniqueid_chat, file_size1: "\(filesize1)", file_type1: ftype, file_path1: filePathImage2, type1: "video",caption1:self.caption)
                     
                 }
             }
@@ -4997,7 +4997,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                     print("adding group chat status for \(self.membersList[i]["member_phone"])")
                     sqliteDB.storeGRoupsChatStatus(uniqueid_chat, status1: "pending", memberphone1: self.membersList[i]["member_phone"]! as! String, delivereddate1: UtilityFunctions.init().minimumDate(), readDate1: UtilityFunctions.init().minimumDate())
                     
-                    sqliteDB.saveFile(self.membersList[i]["member_phone"]! as! String, from1: username!, owneruser1: username!, file_name1: self.filename, date1: nil, uniqueid1: uniqueid_chat, file_size1: "\(filesize1)", file_type1: ftype, file_path1: filePathImage2, type1: "image")
+                    sqliteDB.saveFile(self.membersList[i]["member_phone"]! as! String, from1: username!, owneruser1: username!, file_name1: self.filename, date1: nil, uniqueid1: uniqueid_chat, file_size1: "\(filesize1)", file_type1: ftype, file_path1: filePathImage2, type1: "image",caption1:"")
                     
                 }
             }

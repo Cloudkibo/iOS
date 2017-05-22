@@ -104,11 +104,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DatabaseHandler.swift"
-            timestampString = "513174121.749697"
+            timestampString = "517145213.559019"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1131"
-            endingLineNumber = "1131"
+            startingLineNumber = "1133"
+            endingLineNumber = "1133"
             landmarkName = "UpdateChatStatus(_:newstatus:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1050,11 +1050,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DatabaseHandler.swift"
-            timestampString = "515944534.508267"
+            timestampString = "517145213.559019"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1863"
-            endingLineNumber = "1863"
+            startingLineNumber = "1869"
+            endingLineNumber = "1869"
             landmarkName = "deleteChat(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2263,12 +2263,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/NetworkingManager.swift"
-            timestampString = "517138122.597091"
+            timestampString = "517145213.559019"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1908"
-            endingLineNumber = "1908"
-            landmarkName = "downloadBroadcastFile(_:filePendingName:filefrom:filetype:filePendingSize:filependingDate:filePendingTo:)"
+            startingLineNumber = "1923"
+            endingLineNumber = "1923"
+            landmarkName = "downloadBroadcastFile(_:filePendingName:filefrom:filetype:filePendingSize:filependingDate:filePendingTo:filecaption:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2327,11 +2327,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DatabaseHandler.swift"
-            timestampString = "516117982.84045"
+            timestampString = "517145213.559019"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2159"
-            endingLineNumber = "2159"
+            startingLineNumber = "2165"
+            endingLineNumber = "2165"
             landmarkName = "updateGroupsCreateNewStatus(uniqueid1:status1:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2343,11 +2343,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DatabaseHandler.swift"
-            timestampString = "516117982.84045"
+            timestampString = "517145213.559019"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2161"
-            endingLineNumber = "2161"
+            startingLineNumber = "2167"
+            endingLineNumber = "2167"
             landmarkName = "storeGroups(_:groupicon1:datecreation1:uniqueid1:status1:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2359,11 +2359,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DatabaseHandler.swift"
-            timestampString = "516117982.84045"
+            timestampString = "517145213.559019"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2156"
-            endingLineNumber = "2156"
+            startingLineNumber = "2162"
+            endingLineNumber = "2162"
             landmarkName = "updateGroupsCreateNewStatus(uniqueid1:status1:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2853,11 +2853,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DatabaseHandler.swift"
-            timestampString = "516117982.84045"
+            timestampString = "517145213.559019"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3333"
-            endingLineNumber = "3333"
+            startingLineNumber = "3339"
+            endingLineNumber = "3339"
             landmarkName = "storeBroadcastListMembers(_:memberphones:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -2973,12 +2973,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/NetworkingManager.swift"
-            timestampString = "517138122.597091"
+            timestampString = "517145213.559019"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1720"
-            endingLineNumber = "1720"
-            landmarkName = "downloadBroadcastFile(_:filePendingName:filefrom:filetype:filePendingSize:filependingDate:filePendingTo:)"
+            startingLineNumber = "1735"
+            endingLineNumber = "1735"
+            landmarkName = "downloadBroadcastFile(_:filePendingName:filefrom:filetype:filePendingSize:filependingDate:filePendingTo:filecaption:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2989,12 +2989,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/NetworkingManager.swift"
-            timestampString = "517138122.597091"
+            timestampString = "517145213.559019"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1792"
-            endingLineNumber = "1792"
-            landmarkName = "downloadBroadcastFile(_:filePendingName:filefrom:filetype:filePendingSize:filependingDate:filePendingTo:)"
+            startingLineNumber = "1807"
+            endingLineNumber = "1807"
+            landmarkName = "downloadBroadcastFile(_:filePendingName:filefrom:filetype:filePendingSize:filependingDate:filePendingTo:filecaption:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -3372,11 +3372,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DatabaseHandler.swift"
-            timestampString = "516117982.84045"
+            timestampString = "517145213.559019"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3402"
-            endingLineNumber = "3402"
+            startingLineNumber = "3408"
+            endingLineNumber = "3408"
             landmarkName = "getBroadcastListMembers(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3564,11 +3564,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DatabaseHandler.swift"
-            timestampString = "516117982.84045"
+            timestampString = "517145213.559019"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2600"
-            endingLineNumber = "2600"
+            startingLineNumber = "2606"
+            endingLineNumber = "2606"
             landmarkName = "getMemberShipStatus(_:memberphone:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4106,11 +4106,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DatabaseHandler.swift"
-            timestampString = "513604414.644217"
+            timestampString = "517145213.559019"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1281"
-            endingLineNumber = "1281"
+            startingLineNumber = "1283"
+            endingLineNumber = "1283"
             landmarkName = "DatabaseHandler"
             landmarkType = "3">
          </BreakpointContent>
@@ -4504,11 +4504,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DatabaseHandler.swift"
-            timestampString = "516976268.772026"
+            timestampString = "517145213.559019"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3879"
-            endingLineNumber = "3879"
+            startingLineNumber = "3885"
+            endingLineNumber = "3885"
             landmarkName = "getChatListForDesktopApp(user1:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4520,11 +4520,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DatabaseHandler.swift"
-            timestampString = "516976268.772026"
+            timestampString = "517145213.559019"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3863"
-            endingLineNumber = "3863"
+            startingLineNumber = "3869"
+            endingLineNumber = "3869"
             landmarkName = "getChatListForDesktopApp(user1:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4584,11 +4584,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DatabaseHandler.swift"
-            timestampString = "516976268.772026"
+            timestampString = "517145213.559019"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3853"
-            endingLineNumber = "3853"
+            startingLineNumber = "3859"
+            endingLineNumber = "3859"
             landmarkName = "getChatListForDesktopApp(user1:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4600,11 +4600,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DatabaseHandler.swift"
-            timestampString = "516976268.772026"
+            timestampString = "517145213.559019"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3880"
-            endingLineNumber = "3880"
+            startingLineNumber = "3886"
+            endingLineNumber = "3886"
             landmarkName = "getChatListForDesktopApp(user1:)"
             landmarkType = "7">
          </BreakpointContent>

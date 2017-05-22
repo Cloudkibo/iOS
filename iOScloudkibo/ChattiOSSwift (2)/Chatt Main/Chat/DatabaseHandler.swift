@@ -839,6 +839,7 @@ print("alter table needed")
         let file_size = Expression<String>("file_size")
         let file_type = Expression<String>("file_type")
         let file_path = Expression<String>("file_path")
+        let file_caption = Expression<String>("file_caption")
         
         
         // let dateFormatter = DateFormatter()
@@ -879,6 +880,7 @@ print("alter table needed")
                 t.column(file_size, defaultValue:"")
                 t.column(file_type, defaultValue:"")
                 t.column(file_path, defaultValue:"")
+                t.column(file_caption, defaultValue:"")
                 
                 //     "name" TEXT
                 })
@@ -1623,7 +1625,7 @@ print("alter table needed")
         
         
     
-    func updateFileInfo(_ to1:String,from1:String,owneruser1:String,file_name1:String,date1:String!,uniqueid1:String!,file_size1:String,file_type1:String,file_path1:String, type1:String)
+    func updateFileInfo(_ to1:String,from1:String,owneruser1:String,file_name1:String,date1:String!,uniqueid1:String!,file_size1:String,file_type1:String,file_path1:String, type1:String, caption1:String)
     {
     //var chatType="image"
     
@@ -1638,7 +1640,8 @@ print("alter table needed")
     let file_size = Expression<String>("file_size")
     let file_type = Expression<String>("file_type")
     let file_path = Expression<String>("file_path")
-    
+    let file_caption = Expression<String>("file_caption")
+        
     
     let tbl_userfiles=sqliteDB.files
     
@@ -1704,7 +1707,8 @@ print("alter table needed")
             file_name<-file_name1,
             file_size<-file_size1,
             file_type<-file_type1,
-            file_path<-file_path1))!)}
+            file_path<-file_path1,
+            file_caption<-caption1))!)}
         catch
         {
             print("error: cannot update file info")
@@ -1721,7 +1725,7 @@ print("alter table needed")
     
     }
     
-    func saveFile(_ to1:String,from1:String,owneruser1:String,file_name1:String,date1:String!,uniqueid1:String!,file_size1:String,file_type1:String,file_path1:String, type1:String)
+    func saveFile(_ to1:String,from1:String,owneruser1:String,file_name1:String,date1:String!,uniqueid1:String!,file_size1:String,file_type1:String,file_path1:String, type1:String, caption1:String)
         
     {
         //var chatType="image"
@@ -1737,6 +1741,7 @@ print("alter table needed")
         let file_size = Expression<String>("file_size")
         let file_type = Expression<String>("file_type")
         let file_path = Expression<String>("file_path")
+        let file_caption = Expression<String>("file_caption")
         
         
         let tbl_userfiles=sqliteDB.files
@@ -1807,7 +1812,8 @@ print("alter table needed")
                 file_name<-file_name1,
                 file_size<-file_size1,
                 file_type<-file_type1,
-                file_path<-file_path1
+                file_path<-file_path1,
+                file_caption<-caption1
                 ))!)
             //////print("inserted id: \(rowid)")
         } catch {
@@ -3066,6 +3072,7 @@ print("--------")
         let file_size = Expression<String>("file_size")
         let file_type = Expression<String>("file_type")
         let file_path = Expression<String>("file_path")
+        let file_caption = Expression<String>("file_caption")
         
         var fileObj=[String:AnyObject]()
         
@@ -3084,6 +3091,7 @@ print("--------")
             fileObj["file_size"]=filesData[file_size] as AnyObject?
             fileObj["file_type"]=filesData[file_type] as AnyObject?
             fileObj["file_path"]=filesData[file_path] as AnyObject?
+            fileObj["file_caption"]=filesData[file_caption] as AnyObject?
             
             break
             }

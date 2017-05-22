@@ -231,7 +231,7 @@ var isKiboContact="false"
             
             
             
-            sqliteDB.saveFile(self.selectedContact, from1: username!, owneruser1: username!, file_name1: self.filename, date1: nil, uniqueid1: uniqueID, file_size1: "\(self.fileSize1)", file_type1: ftype, file_path1: filePathImage2, type1: "audio")
+            sqliteDB.saveFile(self.selectedContact, from1: username!, owneruser1: username!, file_name1: self.filename, date1: nil, uniqueid1: uniqueID, file_size1: "\(self.fileSize1)", file_type1: ftype, file_path1: filePathImage2, type1: "audio",caption1:"")
             
             self.addUploadInfo(self.selectedContact,uniqueid1: uniqueID, rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
             
@@ -1172,7 +1172,7 @@ var isKiboContact="false"
 }*/
                       //  self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
                       
-                        messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status]))","filename":tblContacts[msg],"type":"4", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid],"status":tblContacts[status]])
+                        messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status]))","filename":tblContacts[msg],"type":"4", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid],"status":tblContacts[status],"caption":""])
                         
                         
                         //messages2.addObject(["message":tblContacts[msg], "type":"4", "date":tblContacts[date], "uniqueid":tblContacts[uniqueid]])
@@ -1354,7 +1354,7 @@ var isKiboContact="false"
                         }
 
                       //  self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
-                        messages2.add(["message":tblContacts[msg],"filename":tblContacts[msg],"status":tblContacts[status], "type":"3", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                        messages2.add(["message":tblContacts[msg],"filename":tblContacts[msg],"status":tblContacts[status], "type":"3", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid],"caption":""])
                        
                         
                       //^^^^  self.addMessage(tblContacts[msg] , ofType: "3",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
@@ -2012,7 +2012,7 @@ var isKiboContact="false"
                              }*/
                             //  self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
                             
-                            messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status]))","filename":tblContacts[msg],"type":"4", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid],"status":tblContacts[status]])
+                            messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status]))","filename":tblContacts[msg],"type":"4", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid],"status":tblContacts[status],"caption":""])
                             
                             
                             //messages2.addObject(["message":tblContacts[msg], "type":"4", "date":tblContacts[date], "uniqueid":tblContacts[uniqueid]])
@@ -2144,7 +2144,7 @@ var isKiboContact="false"
                                 }                            }
                             
                             //  self.addUploadInfo(selectedContact, uniqueid1: tblContacts[uniqueid], rowindex: messages.count, uploadProgress: 1, isCompleted: true)
-                            messages2.add(["message":tblContacts[msg],"filename":tblContacts[msg],"status":tblContacts[status], "type":"3", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                            messages2.add(["message":tblContacts[msg],"filename":tblContacts[msg],"status":tblContacts[status], "type":"3", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid],"caption":""])
                             
                             
                             //^^^^  self.addMessage(tblContacts[msg] , ofType: "3",date: tblContacts[date],uniqueid: tblContacts[uniqueid])
@@ -3562,10 +3562,12 @@ var isKiboContact="false"
         }
         if (msgType?.isEqual(to: "22"))!{
             cell=tableView.dequeueReusableCell(withIdentifier: "ChatReceivedCell22")
+            
             if(cell==nil)
-{
+            {
             cell = tblForChats.dequeueReusableCell(withIdentifier: "ChatReceivedCell22")! as UITableViewCell
-}
+            }
+            
             let deliveredLabel = cell.viewWithTag(13) as! UILabel
             var textLable = cell.viewWithTag(12) as! ActiveLabel
             let timeLabel = cell.viewWithTag(11) as! UILabel
@@ -4056,6 +4058,8 @@ var isKiboContact="false"
             let status=messageDic["status"] as NSString!
             
             let filename=messageDic["filename"] as NSString!
+            var caption=messageDic["caption"] as NSString!
+            
             let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
             let docsDir1 = dirPaths[0]
             let documentDir=docsDir1 as NSString
@@ -4089,7 +4093,8 @@ var isKiboContact="false"
             if(imgNSData != nil/* && (cell.tag == indexPath.row)*/)
             {
                 chatImage.isUserInteractionEnabled = true
-              
+                var filesData=sqliteDB.getFilesData(uniqueidDictValue as! String)
+                caption=filesData["file_caption"] as! String
                 
                 /*var predicate=NSPredicate(format: "uniqueid = %@", uniqueidDictValue)
                 var resultArray=uploadInfo.filteredArrayUsingPredicate(predicate)
@@ -4153,7 +4158,7 @@ var isKiboContact="false"
             }
             
             
-            timeLabel.text="\(displaydate) (\(status))" /* var imgNSURL = NSURL(fileURLWithPath: msg as String)
+            timeLabel.text="\(caption) \(displaydate) (\(status))" /* var imgNSURL = NSURL(fileURLWithPath: msg as String)
              var imgNSData=NSFileManager.default.contents(atPath:imgNSURL.path!)
              if(imgNSData != nil)
              {
@@ -4190,7 +4195,8 @@ var isKiboContact="false"
             
             let filename=messageDic["filename"] as! NSString
             let status=messageDic["status"] as! NSString
-            
+            var caption=messageDic["caption"] as! NSString
+
             //!!let status=(msg as! String).replacingOccurrences(of: filename as String, with: "", options: NSString.CompareOptions.literal, range: nil)
             
             let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
@@ -4225,6 +4231,8 @@ var isKiboContact="false"
             if(imgNSData != nil /*&& (cell.tag == indexPath.row)*/)
             {
                 chatImage.isUserInteractionEnabled = true
+                var filesData=sqliteDB.getFilesData(uniqueidDictValue as! String)
+                caption=filesData["file_caption"] as! String
                 //now you need a tap gesture recognizer
                 //note that target and action point to what happens when the action is recognized.
                 let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(ChatDetailViewController.imageTapped(_:)))
@@ -4287,7 +4295,7 @@ var isKiboContact="false"
                 textLabel.text="\(displaydate) (\(status))"
                 // timeLabel.text=date2.debugDescription
             }
-            textLabel.text="\(displaydate) (\(status))"
+            textLabel.text="\(caption) \(displaydate) (\(status))"
             
             /* var imgNSURL = NSURL(fileURLWithPath: msg as String)
              var imgNSData=NSFileManager.default.contents(atPath:imgNSURL.path!)
@@ -6828,7 +6836,7 @@ var isKiboContact="false"
             //------
            
         
-            sqliteDB.saveFile(self.selectedContact, from1: username!, owneruser1: username!, file_name1: self.filename, date1: nil, uniqueid1: uniqueID, file_size1: "\(self.fileSize1)", file_type1: ftype, file_path1: filePathImage2, type1: "video")
+            sqliteDB.saveFile(self.selectedContact, from1: username!, owneruser1: username!, file_name1: self.filename, date1: nil, uniqueid1: uniqueID, file_size1: "\(self.fileSize1)", file_type1: ftype, file_path1: filePathImage2, type1: "video",caption1:self.imgCaption)
             
             self.addUploadInfo(self.selectedContact,uniqueid1: uniqueID, rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
             
@@ -7091,7 +7099,7 @@ var isKiboContact="false"
             
             
             
-            sqliteDB.saveFile(self.selectedContact, from1: username!, owneruser1: username!, file_name1: self.filename, date1: nil, uniqueid1: uniqueID, file_size1: "\(self.fileSize1)", file_type1: ftype, file_path1: filePathImage2, type1: "image")
+            sqliteDB.saveFile(self.selectedContact, from1: username!, owneruser1: username!, file_name1: self.filename, date1: nil, uniqueid1: uniqueID, file_size1: "\(self.fileSize1)", file_type1: ftype, file_path1: filePathImage2, type1: "image",caption1:self.imgCaption)
             
             self.addUploadInfo(self.selectedContact,uniqueid1: uniqueID, rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
             
@@ -8193,7 +8201,7 @@ var isKiboContact="false"
                 }*/
                 
 
-                 sqliteDB.saveFile(self.selectedContact, from1: username!, owneruser1: username!, file_name1: fname+"."+ftype, date1: nil, uniqueid1: uniqueID, file_size1: "\(self.fileSize1)", file_type1: ftype, file_path1: filePathImage2, type1: "document")
+                sqliteDB.saveFile(self.selectedContact, from1: username!, owneruser1: username!, file_name1: fname+"."+ftype, date1: nil, uniqueid1: uniqueID, file_size1: "\(self.fileSize1)", file_type1: ftype, file_path1: filePathImage2, type1: "document",caption1:"")
                 
                
                 self.addUploadInfo(self.selectedContact,uniqueid1: uniqueID, rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)

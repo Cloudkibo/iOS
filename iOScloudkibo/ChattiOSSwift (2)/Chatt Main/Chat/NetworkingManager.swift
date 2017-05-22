@@ -1076,9 +1076,12 @@ class NetworkingManager
                             //  self.downloadFile("\(jsonResult["filepending"]["uniqueid"])")
                             
                             var filetype=jsonResult["filepending"]["file_type"].string!
-                            
-                                                     
-                            self.downloadFileInGroup(fileuniqueid,filePendingName: filePendingName,filefrom: filefrom,filetype: filetype,filePendingSize: filePendingSize,filependingDate: filependingDate,filePendingTo: filePendingTo)
+                            var filecaption=""
+                            if(jsonResult["filepending"]["label"] != nil)
+                            {
+                            filecaption=jsonResult["filepending"]["label"].string!
+                            }
+                            self.downloadFileInGroup(fileuniqueid,filePendingName: filePendingName,filefrom: filefrom,filetype: filetype,filePendingSize: filePendingSize,filependingDate: filependingDate,filePendingTo: filePendingTo,filecaption: filecaption)
                         }
                         //}
                         
@@ -1150,10 +1153,17 @@ class NetworkingManager
                             var filetype=jsonResult["filepending"]["file_type"].string!
                             var filePendingSize="\(jsonResult["filepending"]["file_size"])"
                             var filependingDate=jsonResult["filepending"]["date"].string!
+                            
+                            
+                            var filecaption=""
+                            if(jsonResult["filepending"]["label"] != nil)
+                            {
+                             filecaption=jsonResult["filepending"]["label"].string!
+                            }
                             //var filePendingTo=jsonResult["filepending"]["to"].string!
                             
                             //  self.downloadFile("\(jsonResult["filepending"]["uniqueid"])")
-                            self.downloadBroadcastFile(fileuniqueid,filePendingName: filePendingName,filefrom: filefrom,filetype: filetype,filePendingSize: filePendingSize,filependingDate: filependingDate,filePendingTo: username!)
+                            self.downloadBroadcastFile(fileuniqueid,filePendingName: filePendingName,filefrom: filefrom,filetype: filetype,filePendingSize: filePendingSize,filependingDate: filependingDate,filePendingTo: username!,filecaption: filecaption)
                         }
                         //}
                         
@@ -1238,8 +1248,13 @@ class NetworkingManager
                             var filependingDate=jsonResult["filepending"]["date"].string!
                             var filePendingTo=jsonResult["filepending"]["to"].string!
                             
+                            var caption=""
+                            if(jsonResult["filepending"]["label"] != nil)
+                            {
+                             caption=jsonResult["filepending"]["label"].string!
+                            }
                               //  self.downloadFile("\(jsonResult["filepending"]["uniqueid"])")
-                             self.downloadFile(fileuniqueid,filePendingName: filePendingName,filefrom: filefrom,filetype: filetype,filePendingSize: filePendingSize,filependingDate: filependingDate,filePendingTo: filePendingTo)
+                             self.downloadFile(fileuniqueid,filePendingName: filePendingName,filefrom: filefrom,filetype: filetype,filePendingSize: filePendingSize,filependingDate: filependingDate,filePendingTo: filePendingTo,filecaption: caption)
                         }
                             //}
                             
@@ -1280,7 +1295,7 @@ class NetworkingManager
     }
     
     
-    func downloadFileInGroup(_ fileuniqueid:String,filePendingName:String,filefrom:String,filetype:String,filePendingSize:String,filependingDate:String,filePendingTo:String)
+    func downloadFileInGroup(_ fileuniqueid:String,filePendingName:String,filefrom:String,filetype:String,filePendingSize:String,filependingDate:String,filePendingTo:String,filecaption:String)
     {
         print("inside download file function uniqueid \(fileuniqueid) and filetype is \(filetype) filePendingSize is \(filePendingSize)")
         
@@ -1367,7 +1382,7 @@ class NetworkingManager
                 
             }*/
             
-             sqliteDB.saveFile(filePendingTo, from1: filefrom, owneruser1: username!, file_name1: filePendingName, date1: nil, uniqueid1: fileuniqueid, file_size1: filePendingSize, file_type1: filetype, file_path1: filePendingPath, type1: filetype)
+            sqliteDB.saveFile(filePendingTo, from1: filefrom, owneruser1: username!, file_name1: filePendingName, date1: nil, uniqueid1: fileuniqueid, file_size1: filePendingSize, file_type1: filetype, file_path1: filePendingPath, type1: filetype,caption1:filecaption)
             
            /* if(socketObj.delegateChat != nil)
             {
@@ -1423,7 +1438,7 @@ class NetworkingManager
     
     
     //downloadBroadcastFile
-    func downloadFile(_ fileuniqueid:String,filePendingName:String,filefrom:String,filetype:String,filePendingSize:String,filependingDate:String,filePendingTo:String)
+    func downloadFile(_ fileuniqueid:String,filePendingName:String,filefrom:String,filetype:String,filePendingSize:String,filependingDate:String,filePendingTo:String,filecaption:String)
     {
         print("inside download file function uniqueid \(fileuniqueid) and filetype is \(filetype) filePendingSize is \(filePendingSize)")
         
@@ -1639,11 +1654,11 @@ class NetworkingManager
             if(self.imageExtensions.contains(filetype.lowercased()))
             {
                 //filePendingName
-                sqliteDB.saveFile(filePendingTo, from1: filefrom, owneruser1: username!, file_name1: filePendingName, date1: nil, uniqueid1: fileuniqueid, file_size1: filePendingSize, file_type1: filetype, file_path1: filePendingPath, type1: "image")
+                sqliteDB.saveFile(filePendingTo, from1: filefrom, owneruser1: username!, file_name1: filePendingName, date1: nil, uniqueid1: fileuniqueid, file_size1: filePendingSize, file_type1: filetype, file_path1: filePendingPath, type1: "image",caption1: filecaption)
             }
             else
             {
-                sqliteDB.saveFile(filePendingTo, from1: filefrom, owneruser1: username!, file_name1: filePendingName, date1: nil, uniqueid1: fileuniqueid, file_size1: filePendingSize, file_type1: filetype, file_path1: filePendingPath, type1: "document")
+                sqliteDB.saveFile(filePendingTo, from1: filefrom, owneruser1: username!, file_name1: filePendingName, date1: nil, uniqueid1: fileuniqueid, file_size1: filePendingSize, file_type1: filetype, file_path1: filePendingPath, type1: "document",caption1:"")
                 
             }
             
@@ -1710,7 +1725,7 @@ class NetworkingManager
     
     /////////
     
-    func downloadBroadcastFile(_ fileuniqueid:String,filePendingName:String,filefrom:String,filetype:String,filePendingSize:String,filependingDate:String,filePendingTo:String)
+    func downloadBroadcastFile(_ fileuniqueid:String,filePendingName:String,filefrom:String,filetype:String,filePendingSize:String,filependingDate:String,filePendingTo:String,filecaption:String)
     {
         print("inside download file function uniqueid \(fileuniqueid) and filetype is \(filetype) filePendingSize is \(filePendingSize)")
         
@@ -1920,11 +1935,11 @@ class NetworkingManager
                 if(self.imageExtensions.contains(filetype.lowercased()))
                 {
                 //filePendingName
-                sqliteDB.saveFile(filePendingTo, from1: filefrom, owneruser1: username!, file_name1: filePendingName, date1: nil, uniqueid1: fileuniqueid, file_size1: filePendingSize, file_type1: filetype, file_path1: filePendingPath, type1: "image")
+                    sqliteDB.saveFile(filePendingTo, from1: filefrom, owneruser1: username!, file_name1: filePendingName, date1: nil, uniqueid1: fileuniqueid, file_size1: filePendingSize, file_type1: filetype, file_path1: filePendingPath, type1: "image",caption1:filecaption)
                 }
                 else
                 {
-                     sqliteDB.saveFile(filePendingTo, from1: filefrom, owneruser1: username!, file_name1: filePendingName, date1: nil, uniqueid1: fileuniqueid, file_size1: filePendingSize, file_type1: filetype, file_path1: filePendingPath, type1: "document")
+                    sqliteDB.saveFile(filePendingTo, from1: filefrom, owneruser1: username!, file_name1: filePendingName, date1: nil, uniqueid1: fileuniqueid, file_size1: filePendingSize, file_type1: filetype, file_path1: filePendingPath, type1: "document",caption1:"")
                     
                 }
                 if(socketObj.delegateChat != nil)
@@ -2086,10 +2101,10 @@ class NetworkingManager
                             var iconExists=sqliteDB.checkIfFileExists(groupUniqueID)
                             if(iconExists==true)
                             {
-                                sqliteDB.updateFileInfo(groupUniqueID, from1: "", owneruser1: "", file_name1: filename, date1: nil, uniqueid1: groupUniqueID, file_size1: "1", file_type1: fileType, file_path1: filePath1, type1: "groupIcon")
+                                sqliteDB.updateFileInfo(groupUniqueID, from1: "", owneruser1: "", file_name1: filename, date1: nil, uniqueid1: groupUniqueID, file_size1: "1", file_type1: fileType, file_path1: filePath1, type1: "groupIcon", caption1:"")
                             }
                             else{
-                               sqliteDB.saveFile(groupUniqueID, from1: "", owneruser1: "", file_name1: filename, date1: nil, uniqueid1: groupUniqueID, file_size1: "1", file_type1: fileType, file_path1: filePath1, type1: "groupIcon")
+                                sqliteDB.saveFile(groupUniqueID, from1: "", owneruser1: "", file_name1: filename, date1: nil, uniqueid1: groupUniqueID, file_size1: "1", file_type1: fileType, file_path1: filePath1, type1: "groupIcon",caption1:"")
                             }
                             
                             sqliteDB.storeGroupsChat("Log:", group_unique_id1: groupUniqueID, type1: "log", msg1: "You changed this group's icon", from_fullname1: displayname, date1: Date(), unique_id1: groupUniqueID)
