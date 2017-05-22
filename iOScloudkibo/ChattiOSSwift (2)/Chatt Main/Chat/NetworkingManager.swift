@@ -530,7 +530,7 @@ class NetworkingManager
         })
     }
     
-    func uploadFile(_ filePath1:String,to1:String,from1:String, uniqueid1:String,file_name1:String,file_size1:String,file_type1:String,type1:String){
+    func uploadFile(_ filePath1:String,to1:String,from1:String, uniqueid1:String,file_name1:String,file_size1:String,file_type1:String,type1:String,label1:String){
         
         var parameters = [
             "to": to1,
@@ -538,7 +538,8 @@ class NetworkingManager
             "uniqueid": uniqueid1,
             "filename": file_name1,
             "filesize": file_size1,
-            "filetype": file_type1]
+            "filetype": file_type1,
+            "label":label1]
         
         
         /*var parameterJSON = JSON([
