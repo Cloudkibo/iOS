@@ -2596,7 +2596,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         }
     }*/
     
-    func muteGroup(group_unique_id1:String,start_time1:String,end_time1:String)
+    func muteGroup(group_unique_id1:String,start_time1:String,end_time1:String,secondsInterval:Double)
     {
         var url=Constants.MainUrl+Constants.muteURL
         //group_unique_id, start_time, end_time (these times are epoch seconds)
@@ -2605,6 +2605,14 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             if(response.result.isSuccess)
             {
                 print("muted success")
+                
+                var startDate=Date()
+                var enddate=startDate.addingTimeInterval(8*60)
+                
+                
+                sqliteDB.UpdateMuteGroupStatus(group_unique_id1, isMute1: true)
+                sqliteDB.muteGroup(starttime: startDate, endTime: enddate, groupid1: group_unique_id1)
+                
                 //success
             }
             else{
@@ -2614,8 +2622,25 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         }
     }
 
-    func unmutegroup()
+    func unmutegroup(groupid1: String)
     {
+        var url=Constants.MainUrl+Constants.unmuteURL
+        //group_unique_id, start_time, end_time (these times are epoch seconds)
+        Alamofire.request("\(url)", method: .post, parameters: ["group_unique_id":groupid1],encoding: JSONEncoding.default,headers:header).responseJSON { response in
+            
+            if(response.result.isSuccess)
+            {
+                print("unmuted success")
+                
+                sqliteDB.UpdateMuteGroupStatus(groupid1, isMute1: false)
+                sqliteDB.UnMuteGroup(groupid1: groupid1)
+                //success
+            }
+            else{
+                //failure
+            }
+            
+        }
         
     }
     

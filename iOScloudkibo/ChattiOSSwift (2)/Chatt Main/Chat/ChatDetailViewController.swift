@@ -4061,10 +4061,10 @@ var isKiboContact="false"
              let imgPath         = photoURL.URLByAppendingPathComponent(msg as! String)
              
              */
-            let status=messageDic["status"] as NSString!
+            let status=messageDic["status"] as! NSString
             
-            let filename=messageDic["filename"] as NSString!
-            var caption=messageDic["caption"] as NSString!
+            let filename=messageDic["filename"] as! NSString
+            var caption=messageDic["caption"] as! NSString
             
             let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
             let docsDir1 = dirPaths[0]
@@ -4301,7 +4301,7 @@ var isKiboContact="false"
                 
                 //print("date received in chat is \(date2.debugDescription)")
                 print("image status is \(status)")
-                textLabel.text="\(displaydate) (\(status))"
+                textLabel.text="\(caption) \(displaydate) (\(status))"
                 // timeLabel.text=date2.debugDescription
             }
             textLabel.text="\(caption) \(displaydate) (\(status))"

@@ -5300,30 +5300,56 @@ break
                 {
                 //let more = UITableViewRowAction(style: .Normal, title: "More") { action, index in
                     print("more button tapped")
+                    //checkIfMute
+                    var muteInfo=sqliteDB.getGroupMuteStatus(uniqueID1: ContactUsernames)
                     let shareMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
                     
+                    
+                     let unMute = UIAlertAction(title: "UnMute", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+                        //var startDate=Date()
+                        //var enddate=Date()
+
+                        
+                       
+                        
+                        UtilityFunctions.init().unmutegroup(groupid1: ContactUsernames)
+                        
+                        
+                    })
                     let Mute = UIAlertAction(title: "Mute", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+                        
+                    
                         
                         let mutemenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
                         
                         let eightHours = UIAlertAction(title: "8 hours", style: UIAlertActionStyle.default,handler: { (action) -> Void in
-                            
-                            sqliteDB.UpdateMuteGroupStatus(ContactUsernames, isMute1: true)
+                           
                             
                             var endtime=UtilityFunctions.init().getEpochSeconds(startDate: Date(), numMinutes: 8*60)
-                            UtilityFunctions.init().muteGroup(group_unique_id1: ContactUsernames, start_time1: "\(Date.timeIntervalSinceReferenceDate)", end_time1: endtime)
+                            UtilityFunctions.init().muteGroup(group_unique_id1: ContactUsernames, start_time1: "\(Date.timeIntervalSinceReferenceDate)", end_time1: endtime,secondsInterval:8*60)
                         })
                         let oneWeek = UIAlertAction(title: "1 week", style: UIAlertActionStyle.default,handler: { (action) -> Void in
                             
+                            var startDate=Date()
+                            var enddate=startDate.addingTimeInterval(7*24*60)
+                            
+                            
+                            sqliteDB.muteGroup(starttime: startDate, endTime: enddate, groupid1: ContactUsernames)
+                            
                              sqliteDB.UpdateMuteGroupStatus(ContactUsernames, isMute1: true)
                             var endtime=UtilityFunctions.init().getEpochSeconds(startDate: Date(), numMinutes: 7*24*60)
-                             UtilityFunctions.init().muteGroup(group_unique_id1: ContactUsernames, start_time1: "\(Date().timeIntervalSince1970)", end_time1: endtime)
+                             UtilityFunctions.init().muteGroup(group_unique_id1: ContactUsernames, start_time1: "\(Date().timeIntervalSince1970)", end_time1: endtime,secondsInterval:7*24*60)
                         })
                         let oneYear = UIAlertAction(title: "1 year", style: UIAlertActionStyle.default,handler: { (action) -> Void in
                             
+                            var startDate=Date()
+                            var enddate=startDate.addingTimeInterval(365*24*60)
+                            
+                            
+                            sqliteDB.muteGroup(starttime: startDate, endTime: enddate, groupid1: ContactUsernames)
                              sqliteDB.UpdateMuteGroupStatus(ContactUsernames, isMute1: true)
                             var endtime=UtilityFunctions.init().getEpochSeconds(startDate: Date(), numMinutes: 365*24*60)
-                             UtilityFunctions.init().muteGroup(group_unique_id1: ContactUsernames, start_time1: "\(Date.timeIntervalSinceReferenceDate)", end_time1: endtime)
+                             UtilityFunctions.init().muteGroup(group_unique_id1: ContactUsernames, start_time1: "\(Date.timeIntervalSinceReferenceDate)", end_time1: endtime,secondsInterval:365*24*60)
                         })
                         let cancelAction = UIAlertAction(title: "Cancel".localized, style: UIAlertActionStyle.cancel, handler: { (action) -> Void in
                         })
@@ -5385,7 +5411,16 @@ break
                          */
                     })
                     
+                    if(muteInfo["isMute"] as! Bool == true)
+                    {
+                        //isMute
+                        shareMenu.addAction(unMute)
+                            
+                    }
+                    else{
                     shareMenu.addAction(Mute)
+                    }
+                    
                     shareMenu.addAction(GroupInfo)
                     /*shareMenu.addAction(ExportChat)
                     shareMenu.addAction(ClearChat)

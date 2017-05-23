@@ -30,6 +30,10 @@ class DatabaseHandler:NSObject{
     var broadcastlistmembers:Table!
     var groupStatusUpdatesTemp:Table!
     var urlData:Table!
+    var dayStatusInfoTable:Table!
+    var dayStatusUpdatesTable:Table!
+    
+    
     init(dbName:String)
     {print("inside database handler class")
         
@@ -146,6 +150,7 @@ class DatabaseHandler:NSObject{
         createBroadcastListMembersTable()
         createGroupStatusTempTable()
         createURLTable()
+        createdayStatusInfoTable()
         //createAllContactsTable()
         
     }
@@ -173,6 +178,19 @@ print("alter table needed")
             
             do{
                 try db.run(self.userschats.addColumn(isArchived, defaultValue: false))
+            }
+            catch{
+                print("unable to alter \(error)")
+            }
+        }
+        if(version<0.1316)
+        {
+            
+            print("alter table needed")
+            let file_caption = Expression<String>("file_caption")
+            
+            do{
+                try db.run(self.files.addColumn(file_caption, defaultValue:""))
             }
             catch{
                 print("unable to alter \(error)")
@@ -796,6 +814,72 @@ print("alter table needed")
             }
             
     }
+    
+    func createdayStatusInfoTable(){
+        
+        //self.broadcastlisttable.drop()
+        //let contactObject=Expression<CNContact>("contactObj")
+        //let kiboContact = Expression<Bool>("kiboContact")
+        let daystatus_id = Expression<String>("daystatus_id")
+        let daystatus_type = Expression<String>("daystatus_type")
+        let daystatus_caption = Expression<String>("daystatus_caption")
+        let daystatus_uploadDate = Expression<Date>("daystatus_uploadDate")
+        let daystatus_filename = Expression<String>("daystatus_filename")
+        let daystatus_filesize = Expression<String>("daystatus_filesize")
+        let daystatus_filepath = Expression<String>("Daystatus_filepath")
+        let daystatus_uploadedBy = Expression<String>("daystatus_uploadedBy")
+        //
+        self.dayStatusInfoTable = Table("dayStatusInfoTable")
+        do{
+            try db.run(dayStatusInfoTable.create(ifNotExists: retainOldDatabase) { t in     // CREATE TABLE "accounts" (
+                t.column(daystatus_id, unique:true)
+                t.column(daystatus_type)
+                t.column(daystatus_caption)
+                t.column(daystatus_uploadDate)
+                t.column(daystatus_filename)
+                t.column(daystatus_filesize)
+                t.column(daystatus_filepath)
+                t.column(daystatus_uploadedBy)
+                //////////////t.column(profileimage, defaultValue:NSData.init())
+            })
+            
+        }
+        catch(let error)
+        {
+            if(socketObj != nil)
+            {
+                socketObj.socket.emit("logClient","IPHONE-LOG: error in creating day status table \(error)")
+            }
+            print("error in creating day status table")
+            
+        }
+    }
+    
+    func createDayStatusUpdatesTable()
+    {
+        let daystatus_id = Expression<String>("daystatus_id")
+        let daystatus_status = Expression<String>("daystatus_status")
+        let daystatus_contactphone = Expression<String>("daystatus_contactphone")
+        
+        
+        
+        self.dayStatusUpdatesTable = Table("dayStatusUpdatesTable")
+        do{
+            try db.run(dayStatusUpdatesTable.create(ifNotExists: retainOldDatabase) { t in
+                t.column(daystatus_id)
+                t.column(daystatus_status)
+                t.column(daystatus_contactphone)
+            })
+            
+        }
+        catch
+        {
+            print("error in creating group_muteSettings table")
+            
+            
+        }
+    }
+
     
     
         func storeMuteGroupSettingsTable(_ groupid1:String,isMute1:Bool,muteTime1:Date,unMuteTime1:Date)

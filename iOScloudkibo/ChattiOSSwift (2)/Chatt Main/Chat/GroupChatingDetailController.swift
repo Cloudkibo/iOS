@@ -1305,7 +1305,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                     //&& (sqliteDB.getGroupsChatStatusSingle(tblUserChats[unique_id], user_phone1: username!)=="delivered"))
                 {
                     var singleStatus=sqliteDB.getGroupsChatStatusSingle(tblUserChats[unique_id], user_phone1: username!)
-                   
+                   print("single status group is \(singleStatus)")
                     if(singleStatus == "delivered")
                     {print("yes it is delivered")
                         
@@ -3922,7 +3922,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
     
     func sendGroupChatStatus(_ chat_uniqueid:String,status1:String)
     {
-    
+    print("send status seen")
     var url=Constants.MainUrl+Constants.updateGroupChatStatusAPI
     
     
@@ -3953,7 +3953,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
     // To update anything on the main thread, just jump back on like so.
     
     if(response.response?.statusCode==200)
-    {
+    {UtilityFunctions.init().log_papertrail("IPHONE_LOG: sending SEEN status for group message chatID \(chat_uniqueid) status \(status1)")
     var resJSON=JSON(response.result.value!)
     print("status seen sent response \(resJSON)")
         //update locally

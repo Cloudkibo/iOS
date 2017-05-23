@@ -2853,11 +2853,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DatabaseHandler.swift"
-            timestampString = "517150566.373145"
+            timestampString = "517225656.206245"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3341"
-            endingLineNumber = "3341"
+            startingLineNumber = "3429"
+            endingLineNumber = "3429"
             landmarkName = "storeBroadcastListMembers(_:memberphones:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3372,11 +3372,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DatabaseHandler.swift"
-            timestampString = "517150566.373145"
+            timestampString = "517225656.206245"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3410"
-            endingLineNumber = "3410"
+            startingLineNumber = "3498"
+            endingLineNumber = "3498"
             landmarkName = "getBroadcastListMembers(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3564,11 +3564,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DatabaseHandler.swift"
-            timestampString = "517145213.559019"
+            timestampString = "517225656.206245"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2606"
-            endingLineNumber = "2606"
+            startingLineNumber = "2694"
+            endingLineNumber = "2694"
             landmarkName = "getMemberShipStatus(_:memberphone:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4329,11 +4329,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/ChatViewController.swift"
-            timestampString = "517157708.26593"
+            timestampString = "517225656.206245"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5437"
-            endingLineNumber = "5437"
+            startingLineNumber = "5478"
+            endingLineNumber = "5478"
             landmarkName = "swipeableTableViewCell(_:didTriggerRightUtilityButtonWith:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4504,11 +4504,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DatabaseHandler.swift"
-            timestampString = "517150566.373145"
+            timestampString = "517225656.206245"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3887"
-            endingLineNumber = "3887"
+            startingLineNumber = "3975"
+            endingLineNumber = "3975"
             landmarkName = "getChatListForDesktopApp(user1:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4520,11 +4520,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DatabaseHandler.swift"
-            timestampString = "517150566.373145"
+            timestampString = "517225656.206245"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3871"
-            endingLineNumber = "3871"
+            startingLineNumber = "3959"
+            endingLineNumber = "3959"
             landmarkName = "getChatListForDesktopApp(user1:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4584,11 +4584,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DatabaseHandler.swift"
-            timestampString = "517150566.373145"
+            timestampString = "517225656.206245"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3861"
-            endingLineNumber = "3861"
+            startingLineNumber = "3949"
+            endingLineNumber = "3949"
             landmarkName = "getChatListForDesktopApp(user1:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4600,11 +4600,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DatabaseHandler.swift"
-            timestampString = "517150566.373145"
+            timestampString = "517225656.206245"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3888"
-            endingLineNumber = "3888"
+            startingLineNumber = "3976"
+            endingLineNumber = "3976"
             landmarkName = "getChatListForDesktopApp(user1:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4696,11 +4696,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/ChatViewController.swift"
-            timestampString = "517157708.26593"
+            timestampString = "517225656.206245"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5483"
-            endingLineNumber = "5483"
+            startingLineNumber = "5524"
+            endingLineNumber = "5524"
             landmarkName = "swipeableTableViewCell(_:didTriggerRightUtilityButtonWith:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4712,11 +4712,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/ChatViewController.swift"
-            timestampString = "517157708.26593"
+            timestampString = "517225656.206245"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "5496"
-            endingLineNumber = "5496"
+            startingLineNumber = "5537"
+            endingLineNumber = "5537"
             landmarkName = "swipeableTableViewCell(_:didTriggerRightUtilityButtonWith:)"
             landmarkType = "7">
          </BreakpointContent>
