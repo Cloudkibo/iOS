@@ -328,7 +328,7 @@ class NetworkingManager
     }
     }
 
-    func uploadFileInGroup(_ filePath1:String,groupid1:String,from1:String, uniqueid1:String,file_name1:String,file_size1:String,file_type1:String,type1:String){
+    func uploadFileInGroup(_ filePath1:String,groupid1:String,from1:String, uniqueid1:String,file_name1:String,file_size1:String,file_type1:String,type1:String,label1:String){
         
         var membercount=sqliteDB.getGroupMembersCount(groupid1: groupid1)
         var parameters = [
@@ -338,7 +338,8 @@ class NetworkingManager
             "uniqueid": uniqueid1,
             "filename": file_name1,
             "filesize": file_size1,
-            "filetype": type1
+            "filetype": type1,
+            "label":label1
            ]
         
         /*group_unique_id : req.body.group_unique_id,
