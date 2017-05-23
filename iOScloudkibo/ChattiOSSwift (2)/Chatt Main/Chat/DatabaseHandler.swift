@@ -718,8 +718,8 @@ print("alter table needed")
         self.group_muteSettings = Table("group_muteSettings")
         do{
             try db.run(group_muteSettings.create(ifNotExists: retainOldDatabase) { t in
-                t.column(groupid)
-                t.column(isMute)
+                t.column(groupid, unique:true)
+                t.column(isMute, defaultValue:false)
                 t.column(muteTime)
                  t.column(unMuteTime)
                 })
@@ -2191,6 +2191,94 @@ print("--------")
         
         
 
+    }
+    func getGroupMuteStatus(uniqueID1:String)->[String: AnyObject]
+    {
+        /*
+        let unique_id = Expression<String>("unique_id")
+        let isMute = Expression<Bool>("isMute")
+        var groupsList=[[String:Any]]()
+        */
+        
+        let groupid = Expression<String>("groupid")
+        let isMute = Expression<Bool>("isMute")
+        let muteTime = Expression<Date>("muteTime")
+        let unMuteTime = Expression<Date>("unMuteTime")
+        
+        
+        var newEntry: [String: AnyObject] = [:]
+        self.group_muteSettings = Table("group_muteSettings")
+        
+        
+        /* let _id = Expression<String>("_id")
+         let deptname = Expression<String>("deptname")
+         let deptdescription = Expression<String>("deptdescription")
+         let companyid = Expression<String>("companyid")
+         let createdby = Expression<String>("createdby")
+         let creationdate = Expression<String>("creationdate")
+         let deleteStatus = Expression<String>("deleteStatus")
+         */
+        //self.groups = Table("groups")
+        
+        do
+        {for mutedetails in try self.db.prepare(self.group_muteSettings.filter(groupid==uniqueID1)){
+            // print("channel name for deptid \(deptid) is \(channelNames.get(msg_channel_name))")
+           newEntry["groupid"]=mutedetails.get(groupid) as AnyObject?
+            newEntry["isMute"]=mutedetails.get(isMute) as AnyObject?
+            newEntry["muteTime"]=mutedetails.get(muteTime) as AnyObject?
+            newEntry["unMuteTime"]=mutedetails.get(unMuteTime) as AnyObject?
+            }
+        }
+        catch{
+            
+        }
+        return newEntry
+        
+    }
+    
+    
+    func muteGroup(starttime:Date,endTime:Date,groupid1:String)
+    {
+        let groupid = Expression<String>("groupid")
+        let isMute = Expression<Bool>("isMute")
+        let muteTime = Expression<Date>("muteTime")
+        let unMuteTime = Expression<Date>("unMuteTime")
+        
+        
+        self.group_muteSettings = Table("group_muteSettings")
+        let query = group_muteSettings.select(groupid)           // SELECT "email" FROM "users"
+            .filter(groupid == groupid1)     // WHERE "name" IS NOT NULL
+        
+        do
+        {try sqliteDB.db.run(query.update(isMute <- true, muteTime<-starttime,unMuteTime<-endTime))}
+        catch
+        {
+            print("error: cannot mute Group")
+        }
+        
+
+    }
+    
+    func UnMuteGroup(groupid1:String)
+    {
+        
+        let groupid = Expression<String>("groupid")
+        let isMute = Expression<Bool>("isMute")
+        let muteTime = Expression<Date>("muteTime")
+        let unMuteTime = Expression<Date>("unMuteTime")
+        
+        
+        self.group_muteSettings = Table("group_muteSettings")
+        let query = group_muteSettings.select(groupid)           // SELECT "email" FROM "users"
+            .filter(groupid == groupid1)     // WHERE "name" IS NOT NULL
+        
+        do
+        {try sqliteDB.db.run(query.update(isMute <- false))}
+        catch
+        {
+            print("error: cannot unmute Group")
+        }
+        
     }
     
     func UpdateMuteGroupStatus(_ unique_id1:String,isMute1:Bool)

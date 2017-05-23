@@ -5308,14 +5308,20 @@ break
                         
                         let eightHours = UIAlertAction(title: "8 hours", style: UIAlertActionStyle.default,handler: { (action) -> Void in
                             
+                            sqliteDB.UpdateMuteGroupStatus(ContactUsernames, isMute1: true)
+                            
                             var endtime=UtilityFunctions.init().getEpochSeconds(startDate: Date(), numMinutes: 8*60)
                             UtilityFunctions.init().muteGroup(group_unique_id1: ContactUsernames, start_time1: "\(Date.timeIntervalSinceReferenceDate)", end_time1: endtime)
                         })
                         let oneWeek = UIAlertAction(title: "1 week", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+                            
+                             sqliteDB.UpdateMuteGroupStatus(ContactUsernames, isMute1: true)
                             var endtime=UtilityFunctions.init().getEpochSeconds(startDate: Date(), numMinutes: 7*24*60)
                              UtilityFunctions.init().muteGroup(group_unique_id1: ContactUsernames, start_time1: "\(Date().timeIntervalSince1970)", end_time1: endtime)
                         })
                         let oneYear = UIAlertAction(title: "1 year", style: UIAlertActionStyle.default,handler: { (action) -> Void in
+                            
+                             sqliteDB.UpdateMuteGroupStatus(ContactUsernames, isMute1: true)
                             var endtime=UtilityFunctions.init().getEpochSeconds(startDate: Date(), numMinutes: 365*24*60)
                              UtilityFunctions.init().muteGroup(group_unique_id1: ContactUsernames, start_time1: "\(Date.timeIntervalSinceReferenceDate)", end_time1: endtime)
                         })
