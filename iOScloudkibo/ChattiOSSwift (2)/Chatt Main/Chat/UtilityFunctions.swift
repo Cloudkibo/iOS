@@ -2604,6 +2604,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             
             if(response.result.isSuccess)
             {
+                print("muted success")
                 //success
             }
             else{
@@ -2621,6 +2622,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
     func getEpochSeconds(startDate:Date,numMinutes:Int)->String
     {
         let calendar = Calendar.current
+    
         let date = calendar.date(byAdding: .minute, value: numMinutes, to: startDate)
         print(date?.timeIntervalSince1970)
         print("epoch seconds")

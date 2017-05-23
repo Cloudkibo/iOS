@@ -4034,15 +4034,21 @@ var isKiboContact="false"
             cell = ///tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
                
                 //FileImageReceivedCell
-                tblForChats.dequeueReusableCell(withIdentifier: "FileImageSentCell")! as UITableViewCell
+                tblForChats.dequeueReusableCell(withIdentifier: "FileImageSentCell22")! as UITableViewCell
             
           //=== uncomment   cell.tag = indexPath.row
+            let viewRect=cell.viewWithTag(1)! as UIView
+            let chatImage = viewRect.viewWithTag(2) as! UIImageView
+            let textLabel = viewRect.viewWithTag(3) as! UILabel
+          
             
+            /*
             let deliveredLabel = cell.viewWithTag(13) as! UILabel
             let textLable = cell.viewWithTag(12) as! UILabel
             let timeLabel = cell.viewWithTag(11) as! UILabel
             let chatImage = cell.viewWithTag(1) as! UIImageView
             let profileImage = cell.viewWithTag(2) as! UIImageView
+            */
             
             let progressView = cell.viewWithTag(14) as! KDCircularProgress!
             
@@ -4088,13 +4094,13 @@ var isKiboContact="false"
             formatter2.timeZone=TimeZone.autoupdatingCurrent
             formatter2.dateFormat = "MM/dd hh:mm a";
             let displaydate=formatter2.string(from: defaultTimeZoneStr!)
-            textLable.isHidden=false
+            textLabel.isHidden=false
             chatImage.image=nil
             if(imgNSData != nil/* && (cell.tag == indexPath.row)*/)
             {
                 chatImage.isUserInteractionEnabled = true
                 var filesData=sqliteDB.getFilesData(uniqueidDictValue as! String)
-                caption=filesData["file_caption"] as! NSString?
+                caption=filesData["file_caption"] as! NSString
                 
                 /*var predicate=NSPredicate(format: "uniqueid = %@", uniqueidDictValue)
                 var resultArray=uploadInfo.filteredArrayUsingPredicate(predicate)
@@ -4147,18 +4153,21 @@ var isKiboContact="false"
                 
                 chatImage.image = UIImage(data: imgNSData!)!
                 ///.stretchableImageWithLeftCapWidth(40,topCapHeight: 20);
-                chatImage.contentMode = .scaleAspectFill
+                chatImage.contentMode = .scaleAspectFit
                 //===== uncomment later chatImage.setNeedsDisplay()
                 //print("file shownnnnnnnnn")
-                textLable.isHidden=true
+              //!!  textLable.isHidden=true
                 
-             
-                timeLabel.text="\(displaydate) (\(status))"
+                textLabel.text=" \(caption) \(displaydate) (\(status))"
+
+               //!! timeLabel.text="\(displaydate) (\(status))"
                 //timeLabel.text=date2.debugDescription
             }
             
+            textLabel.text="\(caption) \(displaydate) (\(status))"
             
-            timeLabel.text="\(caption) \(displaydate) (\(status))" /* var imgNSURL = NSURL(fileURLWithPath: msg as String)
+            //!!timeLabel.text="\(caption) \(displaydate) (\(status))"
+            /* var imgNSURL = NSURL(fileURLWithPath: msg as String)
              var imgNSData=NSFileManager.default.contents(atPath:imgNSURL.path!)
              if(imgNSData != nil)
              {
