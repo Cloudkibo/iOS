@@ -880,6 +880,64 @@ print("alter table needed")
         }
     }
 
+    func storeDayStatusInfoTable(_ daystatus_id1:String,daystatus_type1:String,daystatus_caption1:String,daystatus_uploadDate1:Date,daystatus_filename1:String,daystatus_filesize1:String,daystatus_filepath1:String,daystatus_uploadedBy1:String)
+    {
+        let daystatus_id = Expression<String>("daystatus_id")
+        let daystatus_type = Expression<String>("daystatus_type")
+        let daystatus_caption = Expression<String>("daystatus_caption")
+        let daystatus_uploadDate = Expression<Date>("daystatus_uploadDate")
+        let daystatus_filename = Expression<String>("daystatus_filename")
+        let daystatus_filesize = Expression<String>("daystatus_filesize")
+        let daystatus_filepath = Expression<String>("Daystatus_filepath")
+        let daystatus_uploadedBy = Expression<String>("daystatus_uploadedBy")
+        
+        
+        let dayStatusInfoTable=sqliteDB.dayStatusInfoTable
+        
+        do {
+            let rowid = try db.run((dayStatusInfoTable?.insert(
+                daystatus_id<-daystatus_id1,
+                daystatus_type<-daystatus_type1,
+                daystatus_caption<-daystatus_caption1,
+                daystatus_uploadDate<-daystatus_uploadDate1,
+                daystatus_filename<-daystatus_filename1,
+                daystatus_filesize<-daystatus_filesize1,
+                daystatus_filepath<-daystatus_filepath1,
+                daystatus_uploadedBy<-daystatus_uploadedBy1
+                ))!)
+            
+            
+            print("inserted id dayStatusInfoTable : \(rowid)")
+        } catch {
+            print("insertion failed: dayStatusInfoTable \(error)")
+        }
+        
+    }
+    
+    func storeDayStatusInfoTable(_ daystatus_id1:String,daystatus_status1:String,daystatus_contactphone1:String)
+    {
+        let daystatus_id = Expression<String>("daystatus_id")
+        let daystatus_status = Expression<String>("daystatus_status")
+        let daystatus_contactphone = Expression<String>("daystatus_contactphone")
+        
+        
+        
+        self.dayStatusUpdatesTable = Table("dayStatusUpdatesTable")
+        
+        do {
+            let rowid = try db.run((dayStatusUpdatesTable?.insert(
+                daystatus_id<-daystatus_id1,
+                daystatus_status<-daystatus_status1,
+                daystatus_contactphone<-daystatus_contactphone1
+                ))!)
+            
+            
+            print("inserted id dayStatusUpdatesTable : \(rowid)")
+        } catch {
+            print("insertion failed: dayStatusUpdatesTable \(error)")
+        }
+        
+    }
     
     
         func storeMuteGroupSettingsTable(_ groupid1:String,isMute1:Bool,muteTime1:Date,unMuteTime1:Date)
