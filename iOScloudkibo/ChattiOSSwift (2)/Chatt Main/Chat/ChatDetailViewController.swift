@@ -2759,7 +2759,7 @@ var isKiboContact="false"
 
     
     func tableView(_ tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
-        return messages.count
+        return messages.count+1
     }
     
     func numberOfSectionsInTableView(_ tableView: UITableView!) -> Int {
@@ -3004,6 +3004,8 @@ var isKiboContact="false"
        // if(messages.count > 0 && messages.count > indexPath.row)
         //{
         //print("inside cellforrow updating row \(indexPath.row) and messages count is \(messages.count)")
+        if(indexPath.row<messages.count+1)
+        {
         var messageDic = messages.object(at: indexPath.row) as! [String : String];
         NSLog(messageDic["message"]!, 1)
         let msgType = messageDic["type"] as NSString!
@@ -5555,8 +5557,13 @@ var isKiboContact="false"
          }
          audioPlayer.play()
  */
-        return cell
+  
            }
+        else{
+              cell = tblForChats.dequeueReusableCell(withIdentifier: "ChatStatusCell")! as UITableViewCell
+        }
+              return cell
+    }
     
     var contactreceivedphone=""
     func BtnInviteContactClicked(_ sender:UIButton)

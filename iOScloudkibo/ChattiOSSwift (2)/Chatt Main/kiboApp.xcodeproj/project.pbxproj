@@ -99,6 +99,7 @@
 		714690401E66F4BF00FA6530 /* GoogleMapsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7146903E1E66F4BF00FA6530 /* GoogleMapsCore.framework */; };
 		714690601E66F51200FA6530 /* GoogleMapsBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7146905F1E66F51200FA6530 /* GoogleMapsBase.framework */; };
 		714690661E68348E00FA6530 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714690651E68348E00FA6530 /* MapViewController.swift */; };
+		714E5C921ED5ACD60001DFFB /* StatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714E5C911ED5ACD60001DFFB /* StatusViewController.swift */; };
 		7150119F1D12D0940091AD7B /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7150119E1D12D0940091AD7B /* Reachability.swift */; };
 		7152369A1E4AEB9100524BC3 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7152368D1E4AEB6E00524BC3 /* SwiftyJSON.framework */; };
 		7152369B1E4AEB9100524BC3 /* SwiftyJSON.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7152368D1E4AEB6E00524BC3 /* SwiftyJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -627,6 +628,7 @@
 		7146903E1E66F4BF00FA6530 /* GoogleMapsCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMapsCore.framework; sourceTree = "<group>"; };
 		7146905F1E66F51200FA6530 /* GoogleMapsBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMapsBase.framework; sourceTree = "<group>"; };
 		714690651E68348E00FA6530 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		714E5C911ED5ACD60001DFFB /* StatusViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusViewController.swift; sourceTree = "<group>"; };
 		7150119E1D12D0940091AD7B /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		715236821E4AEB6E00524BC3 /* SwiftyJSON.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftyJSON.xcodeproj; path = "../../../../../../../Downloads/SwiftyJSON-master 6/SwiftyJSON.xcodeproj"; sourceTree = "<group>"; };
 		7152CB231D47DDC900DB8127 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
@@ -987,6 +989,7 @@
 				71189A7F1E781EF800245D97 /* AccountsSettingsViewController.swift */,
 				71189A9F1E781F2100245D97 /* PrivacySettingsViewController.swift */,
 				71189AA11E79243500245D97 /* BlockedContactsViewController.swift */,
+				714E5C911ED5ACD60001DFFB /* StatusViewController.swift */,
 				7141A51B1EB726D100BA244A /* ConnectToDesktop.swift */,
 				7134C68D1EA7403000FF588E /* keyFile.txt */,
 				7134C68E1EA7403000FF588E /* valueFile.txt */,
@@ -1715,6 +1718,7 @@
 				713D51D61CC11896007E0B47 /* KeychainWrapper.swift in Sources */,
 				713D51CF1CC11896007E0B47 /* DatabaseHandler.swift in Sources */,
 				71CDB3381EA0BBAB00AEB801 /* LocalizedLabel.swift in Sources */,
+				714E5C921ED5ACD60001DFFB /* StatusViewController.swift in Sources */,
 				71C84C671E44AB2400330105 /* SocketStringReader.swift in Sources */,
 				713D51DE1CC11896007E0B47 /* MoreTableViewController.swift in Sources */,
 				71C84C581E44AB2400330105 /* SocketEngineClient.swift in Sources */,

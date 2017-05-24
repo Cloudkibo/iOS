@@ -169,12 +169,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate,
         UtilityFunctions.init().log_papertrail("IPHONE- VOIP push received by \(username!) is \(payload.dictionaryPayload)")
         print("Process the received push")
         
-        socketObj=LoginAPI(url:"\(Constants.MainUrl)")
+        /*socketObj=LoginAPI(url:"\(Constants.MainUrl)")
         ///socketObj.connect()
         socketObj.addHandlers()
         socketObj.addWebRTCHandlers()
  
-        
+        */
        // UtilityFunctions.init().backupFiles()
         for var i in 0..<99999
         {
