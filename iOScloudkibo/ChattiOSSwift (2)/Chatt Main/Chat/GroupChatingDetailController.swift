@@ -2127,11 +2127,11 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                             //!!textLable.isHidden=true
                             
                             
-                            textLabel.text="\(caption) \(displaydate) (\(status))"
+                            textLabel.text="\(caption)\n\(displaydate)"
                             //timeLabel.text=date2.debugDescription
                         }
                         
-                        textLabel.text="\(caption) \(displaydate) (\(status))" /* var imgNSURL = NSURL(fileURLWithPath: msg as String)
+                        textLabel.text="\(caption)\n\(displaydate)" /* var imgNSURL = NSURL(fileURLWithPath: msg as String)
                          var imgNSData=NSFileManager.default.contents(atPath:imgNSURL.path!)
                          if(imgNSData != nil)
                          {
@@ -4649,13 +4649,13 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
                             
                             self.imagePickerController(picker, didFinishPickingImage: (info[UIImagePickerControllerOriginalImage] as? UIImage)!, editingInfo: info as [String : AnyObject]?)
                             
-                            
-                            
                             if(self.showKeyboard==true)
                             {
-                                self.textFieldShouldReturn(textField)
+                                self.textFieldShouldReturn(self.txtFieldMessage)
                                 
                             }
+                            
+                            
                             
                             
                             
@@ -4979,6 +4979,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             
             // var fname=furl!.deletingLastPathComponent()
     }
+    
     let shareMenu = UIAlertController(title: nil, message: " Send \" \(filename) ? ", preferredStyle: .actionSheet)
     shareMenu.modalPresentationStyle=UIModalPresentationStyle.overCurrentContext
     let confirm = UIAlertAction(title: "Yes", style: UIAlertActionStyle.default,handler: { (action) -> Void in
@@ -5162,7 +5163,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
     shareMenu.addAction(confirm)
     shareMenu.addAction(notConfirm)
     
-    self.dismiss(animated: true, completion:{ ()-> Void in
+   // self.dismiss(animated: true, completion:{ ()-> Void in
         
         if(self.showKeyboard==true)
         {
@@ -5184,7 +5185,7 @@ class GroupChatingDetailController: UIViewController,UIDocumentPickerDelegate,UI
             
         }
         
-    });
+   // });
     }
       //  }//
    // )
