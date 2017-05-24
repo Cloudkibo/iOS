@@ -5292,7 +5292,7 @@
                                                         <rect key="frame" x="0.0" y="2723" width="320" height="120"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2aQ-8P-WoL" id="Egu-RO-Il2">
-                                                            <rect key="frame" x="0.0" y="0.0" width="320" height="119"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="320" height="120"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <imageView opaque="NO" tag="1" contentMode="redraw" misplaced="YES" preservesSuperviewLayoutMargins="YES" image="chat_send" highlighted="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VTB-qu-XXF">
@@ -8969,11 +8969,12 @@
                     </navigationItem>
                     <connections>
                         <outlet property="tblStatusUpdates" destination="L1Y-ed-fun" id="Aag-4D-cah"/>
+                        <segue destination="auQ-vR-CnT" kind="push" id="Fir-GQ-Dqx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="C4j-rj-m3t" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="387" y="2254"/>
+            <point key="canvasLocation" x="394" y="2254"/>
         </scene>
         <!--Chats-->
         <scene sceneID="6mC-TR-l3c">
@@ -9176,6 +9177,80 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xvo-Gj-VF1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1075" y="1579"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="gGW-qT-XiH">
+            <objects>
+                <viewController id="auQ-vR-CnT" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="tJQ-FN-bea"/>
+                        <viewControllerLayoutGuide type="bottom" id="InD-mE-NyT"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="B6s-1x-2QM">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="LAT-eO-O4C">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="455"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="myStatusCell" rowHeight="71" id="xha-ck-D9k">
+                                        <rect key="frame" x="0.0" y="28" width="320" height="71"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xha-ck-D9k" id="Zkg-YA-5ht">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="70"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="project_plus" translatesAutoresizingMaskIntoConstraints="NO" id="rBD-Wq-CVh">
+                                                    <rect key="frame" x="8" y="8" width="55" height="55"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="55" id="FuU-bJ-Qnb"/>
+                                                        <constraint firstAttribute="height" constant="55" id="UYP-CG-Xim"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="21 min ago" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P1F-PN-Q2c">
+                                                    <rect key="frame" x="71" y="25" width="92" height="21"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="view" translatesAutoresizingMaskIntoConstraints="NO" id="qDm-Dt-Fg9">
+                                                    <rect key="frame" x="201" y="12" width="30" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="reply" translatesAutoresizingMaskIntoConstraints="NO" id="5Fd-J2-NX9">
+                                                    <rect key="frame" x="277" y="20" width="35" height="35"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="99" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Ca-BS-Tl6">
+                                                    <rect key="frame" x="201" y="41" width="30" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="topMargin" secondItem="P1F-PN-Q2c" secondAttribute="top" id="Bxm-4s-8XQ"/>
+                                                <constraint firstAttribute="topMargin" secondItem="rBD-Wq-CVh" secondAttribute="top" id="Hvk-ae-nNL"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="rBD-Wq-CVh" secondAttribute="bottom" constant="-1" id="NAu-qk-kI7"/>
+                                                <constraint firstItem="P1F-PN-Q2c" firstAttribute="leading" secondItem="rBD-Wq-CVh" secondAttribute="trailing" constant="8" id="RtU-jl-hgG"/>
+                                                <constraint firstAttribute="leadingMargin" secondItem="rBD-Wq-CVh" secondAttribute="leading" id="pPo-UM-am8"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="zCz-j3-shI"/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MR0-xp-Cpu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="722" y="2254"/>
         </scene>
         <!--Accounts Settings View Controller-->
         <scene sceneID="WlV-c1-Jmx">
@@ -9480,6 +9555,7 @@
         <image name="profile-pic2.c" width="26" height="26"/>
         <image name="profile-pic4" width="52" height="52"/>
         <image name="project_plus" width="35" height="35"/>
+        <image name="reply" width="112" height="112"/>
         <image name="tabbar_chat" width="23" height="32"/>
         <image name="tabbar_chatmain" width="23" height="22"/>
         <image name="tabbar_clock" width="26" height="26"/>
@@ -9490,6 +9566,7 @@
         <image name="tabbar_settings_highlighted" width="24" height="24"/>
         <image name="video-camera-icon@2x.png" width="16" height="16"/>
         <image name="video_off" width="50" height="50"/>
+        <image name="view" width="128" height="128"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
