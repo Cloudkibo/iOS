@@ -2759,7 +2759,7 @@ var isKiboContact="false"
 
     
     func tableView(_ tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
-        return messages.count+1
+        return messages.count
     }
     
     func numberOfSectionsInTableView(_ tableView: UITableView!) -> Int {
@@ -2998,14 +2998,12 @@ var isKiboContact="false"
     func tableView(_ tableView: UITableView!, cellForRowAtIndexPath indexPath: IndexPath!) -> UITableViewCell! {
         var cell : UITableViewCell!
        // print("reloading of cellsssssssss......------------===========++++++")
-        cell = tblForChats.dequeueReusableCell(withIdentifier: "ChatSentCell")! as UITableViewCell
+        cell = tblForChats.dequeueReusableCell(withIdentifier: "ChatStatusCell")! as UITableViewCell
         
                //print("cellForRowAtIndexPath called \(indexPath)")
        // if(messages.count > 0 && messages.count > indexPath.row)
         //{
         //print("inside cellforrow updating row \(indexPath.row) and messages count is \(messages.count)")
-        if(indexPath.row<messages.count+1)
-        {
         var messageDic = messages.object(at: indexPath.row) as! [String : String];
         NSLog(messageDic["message"]!, 1)
         let msgType = messageDic["type"] as NSString!
@@ -3041,10 +3039,10 @@ var isKiboContact="false"
         
         if (msgType?.isEqual(to: "1"))!{
             if(cell==nil)
-{
-            cell = tblForChats.dequeueReusableCell(withIdentifier: "ChatSentCell")! as UITableViewCell
+{//ChatSentCell
+            cell = tblForChats.dequeueReusableCell(withIdentifier: "ChatStatusCell")! as UITableViewCell
 }
-            
+           /*
             let textLable = cell.viewWithTag(12) as! ActiveLabel
             let chatImage = cell.viewWithTag(1) as! UIImageView
             let profileImage = cell.viewWithTag(2) as! UIImageView
@@ -3278,6 +3276,9 @@ var isKiboContact="false"
             //print("displaydate is \(displaydate)")
             timeLabel.text=displaydate
             //timeLabel.text=date2.debugDescription
+            
+            
+            */ */
         }
         if (msgType?.isEqual(to: "23"))!{
             cell=tableView.dequeueReusableCell(withIdentifier: "ChatSentCell11")
@@ -5557,13 +5558,8 @@ var isKiboContact="false"
          }
          audioPlayer.play()
  */
-  
+        return cell
            }
-        else{
-              cell = tblForChats.dequeueReusableCell(withIdentifier: "ChatStatusCell")! as UITableViewCell
-        }
-              return cell
-    }
     
     var contactreceivedphone=""
     func BtnInviteContactClicked(_ sender:UIButton)
