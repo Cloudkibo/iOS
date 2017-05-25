@@ -5976,6 +5976,7 @@
                         <segue destination="GLU-bm-Cvs" kind="relationship" relationship="viewControllers" id="sv0-g0-nQh"/>
                         <segue destination="tuq-43-qXl" kind="relationship" relationship="viewControllers" id="6d6-7S-htO"/>
                         <segue destination="0bu-qm-WE0" kind="relationship" relationship="viewControllers" id="2aN-tc-6Wk"/>
+                        <segue destination="tYJ-aX-mJE" kind="relationship" relationship="viewControllers" id="cCY-pr-gX8"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lJi-cD-Yjf" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -9178,10 +9179,10 @@
             </objects>
             <point key="canvasLocation" x="1075" y="1579"/>
         </scene>
-        <!--View Controller-->
+        <!--My Status Details View Controller-->
         <scene sceneID="gGW-qT-XiH">
             <objects>
-                <viewController id="auQ-vR-CnT" sceneMemberID="viewController">
+                <viewController id="auQ-vR-CnT" customClass="MyStatusDetailsViewController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="tJQ-FN-bea"/>
                         <viewControllerLayoutGuide type="bottom" id="InD-mE-NyT"/>
@@ -9241,6 +9242,10 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="auQ-vR-CnT" id="AUr-8T-DwI"/>
+                                    <outlet property="delegate" destination="auQ-vR-CnT" id="0Do-wG-rev"/>
+                                </connections>
                             </tableView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3Ij-DR-iNd">
                                 <rect key="frame" x="0.0" y="460" width="320" height="44"/>
@@ -9257,10 +9262,13 @@
                         <barButtonItem key="rightBarButtonItem" title="Edit" id="0V6-xY-5XK"/>
                     </navigationItem>
                     <nil key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="tblMyStatus" destination="LAT-eO-O4C" id="qU1-me-uXZ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MR0-xp-Cpu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="722" y="2254"/>
+            <point key="canvasLocation" x="772" y="2255"/>
         </scene>
         <!--Accounts Settings View Controller-->
         <scene sceneID="WlV-c1-Jmx">

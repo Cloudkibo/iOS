@@ -2998,7 +2998,7 @@ var isKiboContact="false"
     func tableView(_ tableView: UITableView!, cellForRowAtIndexPath indexPath: IndexPath!) -> UITableViewCell! {
         var cell : UITableViewCell!
        // print("reloading of cellsssssssss......------------===========++++++")
-        cell = tblForChats.dequeueReusableCell(withIdentifier: "ChatStatusCell")! as UITableViewCell
+        cell = tblForChats.dequeueReusableCell(withIdentifier: "ChatSentCell")! as UITableViewCell
         
                //print("cellForRowAtIndexPath called \(indexPath)")
        // if(messages.count > 0 && messages.count > indexPath.row)
@@ -3040,15 +3040,15 @@ var isKiboContact="false"
         if (msgType?.isEqual(to: "1"))!{
             if(cell==nil)
 {//ChatSentCell
-            cell = tblForChats.dequeueReusableCell(withIdentifier: "ChatStatusCell")! as UITableViewCell
+            cell = tblForChats.dequeueReusableCell(withIdentifier: "ChatSentCell")! as UITableViewCell
 }
-           /*
+           
             let textLable = cell.viewWithTag(12) as! ActiveLabel
             let chatImage = cell.viewWithTag(1) as! UIImageView
             let profileImage = cell.viewWithTag(2) as! UIImageView
             let timeLabel = cell.viewWithTag(11) as! UILabel
            
-            
+ 
             //textLable.dataDetectorTypes = UIDataDetectorTy
             textLable.text = msg! as! String
            // var range=textLable.rangeOfString("www.iba.edu.pk")
@@ -3278,7 +3278,7 @@ var isKiboContact="false"
             //timeLabel.text=date2.debugDescription
             
             
-            */ */
+            
         }
         if (msgType?.isEqual(to: "23"))!{
             cell=tableView.dequeueReusableCell(withIdentifier: "ChatSentCell11")
@@ -8831,7 +8831,7 @@ var isKiboContact="false"
             {
                 url=aa["url"] as! String
             }
-            var newrow:[String:AnyObject]=["message":"\(actualmsg) (\(status))"/*"\(message) \((status))"*/  /*"message":"\(actualmsg) (\(status))"*/ as AnyObject,"filename":filename as AnyObject,"type":aa["type"] as AnyObject,"date":aa["date"] as AnyObject,"uniqueid":aa["uniqueid"] as AnyObject,"status":status as AnyObject,"url":url as AnyObject]
+            var newrow:[String:AnyObject]=["message":"\(actualmsg) (\(status))"/*"\(message) \((status))"*/  /*"message":"\(actualmsg) (\(status))"*/ as AnyObject,"filename":filename as AnyObject,"type":aa["type"] as AnyObject,"date":aa["date"] as AnyObject,"uniqueid":aa["uniqueid"] as AnyObject,"status":status as AnyObject,"url":url as AnyObject,"caption":"" as AnyObject]
             
             print("replaced with \(newrow["message"])")
             

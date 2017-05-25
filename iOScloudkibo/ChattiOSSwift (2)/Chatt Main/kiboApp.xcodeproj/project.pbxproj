@@ -20,6 +20,7 @@
 		71189AA21E79243500245D97 /* BlockedContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71189AA11E79243500245D97 /* BlockedContactsViewController.swift */; };
 		711996361E9567CA003D54A3 /* urlPopView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 711996351E9567CA003D54A3 /* urlPopView.xib */; };
 		711CD86D1E5B10E90079CB88 /* AlamofireImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 711CD86C1E5B10E90079CB88 /* AlamofireImage.framework */; };
+		711F82721ED6DC6800CB91BF /* MyStatusDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711F82711ED6DC6800CB91BF /* MyStatusDetailsViewController.swift */; };
 		712050181E71707700D87E2C /* RestoreChatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712050171E71707700D87E2C /* RestoreChatsViewController.swift */; };
 		7122F96C1D4FDFA400EBBCED /* ShowImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7122F96B1D4FDFA400EBBCED /* ShowImageViewController.swift */; };
 		7122F96E1D500FFA00EBBCED /* textDocumentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7122F96D1D500FFA00EBBCED /* textDocumentViewController.swift */; };
@@ -532,6 +533,7 @@
 		71189AA11E79243500245D97 /* BlockedContactsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockedContactsViewController.swift; sourceTree = "<group>"; };
 		711996351E9567CA003D54A3 /* urlPopView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = urlPopView.xib; sourceTree = "<group>"; };
 		711CD86C1E5B10E90079CB88 /* AlamofireImage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = AlamofireImage.framework; path = "/Users/cloudkibo/Documents/kiboChatTry/iOS/iOS/iOScloudkibo/ChattiOSSwift (2)/Chatt Main/build/Debug-iphoneos/AlamofireImage.framework"; sourceTree = "<absolute>"; };
+		711F82711ED6DC6800CB91BF /* MyStatusDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyStatusDetailsViewController.swift; sourceTree = "<group>"; };
 		712050171E71707700D87E2C /* RestoreChatsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestoreChatsViewController.swift; sourceTree = "<group>"; };
 		7122142A1EADF49200EBBA4B /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Main.strings; sourceTree = "<group>"; };
 		7122F96B1D4FDFA400EBBCED /* ShowImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowImageViewController.swift; sourceTree = "<group>"; };
@@ -990,6 +992,7 @@
 				71189A9F1E781F2100245D97 /* PrivacySettingsViewController.swift */,
 				71189AA11E79243500245D97 /* BlockedContactsViewController.swift */,
 				714E5C911ED5ACD60001DFFB /* StatusViewController.swift */,
+				711F82711ED6DC6800CB91BF /* MyStatusDetailsViewController.swift */,
 				7141A51B1EB726D100BA244A /* ConnectToDesktop.swift */,
 				7134C68D1EA7403000FF588E /* keyFile.txt */,
 				7134C68E1EA7403000FF588E /* valueFile.txt */,
@@ -1729,6 +1732,7 @@
 				71DA13371DF7CBBC002C0583 /* BroadcastListDetailsViewController.swift in Sources */,
 				71F6233E1DE4262E00AC6370 /* String-Extension.swift in Sources */,
 				713D51D01CC11896007E0B47 /* File.swift in Sources */,
+				711F82721ED6DC6800CB91BF /* MyStatusDetailsViewController.swift in Sources */,
 				713D51D31CC11896007E0B47 /* FileUtility.swift in Sources */,
 				71CB8C051E6ED5FD009D5D05 /* SettingsViewController.swift in Sources */,
 				713D51C51CC11896007E0B47 /* ChatViewController.swift in Sources */,

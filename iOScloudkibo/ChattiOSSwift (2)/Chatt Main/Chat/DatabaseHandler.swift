@@ -3721,7 +3721,13 @@ print("--------")
             for j in 0 ..< membersarray.count
             {
                 print(membersarray[j] )
+                if(getNameFromAddressbook(membersarray[j]) != nil)
+                {
             memberslistnames.append(getNameFromAddressbook(membersarray[j] ))
+                }
+                else{
+                    memberslistnames.append(membersarray[j])
+                }
             }
             listDetailSingle["listname"]=listdata[i]["listname"] as! String
             listDetailSingle["uniqueid"]=listdata[i]["uniqueid"] as! String
