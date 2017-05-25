@@ -3124,14 +3124,14 @@
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         </imageView>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="12" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" text="Contact Name" lineBreakMode="wordWrap" numberOfLines="50" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zi3-dU-vh0">
-                                                            <rect key="frame" x="68" y="35.5" width="71.5" height="13"/>
+                                                            <rect key="frame" x="68" y="35" width="72" height="13"/>
                                                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="11"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Phone" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rkx-pR-hie">
-                                                            <rect key="frame" x="68" y="51.5" width="33.5" height="13.5"/>
+                                                            <rect key="frame" x="68" y="51" width="34" height="14"/>
                                                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -4378,7 +4378,7 @@
                                                                     </userDefinedRuntimeAttributes>
                                                                 </view>
                                                                 <label hidden="YES" opaque="NO" tag="12" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" preservesSuperviewLayoutMargins="YES" text="File upload Failed" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="50" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="60V-Nx-Fpd">
-                                                                    <rect key="frame" x="187" y="13" width="92" height="13.5"/>
+                                                                    <rect key="frame" x="187" y="13" width="92" height="14"/>
                                                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -4393,7 +4393,7 @@
                                                                     </constraints>
                                                                 </imageView>
                                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12:45 PM" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WGz-pr-vqs">
-                                                                    <rect key="frame" x="113" y="183" width="190" height="14"/>
+                                                                    <rect key="frame" x="113" y="182" width="190" height="15"/>
                                                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -8969,7 +8969,11 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="Jey-EL-ulb">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="fAO-rq-O4t"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="fAO-rq-O4t">
+                            <connections>
+                                <segue destination="iAL-Uj-U1X" kind="push" id="3Kb-C2-dfn"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="tblStatusUpdates" destination="L1Y-ed-fun" id="Aag-4D-cah"/>
@@ -9525,23 +9529,25 @@
             </objects>
             <point key="canvasLocation" x="1467" y="1570"/>
         </scene>
-        <!--View Controller-->
+        <!--Status Window View Controller-->
         <scene sceneID="yo5-0O-0XC">
             <objects>
-                <viewController id="iAL-Uj-U1X" sceneMemberID="viewController">
+                <viewController id="iAL-Uj-U1X" customClass="StatusWindowViewController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="B6b-57-V4P"/>
                         <viewControllerLayoutGuide type="bottom" id="BrS-dz-cWi"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="7Im-9m-BGM">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" id="4Sl-id-vXY"/>
+                    <nil key="simulatedBottomBarMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hfv-m5-934" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1903" y="1674"/>
+            <point key="canvasLocation" x="394" y="2910"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="qSY-ZH-xxH">

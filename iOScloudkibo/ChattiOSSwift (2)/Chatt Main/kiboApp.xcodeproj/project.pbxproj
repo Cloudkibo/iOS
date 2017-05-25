@@ -21,6 +21,10 @@
 		711996361E9567CA003D54A3 /* urlPopView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 711996351E9567CA003D54A3 /* urlPopView.xib */; };
 		711CD86D1E5B10E90079CB88 /* AlamofireImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 711CD86C1E5B10E90079CB88 /* AlamofireImage.framework */; };
 		711F82721ED6DC6800CB91BF /* MyStatusDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711F82711ED6DC6800CB91BF /* MyStatusDetailsViewController.swift */; };
+		711F82961ED765B800CB91BF /* StatusVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711F82951ED765B800CB91BF /* StatusVideoViewController.swift */; };
+		711F82B61ED765D800CB91BF /* StatusPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711F82B51ED765D800CB91BF /* StatusPhotoViewController.swift */; };
+		711F82B81ED7662600CB91BF /* StatusSwiftyRecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711F82B71ED7662600CB91BF /* StatusSwiftyRecordButton.swift */; };
+		711F82BA1ED7679A00CB91BF /* StatusWindowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 711F82B91ED7679A00CB91BF /* StatusWindowViewController.swift */; };
 		712050181E71707700D87E2C /* RestoreChatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712050171E71707700D87E2C /* RestoreChatsViewController.swift */; };
 		7122F96C1D4FDFA400EBBCED /* ShowImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7122F96B1D4FDFA400EBBCED /* ShowImageViewController.swift */; };
 		7122F96E1D500FFA00EBBCED /* textDocumentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7122F96D1D500FFA00EBBCED /* textDocumentViewController.swift */; };
@@ -534,6 +538,10 @@
 		711996351E9567CA003D54A3 /* urlPopView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = urlPopView.xib; sourceTree = "<group>"; };
 		711CD86C1E5B10E90079CB88 /* AlamofireImage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = AlamofireImage.framework; path = "/Users/cloudkibo/Documents/kiboChatTry/iOS/iOS/iOScloudkibo/ChattiOSSwift (2)/Chatt Main/build/Debug-iphoneos/AlamofireImage.framework"; sourceTree = "<absolute>"; };
 		711F82711ED6DC6800CB91BF /* MyStatusDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyStatusDetailsViewController.swift; sourceTree = "<group>"; };
+		711F82951ED765B800CB91BF /* StatusVideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusVideoViewController.swift; sourceTree = "<group>"; };
+		711F82B51ED765D800CB91BF /* StatusPhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusPhotoViewController.swift; sourceTree = "<group>"; };
+		711F82B71ED7662600CB91BF /* StatusSwiftyRecordButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusSwiftyRecordButton.swift; sourceTree = "<group>"; };
+		711F82B91ED7679A00CB91BF /* StatusWindowViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusWindowViewController.swift; sourceTree = "<group>"; };
 		712050171E71707700D87E2C /* RestoreChatsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestoreChatsViewController.swift; sourceTree = "<group>"; };
 		7122142A1EADF49200EBBA4B /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Main.strings; sourceTree = "<group>"; };
 		7122F96B1D4FDFA400EBBCED /* ShowImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowImageViewController.swift; sourceTree = "<group>"; };
@@ -878,6 +886,9 @@
 				71585F011DC8A4030067CD4A /* UIDelegates.swift */,
 				713D51891CC11896007E0B47 /* AppDelegate.swift */,
 				710315751EC97E5F0068D69C /* brown_maze_empty.png */,
+				711F82951ED765B800CB91BF /* StatusVideoViewController.swift */,
+				711F82B51ED765D800CB91BF /* StatusPhotoViewController.swift */,
+				711F82B71ED7662600CB91BF /* StatusSwiftyRecordButton.swift */,
 				71C401821CF715C500D38126 /* audioOff.png */,
 				71C401831CF715C500D38126 /* audioOff@2x.png */,
 				71C401841CF715C500D38126 /* audioOn.png */,
@@ -994,6 +1005,7 @@
 				714E5C911ED5ACD60001DFFB /* StatusViewController.swift */,
 				711F82711ED6DC6800CB91BF /* MyStatusDetailsViewController.swift */,
 				7141A51B1EB726D100BA244A /* ConnectToDesktop.swift */,
+				711F82B91ED7679A00CB91BF /* StatusWindowViewController.swift */,
 				7134C68D1EA7403000FF588E /* keyFile.txt */,
 				7134C68E1EA7403000FF588E /* valueFile.txt */,
 				71FF54B31E7FE47900BF512A /* UpwardSyncService.swift */,
@@ -1705,6 +1717,7 @@
 				71C84C651E44AB2400330105 /* SocketPacket.swift in Sources */,
 				71CB8C0D1E6FF21A009D5D05 /* BackupAutoScheduleViewController.swift in Sources */,
 				713D51CA1CC11896007E0B47 /* contactList.swift in Sources */,
+				711F82BA1ED7679A00CB91BF /* StatusWindowViewController.swift in Sources */,
 				713F39711D74459600F3A9C4 /* EPContactsPicker.swift in Sources */,
 				7142EC971DBF51DC0070826F /* UtilityFunctions.swift in Sources */,
 				713F396E1D74459600F3A9C4 /* EPContact.swift in Sources */,
@@ -1747,6 +1760,7 @@
 				71C1A2CF1D768ABC00FC5157 /* GroupChatingDetailController.swift in Sources */,
 				71C1A2DA1D769B0900FC5157 /* PKSwipeTableViewCell.swift in Sources */,
 				71C84C5F1E44AB2400330105 /* SocketIOClient.swift in Sources */,
+				711F82B61ED765D800CB91BF /* StatusPhotoViewController.swift in Sources */,
 				713D51D51CC11896007E0B47 /* JSONStringify.swift in Sources */,
 				71EA60841D78DDAA00117B55 /* SWUtilityButtonView.m in Sources */,
 				713E7E341E023E4E00C7285A /* AddParticipantsViewController.swift in Sources */,
@@ -1777,6 +1791,8 @@
 				71C84C551E44AB2400330105 /* SocketAnyEvent.swift in Sources */,
 				713D51D81CC11896007E0B47 /* LoginViewController.swift in Sources */,
 				713D51C21CC11896007E0B47 /* ChatComposeViewController.swift in Sources */,
+				711F82961ED765B800CB91BF /* StatusVideoViewController.swift in Sources */,
+				711F82B81ED7662600CB91BF /* StatusSwiftyRecordButton.swift in Sources */,
 				71803D2E1E93D12600A0604D /* PreviewError.swift in Sources */,
 				713D51BD1CC11896007E0B47 /* Accounts.swift in Sources */,
 				713F3DD71D7A88990072C9E9 /* ArchivedChatsViewController.swift in Sources */,
