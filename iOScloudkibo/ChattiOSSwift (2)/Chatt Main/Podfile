@@ -5,6 +5,7 @@ target ‘Chat’ do
  
 use_frameworks!
 
+pod "SwiftyCam", :git => 'https://github.com/Awalz/SwiftyCam'
 pod 'Alamofire', :git => 'https://github.com/Alamofire/Alamofire.git', :branch => 'master'
 pod "libjingle_peerconnection"
  pod 'ActiveLabel', :git => 'https://github.com/optonaut/ActiveLabel.swift', :branch => 'master'

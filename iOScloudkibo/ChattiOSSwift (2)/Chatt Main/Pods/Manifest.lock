@@ -2,11 +2,13 @@ PODS:
   - ActiveLabel (0.7.1)
   - Alamofire (4.3.0)
   - libjingle_peerconnection (11177.2.0)
+  - SwiftyCam (2.3.0)
 
 DEPENDENCIES:
   - ActiveLabel (from `https://github.com/optonaut/ActiveLabel.swift`, branch `master`)
   - Alamofire (from `https://github.com/Alamofire/Alamofire.git`, branch `master`)
   - libjingle_peerconnection
+  - SwiftyCam (from `https://github.com/Awalz/SwiftyCam`)
 
 EXTERNAL SOURCES:
   ActiveLabel:
@@ -15,6 +17,8 @@ EXTERNAL SOURCES:
   Alamofire:
     :branch: master
     :git: https://github.com/Alamofire/Alamofire.git
+  SwiftyCam:
+    :git: https://github.com/Awalz/SwiftyCam
 
 CHECKOUT OPTIONS:
   ActiveLabel:
@@ -23,12 +27,16 @@ CHECKOUT OPTIONS:
   Alamofire:
     :commit: fa3c6d09b603f417c7788adb51ca0cade75b3d67
     :git: https://github.com/Alamofire/Alamofire.git
+  SwiftyCam:
+    :commit: f760434cf886345862d0a26f381d6b91ba6246d0
+    :git: https://github.com/Awalz/SwiftyCam
 
 SPEC CHECKSUMS:
   ActiveLabel: faa96b5f50507770536a3e48a4cf291ee88fb7db
   Alamofire: 1f72088aff8f6b40828dadd61be2e9a31beca01e
   libjingle_peerconnection: 3458f646ddd61f08a9f3a0c43fb01fff5c165eb8
+  SwiftyCam: e460d1b253d26fb12ed2f6a00aa42bcd1e39e751
 
-PODFILE CHECKSUM: 009de9cfd1b749cd6a556a1e8ad19a52423b7daa
+PODFILE CHECKSUM: 551e8916c700e3c73764b3f7a4fea98b0f3e764c
 
 COCOAPODS: 1.2.0
