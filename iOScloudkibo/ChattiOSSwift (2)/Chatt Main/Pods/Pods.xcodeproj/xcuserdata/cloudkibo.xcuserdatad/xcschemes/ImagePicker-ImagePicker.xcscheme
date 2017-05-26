@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '200903DFA5202CBF6DEDB206F635793E'
-               BlueprintName = 'SwiftyCam'
+               BlueprintIdentifier = 'CA27F1D9A80D7B2D9ED3BC4BB0F2E444'
+               BlueprintName = 'ImagePicker-ImagePicker'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'SwiftyCam.framework'>
+               BuildableName = 'ImagePicker.bundle'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
