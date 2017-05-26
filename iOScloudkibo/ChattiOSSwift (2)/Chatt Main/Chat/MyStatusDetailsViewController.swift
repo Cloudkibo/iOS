@@ -10,15 +10,16 @@ import UIKit
 import ActiveLabel
 import Photos
 import PhotosUI
-
+import ImagePicker
+import MediaPlayer
 class MyStatusDetailsViewController: UIViewController,UITableViewDataSource,UITableViewDelegate {
 
-     lazy var assets = [PHAsset]()
-    var messages:NSMutableArray!
-    
+      var messages:NSMutableArray!
     @IBOutlet weak var bottomToolbar: UIToolbar!
     @IBOutlet weak var btnEditOutlet: UIBarButtonItem!
     @IBOutlet weak var tblMyStatus: UITableView!
+    
+ 
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -27,6 +28,8 @@ class MyStatusDetailsViewController: UIViewController,UITableViewDataSource,UITa
         messages.add(["picID":"2","time":"just now","viewCount":"0"])
         
         tblMyStatus.allowsMultipleSelectionDuringEditing = true
+        
+        
         //!!tblMyStatus.setEditing(true, animated: false)
         
         // Do any additional setup after loading the view.
@@ -239,37 +242,7 @@ class MyStatusDetailsViewController: UIViewController,UITableViewDataSource,UITa
     }
     
     
-    open static func fetch(withConfiguration configuration: Configuration, _ completion: @escaping (_ assets: [PHAsset]) -> Void) {
-        guard PHPhotoLibrary.authorizationStatus() == .authorized else { return }
-        
-        DispatchQueue.global(qos: .background).async {
-            let fetchResult = configuration.allowVideoSelection
-                ? PHAsset.fetchAssets(with: PHFetchOptions())
-                : PHAsset.fetchAssets(with: .image, options: PHFetchOptions())
-            
-            if fetchResult.count > 0 {
-                var assets = [PHAsset]()
-                fetchResult.enumerateObjects({ object, index, stop in
-                    assets.insert(object, at: 0)
-                })
-                
-                DispatchQueue.main.async {
-                    completion(assets)
-                }
-            }
-        }
-    }
-
-    
-    func fetchPhotos(_ completion: (() -> Void)? = nil) {
-        self.fetch(withConfiguration: configuration) { assets in
-            self.assets.removeAll()
-            self.assets.append(contentsOf: assets)
-            self.collectionView.reloadData()
-            
-            completion?()
-        }
-    }
+ 
 
     /*
     // MARK: - Navigation

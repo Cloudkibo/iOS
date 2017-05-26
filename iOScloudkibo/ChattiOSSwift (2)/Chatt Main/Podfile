@@ -5,7 +5,7 @@ target ‘Chat’ do
  
 use_frameworks!
 
-pod 'ImagePicker'
+pod 'ImagePicker', :git => ‘https://github.com/hyperoslo/ImagePicker', :branch => 'master'
 pod "SwiftyCam", :git => 'https://github.com/Awalz/SwiftyCam'
 pod 'Alamofire', :git => 'https://github.com/Alamofire/Alamofire.git', :branch => 'master'
 pod "libjingle_peerconnection"
