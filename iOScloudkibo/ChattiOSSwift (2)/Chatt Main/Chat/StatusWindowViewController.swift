@@ -37,12 +37,14 @@ import AssetsLibrary
 import Photos
 import Foundation
 
-class StatusWindowViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate,UIImagePickerControllerDelegate{
+class StatusWindowViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate,UIImagePickerControllerDelegate,UIPickerViewDelegate{
     
+    let imagePicker=UIImagePickerController.init()
     var flipCameraButton: UIButton!
     var flashButton: UIButton!
     var captureButton: SwiftyRecordButton!
     var galleryButton: UIButton!
+    var cancelButton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
         cameraDelegate = self
@@ -61,15 +63,20 @@ class StatusWindowViewController: SwiftyCamViewController, SwiftyCamViewControll
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didTake photo: UIImage) {
         let newVC = StatusPhotoViewController(image: photo)
-        self.present(newVC, animated: true, completion: nil)
+        self.present(newVC, animated: true){
+            //self.dismiss(animated: true){
+                
+           // }
+        }
+        //self.present(newVC, animated: true, completion: nil)
     }
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didBeginRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
         print("Did Begin Recording")
         captureButton.growButton()
         UIView.animate(withDuration: 0.25, animations: {
-            self.flashButton.alpha = 0.0
-            self.flipCameraButton.alpha = 0.0
+           //!! self.flashButton.alpha = 0.0
+           //!! self.flipCameraButton.alpha = 0.0
         })
     }
     
@@ -77,8 +84,8 @@ class StatusWindowViewController: SwiftyCamViewController, SwiftyCamViewControll
         print("Did finish Recording")
         captureButton.shrinkButton()
         UIView.animate(withDuration: 0.25, animations: {
-            self.flashButton.alpha = 1.0
-            self.flipCameraButton.alpha = 1.0
+            //!!self.flashButton.alpha = 1.0
+            //!!self.flipCameraButton.alpha = 1.0
         })
     }
     
@@ -117,11 +124,11 @@ class StatusWindowViewController: SwiftyCamViewController, SwiftyCamViewControll
     @objc private func cameraSwitchAction(_ sender: Any) {
         switchCamera()
     }
-    @objc private func GalleryShowAction(_ sender: Any) {
-        let imagePicker=UIImagePickerController.init()
+    func GalleryShowAction(_ sender: Any) {
+        
         /// imagePicker =  UIImagePickerController()
-        imagePicker.delegate = StatusPhotoViewController
-        imagePicker.sourceType = .camera
+        //imagePicker.delegate=self
+        imagePicker.sourceType = .photoLibrary
         
         self.present(imagePicker, animated: true, completion: nil)
     }
@@ -135,30 +142,48 @@ class StatusWindowViewController: SwiftyCamViewController, SwiftyCamViewControll
             flashButton.setImage(#imageLiteral(resourceName: "flashOutline"), for: UIControlState())
         }
     }
-    
+    @objc private func goBack(_ sender: Any) {
+        self.dismiss(animated: true) { 
+            
+            
+        }
+    }
     private func addButtons() {
-        captureButton = SwiftyRecordButton(frame: CGRect(x: view.frame.midX - 37.5, y: view.frame.height - 100.0, width: 75.0, height: 75.0))
+        captureButton = SwiftyRecordButton(frame: CGRect(x: view.frame.midX - 37.5, y: view.frame.height - 100.0-50, width: 75.0, height: 75.0))
         self.view.addSubview(captureButton)
         captureButton.delegate = self
         
-        flipCameraButton = UIButton(frame: CGRect(x: (((view.frame.width / 2 - 37.5) / 2) - 15.0), y: view.frame.height - 74.0, width: 30.0, height: 23.0))
+       /* cancelButton = UIButton(frame: CGRect(x: (((view.frame.width / 2 - 37.5) / 2) - 15.0), y: 30.0, width: 20.0, height: 20.0))
+        cancelButton.setImage(#imageLiteral(resourceName: "cross"), for: UIControlState())
+        cancelButton.addTarget(self, action: #selector(goBack(_:)), for: .touchUpInside)
+        self.view.addSubview(cancelButton)
+        */
+
+        
+        /*flipCameraButton = UIButton(frame: CGRect(x: (((view.frame.width / 2 - 37.5) / 2) - 15.0), y: view.frame.height - 74.0, width: 30.0, height: 23.0))
         flipCameraButton.setImage(#imageLiteral(resourceName: "flipCamera"), for: UIControlState())
         flipCameraButton.addTarget(self, action: #selector(cameraSwitchAction(_:)), for: .touchUpInside)
         self.view.addSubview(flipCameraButton)
-        
-        galleryButton = UIButton(frame: CGRect(x: (((view.frame.width / 2 - 37.5) / 2) - 15.0), y: view.frame.height - 74.0, width: 30.0, height: 23.0))
-        galleryButton.setImage(#imageLiteral(resourceName: "tabbar_project_highlighted"), for: UIControlState())
+        */
+        galleryButton = UIButton(frame: CGRect(x: (((view.frame.width / 2 - 37.5) / 2) - 15.0), y: view.frame.height - 74.0-50, width: 40.0, height: 30.0))
+        galleryButton.setImage(#imageLiteral(resourceName: "gallery"), for: UIControlState())
         galleryButton.addTarget(self, action: #selector(GalleryShowAction(_:)), for: .touchUpInside)
         self.view.addSubview(galleryButton)
         
         
+        let test = CGFloat((view.frame.width - (view.frame.width / 2 + 37.5)) + ((view.frame.width / 2) - 37.5) - 9.0)
         
+        flipCameraButton = UIButton(frame: CGRect(x: test, y: view.frame.height - 76-50, width: 35.0, height: 42.0))
+        flipCameraButton.setImage(#imageLiteral(resourceName: "flipCamera"), for: UIControlState())
+        flipCameraButton.addTarget(self, action: #selector(cameraSwitchAction(_:)), for: .touchUpInside)
+        self.view.addSubview(flipCameraButton)
+        /*
         let test = CGFloat((view.frame.width - (view.frame.width / 2 + 37.5)) + ((view.frame.width / 2) - 37.5) - 9.0)
         
         flashButton = UIButton(frame: CGRect(x: test, y: view.frame.height - 77.5, width: 18.0, height: 30.0))
         flashButton.setImage(#imageLiteral(resourceName: "flashOutline"), for: UIControlState())
         flashButton.addTarget(self, action: #selector(toggleFlashAction(_:)), for: .touchUpInside)
-        self.view.addSubview(flashButton)
+        self.view.addSubview(flashButton)*/
     }
 }
 

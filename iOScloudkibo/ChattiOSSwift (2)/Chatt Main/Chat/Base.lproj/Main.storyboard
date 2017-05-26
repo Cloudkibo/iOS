@@ -5212,10 +5212,10 @@
                                                                     <rect key="frame" x="8" y="8" width="223" height="104"/>
                                                                 </imageView>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="78Z-XY-S4k">
-                                                                    <rect key="frame" x="15" y="14" width="187.5" height="51"/>
+                                                                    <rect key="frame" x="15" y="14" width="188" height="51"/>
                                                                     <subviews>
                                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MAv-h8-R9t">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="136.5" height="51"/>
+                                                                            <rect key="frame" x="0.0" y="0.0" width="137" height="51"/>
                                                                             <subviews>
                                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" misplaced="YES" text="You.Status12312324" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fQ8-4T-eiv">
                                                                                     <rect key="frame" x="8" y="8" width="130" height="21"/>
@@ -5249,7 +5249,7 @@
                                                                             </constraints>
                                                                         </view>
                                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chat_user_large" translatesAutoresizingMaskIntoConstraints="NO" id="Tpq-q5-VAj">
-                                                                            <rect key="frame" x="136.5" y="0.0" width="51" height="51"/>
+                                                                            <rect key="frame" x="137" y="0.0" width="51" height="51"/>
                                                                         </imageView>
                                                                     </subviews>
                                                                 </stackView>
@@ -5302,7 +5302,7 @@
                                                                     <rect key="frame" x="96" y="14" width="202" height="51"/>
                                                                     <subviews>
                                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5sB-rK-966">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="136.5" height="51"/>
+                                                                            <rect key="frame" x="0.0" y="0.0" width="137" height="51"/>
                                                                             <subviews>
                                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" misplaced="YES" text="You.Status12312324" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FyR-HG-ZyD">
                                                                                     <rect key="frame" x="8" y="8" width="121" height="21"/>
@@ -5336,7 +5336,7 @@
                                                                             </constraints>
                                                                         </view>
                                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chat_user_large" translatesAutoresizingMaskIntoConstraints="NO" id="Sx3-fE-asO">
-                                                                            <rect key="frame" x="136.5" y="0.0" width="65.5" height="51"/>
+                                                                            <rect key="frame" x="137" y="0.0" width="65" height="51"/>
                                                                         </imageView>
                                                                     </subviews>
                                                                 </stackView>
@@ -5976,7 +5976,6 @@
                         <segue destination="GLU-bm-Cvs" kind="relationship" relationship="viewControllers" id="sv0-g0-nQh"/>
                         <segue destination="tuq-43-qXl" kind="relationship" relationship="viewControllers" id="6d6-7S-htO"/>
                         <segue destination="0bu-qm-WE0" kind="relationship" relationship="viewControllers" id="2aN-tc-6Wk"/>
-                        <segue destination="tYJ-aX-mJE" kind="relationship" relationship="viewControllers" id="cCY-pr-gX8"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lJi-cD-Yjf" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -8854,7 +8853,7 @@
         <scene sceneID="L1R-Vr-JXe">
             <objects>
                 <navigationController id="0bu-qm-WE0" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Status" image="chat_camera" id="HEC-qI-ZvY"/>
+                    <tabBarItem key="tabBarItem" title="Status" image="status" id="HEC-qI-ZvY"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="KU6-cx-Emy">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -9189,7 +9188,7 @@
         <!--My Status Details View Controller-->
         <scene sceneID="gGW-qT-XiH">
             <objects>
-                <viewController id="auQ-vR-CnT" customClass="MyStatusDetailsViewController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController hidesBottomBarWhenPushed="YES" id="auQ-vR-CnT" customClass="MyStatusDetailsViewController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="tJQ-FN-bea"/>
                         <viewControllerLayoutGuide type="bottom" id="InD-mE-NyT"/>
@@ -9240,13 +9239,15 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="topMargin" secondItem="P1F-PN-Q2c" secondAttribute="top" id="Bxm-4s-8XQ"/>
                                                 <constraint firstAttribute="topMargin" secondItem="rBD-Wq-CVh" secondAttribute="top" id="Hvk-ae-nNL"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="rBD-Wq-CVh" secondAttribute="bottom" constant="-1" id="NAu-qk-kI7"/>
                                                 <constraint firstItem="P1F-PN-Q2c" firstAttribute="leading" secondItem="rBD-Wq-CVh" secondAttribute="trailing" constant="8" id="RtU-jl-hgG"/>
                                                 <constraint firstAttribute="leadingMargin" secondItem="rBD-Wq-CVh" secondAttribute="leading" id="pPo-UM-am8"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <constraints>
+                                            <constraint firstItem="P1F-PN-Q2c" firstAttribute="centerY" secondItem="xha-ck-D9k" secondAttribute="centerY" id="aTI-NK-ZEJ"/>
+                                        </constraints>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -9254,18 +9255,21 @@
                                     <outlet property="delegate" destination="auQ-vR-CnT" id="0Do-wG-rev"/>
                                 </connections>
                             </tableView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3Ij-DR-iNd">
+                            <toolbar hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3Ij-DR-iNd">
                                 <rect key="frame" x="0.0" y="460" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
-                                    <barButtonItem title="Delete" id="yu5-lK-EeE"/>
+                                    <barButtonItem title="Delete" id="yu5-lK-EeE">
+                                        <connections>
+                                            <action selector="btnDeletePressed:" destination="auQ-vR-CnT" id="aLh-hz-eT0"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="zCz-j3-shI">
-                        <barButtonItem key="leftBarButtonItem" title="Back" id="58x-2d-VJo"/>
                         <barButtonItem key="rightBarButtonItem" title="Edit" id="0V6-xY-5XK">
                             <connections>
                                 <action selector="btnEditPressed:" destination="auQ-vR-CnT" id="hGT-Ia-rHS"/>
@@ -9274,6 +9278,7 @@
                     </navigationItem>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="bottomToolbar" destination="3Ij-DR-iNd" id="qbE-Ng-q8D"/>
                         <outlet property="btnEditOutlet" destination="0V6-xY-5XK" id="Nfz-UL-aF6"/>
                         <outlet property="tblMyStatus" destination="LAT-eO-O4C" id="qU1-me-uXZ"/>
                     </connections>
@@ -9340,7 +9345,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FE4-qN-oOd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1075" y="2263"/>
+            <point key="canvasLocation" x="1236" y="2254"/>
         </scene>
         <!--Privacy Settings View Controller-->
         <scene sceneID="eWw-2c-1eN">
@@ -9532,7 +9537,7 @@
         <!--Status Window View Controller-->
         <scene sceneID="yo5-0O-0XC">
             <objects>
-                <viewController id="iAL-Uj-U1X" customClass="StatusWindowViewController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController hidesBottomBarWhenPushed="YES" id="iAL-Uj-U1X" customClass="StatusWindowViewController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="B6b-57-V4P"/>
                         <viewControllerLayoutGuide type="bottom" id="BrS-dz-cWi"/>
@@ -9542,12 +9547,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" id="4Sl-id-vXY"/>
                     <nil key="simulatedBottomBarMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hfv-m5-934" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="394" y="2910"/>
+            <point key="canvasLocation" x="306" y="3037"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="qSY-ZH-xxH">
@@ -9606,6 +9612,7 @@
         <image name="profile-pic4" width="52" height="52"/>
         <image name="project_plus" width="35" height="35"/>
         <image name="reply" width="112" height="112"/>
+        <image name="status" width="20" height="20"/>
         <image name="tabbar_chat" width="23" height="32"/>
         <image name="tabbar_chatmain" width="23" height="22"/>
         <image name="tabbar_clock" width="26" height="26"/>
@@ -9624,23 +9631,23 @@
         <simulatedScreenMetrics key="destination" type="retina4_0.fullscreen"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="DG8-Wc-RK7"/>
         <segue reference="c2i-dp-UEK"/>
+        <segue reference="DG8-Wc-RK7"/>
         <segue reference="RFF-yp-GNa"/>
-        <segue reference="Mz0-FN-AbK"/>
+        <segue reference="Spe-dd-EXu"/>
         <segue reference="0Ba-7e-jXB"/>
         <segue reference="ADA-1C-gHV"/>
         <segue reference="0xH-LE-leu"/>
         <segue reference="cEg-U8-UBa"/>
-        <segue reference="Spe-dd-EXu"/>
         <segue reference="jZZ-fL-lXE"/>
-        <segue reference="Wyu-u6-g5L"/>
         <segue reference="Jjq-iC-ovb"/>
+        <segue reference="Mz0-FN-AbK"/>
+        <segue reference="nfZ-gF-nDM"/>
         <segue reference="Ite-sp-zyZ"/>
         <segue reference="LYu-6R-l0u"/>
-        <segue reference="nfZ-gF-nDM"/>
         <segue reference="SBG-bF-djg"/>
         <segue reference="N5B-Ot-bcs"/>
+        <segue reference="Wyu-u6-g5L"/>
         <segue reference="xaI-60-nb7"/>
         <segue reference="Cjg-Ar-cdZ"/>
         <segue reference="3Qa-aS-eRu"/>

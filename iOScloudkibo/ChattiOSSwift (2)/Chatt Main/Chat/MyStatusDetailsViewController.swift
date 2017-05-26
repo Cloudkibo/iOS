@@ -13,6 +13,7 @@ class MyStatusDetailsViewController: UIViewController,UITableViewDataSource,UITa
     
     var messages:NSMutableArray!
     
+    @IBOutlet weak var bottomToolbar: UIToolbar!
     @IBOutlet weak var btnEditOutlet: UIBarButtonItem!
     @IBOutlet weak var tblMyStatus: UITableView!
     override func viewDidLoad() {
@@ -23,7 +24,7 @@ class MyStatusDetailsViewController: UIViewController,UITableViewDataSource,UITa
         messages.add(["picID":"2","time":"just now","viewCount":"0"])
         
         tblMyStatus.allowsMultipleSelectionDuringEditing = true
-        tblMyStatus.setEditing(true, animated: false)
+        //!!tblMyStatus.setEditing(true, animated: false)
         
         // Do any additional setup after loading the view.
     }
@@ -44,10 +45,63 @@ class MyStatusDetailsViewController: UIViewController,UITableViewDataSource,UITa
         
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        
+    }
     
+    @IBAction func btnDeletePressed(_ sender: Any) {
+        let shareMenu = UIAlertController(title: "", message: "", preferredStyle: .actionSheet)
+        shareMenu.modalPresentationStyle=UIModalPresentationStyle.overCurrentContext
+        
+        
+        let unblockAction = UIAlertAction(title: "Delete Status update".localized, style: UIAlertActionStyle.destructive,handler: { (action) -> Void in
+           
+            var indexesSelected=self.tblMyStatus.indexPathsForSelectedRows
+            for ind in indexesSelected!
+            {
+                self.messages.removeObject(at:ind.row)
+            }
+            self.tblMyStatus.isEditing=false
+            self.btnEditOutlet.title="Edit"
+            self.bottomToolbar.isHidden=true
+            self.tblMyStatus.reloadData()
+            
+            
+            
+        })
+        let cancelAction = UIAlertAction(title: "Cancel".localized, style: UIAlertActionStyle.cancel, handler:{ (action) -> Void in
+            
+            return
+            
+        })
+        
+        
+        shareMenu.addAction(unblockAction)
+        shareMenu.addAction(cancelAction)
+        
+        
+        
+        self.present(shareMenu, animated: true, completion: {
+            
+        })
+        
+        
+      
+    }
     @IBAction func btnEditPressed(_ sender: Any) {
-        
-        
+        //!tblMyStatus.isEditing
+      tblMyStatus.setEditing(!tblMyStatus.isEditing, animated: false)
+        if(tblMyStatus.isEditing==true)
+        {
+        bottomToolbar.isHidden=false
+            btnEditOutlet.title="Done"
+        }
+        else{
+            bottomToolbar.isHidden=true
+            btnEditOutlet.title="Edit"
+
+        }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
