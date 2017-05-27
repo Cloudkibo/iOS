@@ -2043,7 +2043,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="justified" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XAB-BP-Xg0">
-                                                            <rect key="frame" x="51" y="56" width="0.0" height="0.0"/>
+                                                            <rect key="frame" x="51" y="43" width="0.0" height="0.0"/>
                                                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -5212,10 +5212,10 @@
                                                                     <rect key="frame" x="8" y="8" width="223" height="104"/>
                                                                 </imageView>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="78Z-XY-S4k">
-                                                                    <rect key="frame" x="15" y="14" width="188" height="51"/>
+                                                                    <rect key="frame" x="15" y="14" width="187.5" height="51"/>
                                                                     <subviews>
                                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MAv-h8-R9t">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="137" height="51"/>
+                                                                            <rect key="frame" x="0.0" y="0.0" width="136.5" height="51"/>
                                                                             <subviews>
                                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" misplaced="YES" text="You.Status12312324" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fQ8-4T-eiv">
                                                                                     <rect key="frame" x="8" y="8" width="130" height="21"/>
@@ -5249,7 +5249,7 @@
                                                                             </constraints>
                                                                         </view>
                                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chat_user_large" translatesAutoresizingMaskIntoConstraints="NO" id="Tpq-q5-VAj">
-                                                                            <rect key="frame" x="137" y="0.0" width="51" height="51"/>
+                                                                            <rect key="frame" x="136.5" y="0.0" width="51" height="51"/>
                                                                         </imageView>
                                                                     </subviews>
                                                                 </stackView>
@@ -5302,7 +5302,7 @@
                                                                     <rect key="frame" x="96" y="14" width="202" height="51"/>
                                                                     <subviews>
                                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5sB-rK-966">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="137" height="51"/>
+                                                                            <rect key="frame" x="0.0" y="0.0" width="136.5" height="51"/>
                                                                             <subviews>
                                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" misplaced="YES" text="You.Status12312324" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FyR-HG-ZyD">
                                                                                     <rect key="frame" x="8" y="8" width="121" height="21"/>
@@ -5336,7 +5336,7 @@
                                                                             </constraints>
                                                                         </view>
                                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chat_user_large" translatesAutoresizingMaskIntoConstraints="NO" id="Sx3-fE-asO">
-                                                                            <rect key="frame" x="137" y="0.0" width="65" height="51"/>
+                                                                            <rect key="frame" x="136.5" y="0.0" width="65.5" height="51"/>
                                                                         </imageView>
                                                                     </subviews>
                                                                 </stackView>

@@ -42,7 +42,7 @@ import Photos
 
 class StatusWindowViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate,UIImagePickerControllerDelegate,UIPickerViewDelegate{
     
-    
+    var myviewgallery=UIView.init()
     var scrollView: UIScrollView!
     var stackView: UIStackView!
     lazy var assets = [PHAsset]()
@@ -55,7 +55,7 @@ class StatusWindowViewController: SwiftyCamViewController, SwiftyCamViewControll
     var galleryButton: UIButton!
     var cancelButton: UIButton!
     
-    var images=[UIImage]()
+    var images=[UIImageView]()
     struct GestureConstants {
         static let maximumHeight: CGFloat = 200
         static let minimumHeight: CGFloat = 125
@@ -146,7 +146,7 @@ class StatusWindowViewController: SwiftyCamViewController, SwiftyCamViewControll
         maximumVideoDuration = 10.0
         shouldUseDeviceOrientation = true
         addButtons()
-        self.fetchPhotosFromGallery()
+        //!!self.fetchPhotosFromGallery()
         
         var img1=UIImage.init(named: "cancel.png")
         var img2=UIImage.init(named: "gallery.png")
@@ -163,10 +163,11 @@ class StatusWindowViewController: SwiftyCamViewController, SwiftyCamViewControll
         
         scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-        var myviewgallery=UIView.init(frame: CGRect(x: 10, y: view.frame.height - 400, width: 575.0, height: 100.0))
+         myviewgallery=UIView.init(frame: CGRect(x: 10, y: view.frame.height - 300, width: 575.0, height: 100.0))
         myviewgallery.addSubview(scrollView)
         view.addSubview(myviewgallery)
         
+        //!!view.addSubview(scrollView)
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[scrollView]|", options: .alignAllCenterX, metrics: nil, views: ["scrollView": scrollView]))
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[scrollView]|", options: .alignAllCenterX, metrics: nil, views: ["scrollView": scrollView]))
         
@@ -179,15 +180,60 @@ class StatusWindowViewController: SwiftyCamViewController, SwiftyCamViewControll
         scrollView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[stackView]|", options: NSLayoutFormatOptions.alignAllCenterX, metrics: nil, views: ["stackView": stackView]))
         scrollView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[stackView]", options: NSLayoutFormatOptions.alignAllCenterX, metrics: nil, views: ["stackView": stackView]))
         var imgview=UIImageView.init()
-        for imgs in images{
+        
+        self.myfetch()
+        
+        /*for imgs in images{
             
              //imgview=UIImageView.init(image:self.getAssetThumbnail(asset: imgs))
             imgview=UIImageView.init(image:imgs)
             stackView.addArrangedSubview(imgview1)
             
-        }
+        }*/
+       /* let imgManager = PHImageManager.default()
         
-        /* stackView.addArrangedSubview(imgview1)
+        // Note that if the request is not set to synchronous
+        // the requestImageForAsset will return both the image
+        // and thumbnail; by setting synchronous to true it
+        // will return just the thumbnail
+        var requestOptions = PHImageRequestOptions()
+        requestOptions.isSynchronous = false
+        
+        // Sort the images by creation date
+        var fetchOptions = PHFetchOptions()
+        fetchOptions.sortDescriptors = [NSSortDescriptor(key:"creationDate", ascending: true)]
+        
+        if let fetchResult: PHFetchResult = PHAsset.fetchAssets(with: PHAssetMediaType.image, options: fetchOptions) {
+            
+            // If the fetch result isn't empty,
+            // proceed with the image request
+            for i in 0..<fetchResult.count-1{
+                // Perform the image request
+                imgManager.requestImage(for: fetchResult.object(at: i) as PHAsset, targetSize: view.frame.size, contentMode: PHImageContentMode.aspectFill, options: requestOptions, resultHandler: { (image, _) in
+                    
+                    // Add the returned image to your array
+                    if(image != nil)
+                    {
+                        self.images.append((image)!)
+                        self.stackView.addArrangedSubview(UIImageView.init(image: image))
+                    }
+                    // If you haven't already reached the first
+                    // index of the fetch result and if you haven't
+                    // already stored all of the images you need,
+                    // perform the fetch request again with an
+                    // incremented index
+                    /* if index + 1 < fetchResult.count && self.images.count < self.totalImageCountNeeded {
+                     self.fetchPhotoAtIndexFromEnd(index + 1)
+                     } else {
+                     // Else you have completed creating your array
+                     println("Completed array: \(self.images)")
+                     }*/
+                    //})
+                    // }
+                })
+            }
+        }*/
+       /* stackView.addArrangedSubview(imgview1)
         stackView.addArrangedSubview(imgview2)
         stackView.addArrangedSubview(imgview3)
         stackView.addArrangedSubview(imgview4)
@@ -197,7 +243,7 @@ class StatusWindowViewController: SwiftyCamViewController, SwiftyCamViewControll
         stackView.addArrangedSubview(imgview8)
         stackView.addArrangedSubview(imgview9)
         stackView.addArrangedSubview(imgview10)
-        */
+ */
         
         /*for _ in 1 ..< 100 {
             let vw = UIButton(type: UIButtonType.System)
@@ -219,7 +265,7 @@ class StatusWindowViewController: SwiftyCamViewController, SwiftyCamViewControll
 
         */
         //!!self.view.addSubview(stackView)
-        
+        //!!self.view.addSubview(scrollView)
         
         /*for subview in [imagePicker.view] {
             view.addSubview(subview!)
@@ -243,8 +289,85 @@ class StatusWindowViewController: SwiftyCamViewController, SwiftyCamViewControll
         super.viewDidAppear(animated)
     }
     
+    func myfetch()
+    {
+        //var phassetcollection1=PHAssetCollection.init()
+        
+     //   fetchOptions.predicate = NSPredicate(format: "title = %@", self.albumName)?
+        let collection:PHFetchResult = PHAssetCollection.fetchAssetCollections(with: .moment, subtype: .any, options: nil)
+        if let first_Obj:AnyObject = collection.firstObject{
+            //found the album
+          // phassetcollection1 = collection.firstObject! as PHAssetCollection
+           //!! self.albumFound = true
+        }
+        else {
+            //!!albumFound = false
+        }
+        //var i = collection.count
+        var photoAssets=PHAsset.fetchAssets(with: .image, options: nil)
+        //!!!var photoAssets = PHAsset.fetchAssets(in: phassetcollection1, options: nil)
+        let imageManager = PHCachingImageManager()
+        
+        photoAssets.enumerateObjects({(object: AnyObject!,
+            count: Int,
+            stop: UnsafeMutablePointer<ObjCBool>) in
+            
+            if object is PHAsset{
+                let asset = object as! PHAsset
+                print("Inside  If object is PHAsset, This is number 1")
+                
+                //!!let imageSize = CGSize(width: asset.pixelWidth,
+                                      // height: asset.pixelHeight)
+                let imageSize = CGSize(width: 100,
+                                       height: 100)
+                
+                /* For faster performance, and maybe degraded image */
+                let options = PHImageRequestOptions()
+                options.deliveryMode = .fastFormat
+                options.isSynchronous = false
+                imageManager.requestImage(for: asset,
+                                                  targetSize: imageSize,
+                                                  contentMode: .aspectFit,
+                                                  options: options,
+                                                  resultHandler: {
+                                                    image, info in
+                                                    
+                                                    self.images.append(UIImageView.init(image: image!))
+                                                    
+                                                    self.stackView.addArrangedSubview(UIImageView.init(image: image!))
+                                                    
+                                                    let recognizer = UITapGestureRecognizer(target: self, action: #selector(self.stackImageTapped))
+                                                    recognizer.delegate = self
+                                                    self.images.last?.addGestureRecognizer(recognizer)
+                                                    //!!!!self.photo = image!
+                                                    /* The image is now available to us */
+                                                    //!!!!self.sendPhotos(self.photo)
+                                                    print("enum for image, This is number 2")
+                                                    
+                                                    
+                })
+            }
+        })
+    }
+
+    //stackImageTapped
+    func stackImageTapped(_ recognizer: UITapGestureRecognizer) {
+        if let selectedImageView = recognizer.view as? UIImageView {
+            selectImageView(imgView: selectedImageView)
+        }
+    }
+    func selectImageView(imgView:UIImageView)
+    {
+        var photo=imgView.image
+    let newVC = StatusPhotoViewController(image: photo!)
+    self.present(newVC, animated: true){
+    //self.dismiss(animated: true){
     
-    func fetchPhotosFromGallery() {
+    // }
+    }
+    }
+    
+   /* func fetchPhotosFromGallery() {
         
         let imgManager = PHImageManager.default()
         
@@ -263,13 +386,15 @@ class StatusWindowViewController: SwiftyCamViewController, SwiftyCamViewControll
             
             // If the fetch result isn't empty,
             // proceed with the image request
-            for i in 0..<fetchResult.count{
+            for i in 0..<fetchResult.count-1{
                 // Perform the image request
                 imgManager.requestImage(for: fetchResult.object(at: i) as PHAsset, targetSize: view.frame.size, contentMode: PHImageContentMode.aspectFill, options: requestOptions, resultHandler: { (image, _) in
                     
                     // Add the returned image to your array
-                    self.images.append(image!)
-                    
+                    if(image != nil)
+                    {
+                    self.images.append((image)!)
+                    }
                     // If you haven't already reached the first
                     // index of the fetch result and if you haven't
                     // already stored all of the images you need,
@@ -287,7 +412,7 @@ class StatusWindowViewController: SwiftyCamViewController, SwiftyCamViewControll
     }
         }
     }
-    
+    */
     func fetch(withConfiguration configuration: Configuration, _ completion: @escaping (_ assets: [PHAsset]) -> Void) {
         guard PHPhotoLibrary.authorizationStatus() == .authorized else { return }
         
