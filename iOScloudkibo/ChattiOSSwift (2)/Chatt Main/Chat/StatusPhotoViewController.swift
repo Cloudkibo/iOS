@@ -53,6 +53,14 @@ class StatusPhotoViewController: UIViewController,UIImagePickerControllerDelegat
         cancelButton.setImage(#imageLiteral(resourceName: "cancel"), for: UIControlState())
         cancelButton.addTarget(self, action: #selector(cancel), for: .touchUpInside)
         view.addSubview(cancelButton)
+        //==--let cancelButton = UIButton(frame: CGRect(x: 10.0, y: 10.0, width: 30.0, height: 30.0))
+       let captionfield=UITextView.init(frame: CGRect(x: 50.0, y: view.frame.height - 50.0, width: 300.0, height: 30.0))
+        view.addSubview(captionfield)
+        
+        let sendButton = UIButton(frame: CGRect(x: captionfield.frame.origin.x+300+20, y: captionfield.frame.origin.y, width: 30.0, height: 30.0))
+        sendButton.setImage(#imageLiteral(resourceName: "chat_arrow"), for: UIControlState())
+        sendButton.addTarget(self, action: #selector(cancel), for: .touchUpInside)
+        
     }
     
     func cancel() {

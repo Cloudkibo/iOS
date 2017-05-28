@@ -42,6 +42,7 @@ import Photos
 
 class StatusWindowViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate,UIImagePickerControllerDelegate,UIPickerViewDelegate{
     
+    var recognizer=UITapGestureRecognizer.init()
     var myviewgallery=UIView.init()
     var scrollView: UIScrollView!
     var stackView: UIStackView!
@@ -147,7 +148,7 @@ class StatusWindowViewController: SwiftyCamViewController, SwiftyCamViewControll
         shouldUseDeviceOrientation = true
         addButtons()
         //!!self.fetchPhotosFromGallery()
-        
+        self.recognizer.delegate = self
         var img1=UIImage.init(named: "cancel.png")
         var img2=UIImage.init(named: "gallery.png")
       var imgview1=UIImageView.init(image: img1)
@@ -183,8 +184,9 @@ class StatusWindowViewController: SwiftyCamViewController, SwiftyCamViewControll
         
         self.myfetch()
         
+       
         /*for imgs in images{
-            
+         
              //imgview=UIImageView.init(image:self.getAssetThumbnail(asset: imgs))
             imgview=UIImageView.init(image:imgs)
             stackView.addArrangedSubview(imgview1)
@@ -289,6 +291,10 @@ class StatusWindowViewController: SwiftyCamViewController, SwiftyCamViewControll
         super.viewDidAppear(animated)
     }
     
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+    
     func myfetch()
     {
         //var phassetcollection1=PHAssetCollection.init()
@@ -335,10 +341,19 @@ class StatusWindowViewController: SwiftyCamViewController, SwiftyCamViewControll
                                                     self.images.append(UIImageView.init(image: image!))
                                                     
                                                     self.stackView.addArrangedSubview(UIImageView.init(image: image!))
+                                                    print("adding tap gesture")
+                                                    let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.stackImageTapped(_:)))
                                                     
-                                                    let recognizer = UITapGestureRecognizer(target: self, action: #selector(self.stackImageTapped))
-                                                    recognizer.delegate = self
-                                                    self.images.last?.addGestureRecognizer(recognizer)
+                                                    tapRecognizer.delegate=self
+                                                    /// img.addTarget(self, action: #selector(self.selectImageView(_:)), for:.touchUpInside)
+                                                    
+                                                    self.stackView.arrangedSubviews.last?.addGestureRecognizer(tapRecognizer)
+
+                                                   // var gest = UITapGestureRecognizer(
+                                                    
+                                                        var img=self.stackView.subviews.last as! UIImageView
+                                                    
+                                               
                                                     //!!!!self.photo = image!
                                                     /* The image is now available to us */
                                                     //!!!!self.sendPhotos(self.photo)
@@ -348,14 +363,36 @@ class StatusWindowViewController: SwiftyCamViewController, SwiftyCamViewControll
                 })
             }
         })
+       /* for ind in 0..<stackView.arrangedSubviews.count{
+            print("adding tap gesture \(ind)")
+            let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.stackImageTapped(_:)))
+            
+            /// img.addTarget(self, action: #selector(self.selectImageView(_:)), for:.touchUpInside)
+            
+            self.stackView.arrangedSubviews[ind].addGestureRecognizer(tapRecognizer)
+        }*/
     }
 
     //stackImageTapped
     func stackImageTapped(_ recognizer: UITapGestureRecognizer) {
+        print("stackImageTapped")
         if let selectedImageView = recognizer.view as? UIImageView {
             selectImageView(imgView: selectedImageView)
         }
     }
+    
+  /*  func selectImageView(_ sender:AnyObject!)
+    { print("stackImageTapped1")
+        var photoview=sender as! UIImageView
+        var photo=photoview.image
+        let newVC = StatusPhotoViewController(image: photo!)
+        self.present(newVC, animated: true){
+            //self.dismiss(animated: true){
+            
+            // }
+        }
+    }
+    */
     func selectImageView(imgView:UIImageView)
     {
         var photo=imgView.image
