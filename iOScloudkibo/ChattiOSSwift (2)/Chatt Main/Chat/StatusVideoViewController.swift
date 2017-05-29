@@ -30,7 +30,7 @@ class StatusVideoViewController: UIViewController {
     override var prefersStatusBarHidden: Bool {
         return true
     }
-    
+    var videocaption=""
     private var videoURL: URL
     var player: AVPlayer?
     var playerController : AVPlayerViewController?
@@ -118,7 +118,8 @@ class StatusVideoViewController: UIViewController {
             let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
             let docsDir1 = dirPaths[0]
             var documentDir=docsDir1 as NSString
-            var filePathVideo=documentDir.appendingPathComponent(uniqueid+self.videoURL.pathExtension)
+            var filename=uniqueid+"."+self.videoURL.pathExtension
+            var filePathVideo=documentDir.appendingPathComponent(uniqueid+"."+self.videoURL.pathExtension)
             var fm=FileManager.default
             
             var fileAttributes:[String:AnyObject]=["":"" as AnyObject]
@@ -129,9 +130,37 @@ class StatusVideoViewController: UIViewController {
             
             //filePathImage2
            do{var data=try Data.init(contentsOf: self.videoURL)
-                try? data.write(to: URL(fileURLWithPath: filePathVideo), options: [.atomic])
+           
+            var filesize=data.count
+            
+            try? data.write(to: URL(fileURLWithPath: filePathVideo), options: [.atomic])
+            
             UtilityFunctions.init().log_papertrail("IPHONE-LOG: \(username!) is uploading video captured, saved file")
                 // data!.writeToFile(localPath.absoluteString, atomically: true)
+            var uniqueID=UtilityFunctions.init().generateUniqueid()
+            print("uniqueid video is \(uniqueID)")
+            var statusNow="pending"
+            
+            // var imParas=["from":"\(username!)","to":"\(self.selectedContact)","fromFullName":"\(displayname)","msg":self.filename,"uniqueid":uniqueID,"type":"file","file_type":"video","status":statusNow]
+            //print("imparas are \(imParas)")
+            
+            
+            //------
+            
+            //SPECIAL
+            sqliteDB.saveFile("all", from1: username!, owneruser1: username!, file_name1:filename, date1: nil, uniqueid1: uniqueID, file_size1: "\(filesize)", file_type1: uniqueID, file_path1: filePathVideo, type1: "day_status",caption1:self.videocaption)
+            
+            //==--self.addUploadInfo(self.selectedContact,uniqueid1: uniqueID, rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
+            
+            //if(self.selectedContact != "")
+            //{
+            
+            
+            
+            
+            managerFile.uploadStatus(date1: Date.init(), uniqueid1: uniqueID, file_name1: filename, file_size1: filesize.description, label1: self.videocaption, file_type1: self.videoURL.pathExtension, uploadedBy1: username!, file_path1: filePathVideo)
+         
+            
             }
             catch{
                 UtilityFunctions.init().log_papertrail("IPHONE-LOG: \(username) cannot write file \(error)")
@@ -141,29 +170,7 @@ class StatusVideoViewController: UIViewController {
             }
 
             
-            var uniqueID=UtilityFunctions.init().generateUniqueid()
-            print("uniqueid video is \(uniqueID)")
-            var statusNow="pending"
-            
-           // var imParas=["from":"\(username!)","to":"\(self.selectedContact)","fromFullName":"\(displayname)","msg":self.filename,"uniqueid":uniqueID,"type":"file","file_type":"video","status":statusNow]
-            //print("imparas are \(imParas)")
-            
-            
-            //------
-            
-            //SPECIAL
-            sqliteDB.saveFile(self.selectedContact, from1: username!, owneruser1: username!, file_name1: self.filename, date1: nil, uniqueid1: uniqueID, file_size1: "\(self.fileSize1)", file_type1: uniqueID, file_path1: filePathVideo, type1: "day_status_chat",caption1:self.imgCaption)
-            
-            //==--self.addUploadInfo(self.selectedContact,uniqueid1: uniqueID, rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
-            
-            //if(self.selectedContact != "")
-            //{
-            
-            
-            
-                
-                managerFile.uploadFile(filePathImage2, to1: self.selectedContact, from1: username!, uniqueid1: uniqueID, file_name1: self.filename, file_size1: "\(self.fileSize1)", file_type1: ftype,type1:"video",label1:"")
-           // }
+         // }
             
             
             
