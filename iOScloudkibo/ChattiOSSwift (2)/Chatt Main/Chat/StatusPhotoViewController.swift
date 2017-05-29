@@ -27,6 +27,8 @@ import UIKit
 
 class StatusPhotoViewController: UIViewController,UIImagePickerControllerDelegate {
     
+    var image:UIImage!
+    var imgcaption=""
     override var prefersStatusBarHidden: Bool {
         return true
     }
@@ -34,6 +36,7 @@ class StatusPhotoViewController: UIViewController,UIImagePickerControllerDelegat
     private var backgroundImage: UIImage
     
     init(image: UIImage) {
+        self.image=image
         self.backgroundImage = image
         super.init(nibName: nil, bundle: nil)
     }
@@ -92,6 +95,63 @@ class StatusPhotoViewController: UIViewController,UIImagePickerControllerDelegat
         //3. Grab the value from the text field, and print it when the user clicks OK.
         alert.addAction(UIAlertAction(title: "Send", style: .default, handler: { (action) -> Void in
             let textField = alert.textFields![0] as UITextField
+            
+            self.imgcaption=textField.text!
+            var uniqueid=UtilityFunctions.init().generateUniqueid()
+            let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+            let docsDir1 = dirPaths[0]
+            var documentDir=docsDir1 as NSString
+            var filename=uniqueid+"."+"png"
+            var filePathVideo=documentDir.appendingPathComponent(uniqueid+"."+"png")
+            var fm=FileManager.default
+            var fileExtension="."+"png"
+            var fileAttributes:[String:AnyObject]=["":"" as AnyObject]
+            
+            //!!var s=fm.createFile(atPath: filePathImage2, contents: nil, attributes: nil)
+            
+            //  var written=fileData!.writeToFile(filePathImage2, atomically: false)
+            
+            //filePathImage2
+            do{var data=try UIImagePNGRepresentation(self.image)
+                
+                var filesize=data?.count
+                
+                try? data?.write(to: URL(fileURLWithPath: filePathVideo), options: [.atomic])
+                
+                UtilityFunctions.init().log_papertrail("IPHONE-LOG: \(username!) is uploading video captured, saved file")
+                // data!.writeToFile(localPath.absoluteString, atomically: true)
+                var uniqueID=UtilityFunctions.init().generateUniqueid()
+                print("uniqueid video is \(uniqueID)")
+                var statusNow="pending"
+                
+                // var imParas=["from":"\(username!)","to":"\(self.selectedContact)","fromFullName":"\(displayname)","msg":self.filename,"uniqueid":uniqueID,"type":"file","file_type":"video","status":statusNow]
+                //print("imparas are \(imParas)")
+                
+                
+                //------
+                
+                //SPECIAL
+                sqliteDB.saveFile("all", from1: username!, owneruser1: username!, file_name1:filename, date1: nil, uniqueid1: uniqueID, file_size1: "\(filesize)", file_type1: uniqueID, file_path1: filePathVideo, type1: "day_status",caption1:self.imgcaption)
+                
+                //==--self.addUploadInfo(self.selectedContact,uniqueid1: uniqueID, rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
+                
+                //if(self.selectedContact != "")
+                //{
+                
+                
+                
+                
+                managerFile.uploadStatus(date1: Date.init(), uniqueid1: uniqueID, file_name1: filename, file_size1: filesize!.description, label1: self.imgcaption, file_type1: "png", uploadedBy1: username!, file_path1: filePathVideo)
+                
+                
+            }
+            catch{
+                UtilityFunctions.init().log_papertrail("IPHONE-LOG: \(username) cannot write file \(error)")
+                
+                return
+                //==--self.showError("Error".localized, message: "Unable to get video".localized, button1: "Ok".localized)
+            }
+
             //!!self.imgCaption = textField.text!
             // let textField = alert.textFields![0] as UITextField
             

@@ -2161,6 +2161,7 @@ class NetworkingManager
          file_type: String,
          uploadedBy: String
          */
+        print("file type is \(file_type1)")
         var parameters:JSON = [
                 "date": date1,
                 "uniqueid": uniqueid1,
@@ -2168,7 +2169,7 @@ class NetworkingManager
                 "file_size": file_size1,
                 "label": label1,
                 "filesize": file_size1,
-                "file_type": file_type1,
+                "file_type": "."+file_type1,
                 "uploadedBy":uploadedBy1
             ]
             

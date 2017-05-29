@@ -112,7 +112,7 @@ class StatusVideoViewController: UIViewController {
             
             
             
-            
+            self.videocaption=textField.text!
             print("extension is \(self.videoURL.pathExtension)")
             var uniqueid=UtilityFunctions.init().generateUniqueid()
             let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
@@ -121,7 +121,7 @@ class StatusVideoViewController: UIViewController {
             var filename=uniqueid+"."+self.videoURL.pathExtension
             var filePathVideo=documentDir.appendingPathComponent(uniqueid+"."+self.videoURL.pathExtension)
             var fm=FileManager.default
-            
+            var fileExtension="."+self.videoURL.pathExtension
             var fileAttributes:[String:AnyObject]=["":"" as AnyObject]
             
             //!!var s=fm.createFile(atPath: filePathImage2, contents: nil, attributes: nil)
