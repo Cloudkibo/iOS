@@ -164,7 +164,7 @@ class StatusWindowViewController: SwiftyCamViewController, SwiftyCamViewControll
         
         scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-         myviewgallery=UIView.init(frame: CGRect(x: 10, y: view.frame.height - 300, width: 575.0, height: 100.0))
+         myviewgallery=UIView.init(frame: CGRect(x: 10, y: view.frame.height - 250, width: 575.0, height: 100.0))
         myviewgallery.addSubview(scrollView)
         view.addSubview(myviewgallery)
         
@@ -513,6 +513,7 @@ class StatusWindowViewController: SwiftyCamViewController, SwiftyCamViewControll
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishProcessVideoAt url: URL) {
         let newVC = StatusVideoViewController(videoURL: url)
+        print("video url \(url)")
         self.present(newVC, animated: true, completion: nil)
     }
     
@@ -599,6 +600,13 @@ class StatusWindowViewController: SwiftyCamViewController, SwiftyCamViewControll
         flipCameraButton.setImage(#imageLiteral(resourceName: "flipCamera"), for: UIControlState())
         flipCameraButton.addTarget(self, action: #selector(cameraSwitchAction(_:)), for: .touchUpInside)
         self.view.addSubview(flipCameraButton)
+        
+        var lbl=UILabel.init(frame:CGRect(x: view.frame.midX - 100, y: view.frame.height - 100, width: 250.0, height: 75.0))
+        lbl.text="Hold for video, tap for photo"
+        lbl.textColor = .white
+        lbl.shadowColor = .black
+        self.view.addSubview(lbl)
+        
         /*
         let test = CGFloat((view.frame.width - (view.frame.width / 2 + 37.5)) + ((view.frame.width / 2) - 37.5) - 9.0)
         

@@ -54,12 +54,70 @@ class StatusPhotoViewController: UIViewController,UIImagePickerControllerDelegat
         cancelButton.addTarget(self, action: #selector(cancel), for: .touchUpInside)
         view.addSubview(cancelButton)
         //==--let cancelButton = UIButton(frame: CGRect(x: 10.0, y: 10.0, width: 30.0, height: 30.0))
-       let captionfield=UITextView.init(frame: CGRect(x: 50.0, y: view.frame.height - 50.0, width: 300.0, height: 30.0))
-        view.addSubview(captionfield)
+       /*let captionfield=UITextView.init(frame: CGRect(x: 50.0, y: view.frame.height - 50.0, width: 200.0, height: 30.0))
+        //==--view.addSubview(captionfield)
         
-        let sendButton = UIButton(frame: CGRect(x: captionfield.frame.origin.x+300+20, y: captionfield.frame.origin.y, width: 30.0, height: 30.0))
-        sendButton.setImage(#imageLiteral(resourceName: "chat_arrow"), for: UIControlState())
+        //==--let sendButton = UIButton(frame: CGRect(x: captionfield.frame.origin.x+300+20, y: captionfield.frame.origin.y, width: 30.0, height: 30.0))
+         let sendButton = UIButton(frame: CGRect(x: 150, y: captionfield.frame.origin.y, width: 30.0, height: 30.0))
+        sendButton.setImage(#imageLiteral(resourceName: "send"), for: UIControlState())
         sendButton.addTarget(self, action: #selector(cancel), for: .touchUpInside)
+        view.addSubview(sendButton)
+        */
+        let sendButton = UIButton(frame: CGRect(x: 220, y: 430, width: 30.0, height: 30.0))
+        sendButton.setImage(#imageLiteral(resourceName: "send"), for: UIControlState())
+        sendButton.addTarget(self, action: #selector(cancel), for: .touchUpInside)
+        view.addSubview(sendButton)
+        
+        let captionfield=UIButton.init(frame: CGRect(x: 100.0, y: 430, width: 100.0, height: 30.0))
+        //==--captionfield.setImage(#imageLiteral(resourceName: "chat_input_background"), for: UIControlState.normal)
+        captionfield.titleLabel?.text="Add caption"
+        //==--captionfield.backgroundColor = .green
+        captionfield.setTitle("Add caption", for: UIControlState.normal)
+        captionfield.addTarget(self, action: #selector(addcaptiontapped), for: .touchUpInside)
+        
+        view.addSubview(captionfield)
+    }
+    
+    func addcaptiontapped()
+    {
+        let alert = UIAlertController(title: "Add caption".localized, message: "", preferredStyle: .alert)
+        
+        //2. Add the text field. You can configure it however you need.
+        alert.addTextField(configurationHandler: { (textField) -> Void in
+            //!! self.imgCaption = ""
+            textField.text = ""
+        })
+        
+        
+        //3. Grab the value from the text field, and print it when the user clicks OK.
+        alert.addAction(UIAlertAction(title: "Send", style: .default, handler: { (action) -> Void in
+            let textField = alert.textFields![0] as UITextField
+            //!!self.imgCaption = textField.text!
+            // let textField = alert.textFields![0] as UITextField
+            
+            //!!--self.imagePickerController(picker, didFinishPickingImage: (info[UIImagePickerControllerOriginalImage] as? UIImage)!, editingInfo: info as [String : AnyObject]?)
+            
+            //!!
+            /*if(self.showKeyboard==true)
+             {
+             self.textFieldShouldReturn(textField)
+             
+             }*/
+            self.dismiss(animated: true, completion: {
+                
+                
+            })
+            
+            
+            
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) -> Void in
+            
+         
+        }))
+        self.present(alert, animated: true, completion: {
+        })
+        
         
     }
     

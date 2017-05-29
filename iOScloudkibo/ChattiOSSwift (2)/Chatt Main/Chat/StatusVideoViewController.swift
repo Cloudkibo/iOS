@@ -54,7 +54,7 @@ class StatusVideoViewController: UIViewController {
         guard player != nil && playerController != nil else {
             return
         }
-        playerController!.showsPlaybackControls = false
+        playerController!.showsPlaybackControls = true
         
         playerController!.player = player!
         self.addChildViewController(playerController!)
@@ -65,23 +65,152 @@ class StatusVideoViewController: UIViewController {
         let cancelButton = UIButton(frame: CGRect(x: 10.0, y: 10.0, width: 30.0, height: 30.0))
         cancelButton.setImage(#imageLiteral(resourceName: "cancel"), for: UIControlState())
         cancelButton.addTarget(self, action: #selector(cancel), for: .touchUpInside)
-        view.addSubview(cancelButton)
+        //==--view.addSubview(cancelButton)
+        let sendButton = UIButton(frame: CGRect(x: 220, y: 430, width: 30.0, height: 30.0))
+        sendButton.setImage(#imageLiteral(resourceName: "send"), for: UIControlState())
+        sendButton.addTarget(self, action: #selector(cancel), for: .touchUpInside)
+        view.addSubview(sendButton)
+        
+        
+        
+        let captionfield=UIButton.init(frame: CGRect(x: 100.0, y: 430, width: 100.0, height: 30.0))
+        //==--captionfield.setImage(#imageLiteral(resourceName: "chat_input_background"), for: UIControlState.normal)
+        captionfield.titleLabel?.text="Add caption"
+        //==--captionfield.backgroundColor = .green
+        captionfield.setTitle("Add caption", for: UIControlState.normal)
+        captionfield.addTarget(self, action: #selector(addcaptiontapped), for: .touchUpInside)
+        
+        view.addSubview(captionfield)
     }
     
+    func addcaptiontapped()
+    {
+        let alert = UIAlertController(title: "Add caption".localized, message: "", preferredStyle: .alert)
+        
+        //2. Add the text field. You can configure it however you need.
+        alert.addTextField(configurationHandler: { (textField) -> Void in
+           //!! self.imgCaption = ""
+            textField.text = ""
+        })
+        
+        
+        //3. Grab the value from the text field, and print it when the user clicks OK.
+        alert.addAction(UIAlertAction(title: "Send", style: .default, handler: { (action) -> Void in
+            let textField = alert.textFields![0] as UITextField
+            //!!self.imgCaption = textField.text!
+            // let textField = alert.textFields![0] as UITextField
+            
+            //!!--self.imagePickerController(picker, didFinishPickingImage: (info[UIImagePickerControllerOriginalImage] as? UIImage)!, editingInfo: info as [String : AnyObject]?)
+            
+            //!!
+            /*if(self.showKeyboard==true)
+            {
+                self.textFieldShouldReturn(textField)
+                
+            }*/
+            
+            
+            
+            
+            
+            print("extension is \(self.videoURL.pathExtension)")
+            var uniqueid=UtilityFunctions.init().generateUniqueid()
+            let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+            let docsDir1 = dirPaths[0]
+            var documentDir=docsDir1 as NSString
+            var filePathVideo=documentDir.appendingPathComponent(uniqueid+self.videoURL.pathExtension)
+            var fm=FileManager.default
+            
+            var fileAttributes:[String:AnyObject]=["":"" as AnyObject]
+            
+            //!!var s=fm.createFile(atPath: filePathImage2, contents: nil, attributes: nil)
+            
+            //  var written=fileData!.writeToFile(filePathImage2, atomically: false)
+            
+            //filePathImage2
+           do{var data=try Data.init(contentsOf: self.videoURL)
+                try? data.write(to: URL(fileURLWithPath: filePathVideo), options: [.atomic])
+            UtilityFunctions.init().log_papertrail("IPHONE-LOG: \(username!) is uploading video captured, saved file")
+                // data!.writeToFile(localPath.absoluteString, atomically: true)
+            }
+            catch{
+                UtilityFunctions.init().log_papertrail("IPHONE-LOG: \(username) cannot write file \(error)")
+                
+                return
+                //==--self.showError("Error".localized, message: "Unable to get video".localized, button1: "Ok".localized)
+            }
+
+            
+            var uniqueID=UtilityFunctions.init().generateUniqueid()
+            print("uniqueid video is \(uniqueID)")
+            var statusNow="pending"
+            
+           // var imParas=["from":"\(username!)","to":"\(self.selectedContact)","fromFullName":"\(displayname)","msg":self.filename,"uniqueid":uniqueID,"type":"file","file_type":"video","status":statusNow]
+            //print("imparas are \(imParas)")
+            
+            
+            //------
+            
+            //SPECIAL
+            sqliteDB.saveFile(self.selectedContact, from1: username!, owneruser1: username!, file_name1: self.filename, date1: nil, uniqueid1: uniqueID, file_size1: "\(self.fileSize1)", file_type1: uniqueID, file_path1: filePathVideo, type1: "day_status_chat",caption1:self.imgCaption)
+            
+            //==--self.addUploadInfo(self.selectedContact,uniqueid1: uniqueID, rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
+            
+            //if(self.selectedContact != "")
+            //{
+            
+            
+            
+                
+                managerFile.uploadFile(filePathImage2, to1: self.selectedContact, from1: username!, uniqueid1: uniqueID, file_name1: self.filename, file_size1: "\(self.fileSize1)", file_type1: ftype,type1:"video",label1:"")
+           // }
+            
+            
+            
+            
+            
+            
+            ///
+           /* var uniqueID = UtilityFunctions.init().generateUniqueid()
+            
+            
+            let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+            let docsDir1 = dirPaths[0]
+            let documentDir=docsDir1 as NSString
+            let audioFilename =  documentDir.appendingPathComponent("\(uniqueID).m4a")
+
+            */
+            self.dismiss(animated: true, completion: {
+                
+                
+            })
+            
+            
+            
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) -> Void in
+            
+           
+        }))
+        self.present(alert, animated: true, completion: {
+        })
+     
+
+    }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        player?.play()
+        //==--player?.play()
     }
-    
+
     func cancel() {
         dismiss(animated: true, completion: nil)
     }
-    
+
     @objc fileprivate func playerItemDidReachEnd(_ notification: Notification) {
-        if self.player != nil {
+        /*if self.player != nil {
             self.player!.seek(to: kCMTimeZero)
             self.player!.play()
-        }
+        }*/
     }
 }
 
