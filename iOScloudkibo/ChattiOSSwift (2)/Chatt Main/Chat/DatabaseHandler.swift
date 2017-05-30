@@ -2445,7 +2445,7 @@ print("--------")
         
             let earlyDate = Date.init().addingTimeInterval(-3600*1) //one hour ago
         do{
-            var row=try sqliteDB.db.run(self.files.filter(date<=earlyDate).delete())
+            var row=try sqliteDB.db.run(self.files.filter(date<=earlyDate && type=="day_status").delete())
       print("Deleting status \(row)")
         }
         catch{
