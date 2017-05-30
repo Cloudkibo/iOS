@@ -5816,7 +5816,7 @@ shareMenu.addAction(cancelAction)
     }
 }
 
-
+/*
 extension Date: Value {
     static var declaredDatatype: String {
         return Int.declaredDatatype
@@ -5828,7 +5828,7 @@ extension Date: Value {
         return Int(timeIntervalSince1970)
     }
 }
-
+*/
 /*extension UILabel {
     
     var localizedText: String {

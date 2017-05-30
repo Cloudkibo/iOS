@@ -2853,11 +2853,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DatabaseHandler.swift"
-            timestampString = "517819147.317397"
+            timestampString = "517840495.369721"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3613"
-            endingLineNumber = "3613"
+            startingLineNumber = "3684"
+            endingLineNumber = "3684"
             landmarkName = "storeBroadcastListMembers(_:memberphones:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3372,11 +3372,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DatabaseHandler.swift"
-            timestampString = "517819147.317397"
+            timestampString = "517840495.369721"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3682"
-            endingLineNumber = "3682"
+            startingLineNumber = "3753"
+            endingLineNumber = "3753"
             landmarkName = "getBroadcastListMembers(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -3564,11 +3564,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DatabaseHandler.swift"
-            timestampString = "517240845.73601"
+            timestampString = "517840495.369721"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2836"
-            endingLineNumber = "2836"
+            startingLineNumber = "2907"
+            endingLineNumber = "2907"
             landmarkName = "getMemberShipStatus(_:memberphone:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4504,11 +4504,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DatabaseHandler.swift"
-            timestampString = "517819147.317397"
+            timestampString = "517840495.369721"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4165"
-            endingLineNumber = "4165"
+            startingLineNumber = "4236"
+            endingLineNumber = "4236"
             landmarkName = "getChatListForDesktopApp(user1:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4520,11 +4520,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DatabaseHandler.swift"
-            timestampString = "517819147.317397"
+            timestampString = "517840495.369721"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4149"
-            endingLineNumber = "4149"
+            startingLineNumber = "4220"
+            endingLineNumber = "4220"
             landmarkName = "getChatListForDesktopApp(user1:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4584,11 +4584,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DatabaseHandler.swift"
-            timestampString = "517819147.317397"
+            timestampString = "517840495.369721"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4139"
-            endingLineNumber = "4139"
+            startingLineNumber = "4210"
+            endingLineNumber = "4210"
             landmarkName = "getChatListForDesktopApp(user1:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -4600,11 +4600,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/DatabaseHandler.swift"
-            timestampString = "517819147.317397"
+            timestampString = "517840495.369721"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4166"
-            endingLineNumber = "4166"
+            startingLineNumber = "4237"
+            endingLineNumber = "4237"
             landmarkName = "getChatListForDesktopApp(user1:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -5128,11 +5128,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/StatusViewController.swift"
-            timestampString = "517828764.948271"
+            timestampString = "517840495.369721"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "376"
-            endingLineNumber = "376"
+            startingLineNumber = "379"
+            endingLineNumber = "379"
             landmarkName = "getElapsedInterval()"
             landmarkType = "7">
          </BreakpointContent>

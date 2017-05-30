@@ -51,6 +51,8 @@ class StatusViewController: UIViewController,UITableViewDataSource,UITableViewDe
     func retrieveStatuses()
     {
         //file table from-username - section 1 my statuses
+        sqliteDB.deleteOldDayStatuses()
+
         var daystatuses=sqliteDB.getDayStatusesData()
         var messagesMyStatus2=NSMutableArray()
         var messagesOthersStatus2=NSMutableArray()
