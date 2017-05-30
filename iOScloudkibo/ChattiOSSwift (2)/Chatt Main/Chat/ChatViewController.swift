@@ -5449,7 +5449,7 @@ break
                     
                     
                     
-                    UtilityFunctions.init().unmutegroup(groupid1: ContactUsernames)
+                    UtilityFunctions.init().unmuteContact(groupid1: ContactUsernames)
                     
                     
                 })
@@ -5505,7 +5505,8 @@ break
                     
                     //call Mute delegate or method
                 })
-                
+                if(muteInfo.count>0)
+                {
                 if(muteInfo["isMute"] as! Bool == true)
                 {
                     //isMute
@@ -5513,6 +5514,11 @@ break
                     
                 }
                 else{
+                    shareMenu.addAction(Mute)
+                }
+                }
+                else{
+                    sqliteDB.storeMuteGroupSettingsTable(ContactUsernames, isMute1: false, muteTime1: Date.init(), unMuteTime1: Date.init())
                     shareMenu.addAction(Mute)
                 }
                 let newindex=getAddressBookIndex(ContactUsernames)
@@ -5809,6 +5815,20 @@ shareMenu.addAction(cancelAction)
         
     }
 }
+
+
+extension Date: Value {
+    static var declaredDatatype: String {
+        return Int.declaredDatatype
+    }
+    static func fromDatatypeValue(intValue: Int) -> Date {
+        return self.init(timeIntervalSince1970: TimeInterval(intValue))
+    }
+    var datatypeValue: Int {
+        return Int(timeIntervalSince1970)
+    }
+}
+
 /*extension UILabel {
     
     var localizedText: String {

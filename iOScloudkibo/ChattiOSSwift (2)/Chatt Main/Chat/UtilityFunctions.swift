@@ -2626,7 +2626,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
     {
         var url=Constants.MainUrl+Constants.muteContact
         //group_unique_id, start_time, end_time (these times are epoch seconds)
-        Alamofire.request("\(url)", method: .post, parameters: ["group_unique_id":group_unique_id1,"start_time":start_time1, "end_time":end_time1],encoding: JSONEncoding.default,headers:header).responseJSON { response in
+        Alamofire.request("\(url)", method: .post, parameters: ["phone":group_unique_id1,"start_time":start_time1, "end_time":end_time1],encoding: JSONEncoding.default,headers:header).responseJSON { response in
             
             if(response.result.isSuccess)
             {
@@ -2674,7 +2674,7 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
     {
         var url=Constants.MainUrl+Constants.unmutecontact
         //group_unique_id, start_time, end_time (these times are epoch seconds)
-        Alamofire.request("\(url)", method: .post, parameters: ["group_unique_id":groupid1],encoding: JSONEncoding.default,headers:header).responseJSON { response in
+        Alamofire.request("\(url)", method: .post, parameters: ["phone":groupid1],encoding: JSONEncoding.default,headers:header).responseJSON { response in
             
             if(response.result.isSuccess)
             {

@@ -131,6 +131,7 @@ class StatusViewController: UIViewController,UITableViewDataSource,UITableViewDe
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        sqliteDB.getOldDayStatuses()
         messagesMyStatus=NSMutableArray()
         messagesOthersStatus=NSMutableArray()
        // messagesOthersStatus.add(["displayName":"Sojharo","time":"1 hour ago"])
