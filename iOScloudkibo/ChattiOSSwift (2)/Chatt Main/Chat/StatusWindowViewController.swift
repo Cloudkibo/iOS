@@ -182,8 +182,9 @@ class StatusWindowViewController: SwiftyCamViewController, SwiftyCamViewControll
         scrollView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[stackView]", options: NSLayoutFormatOptions.alignAllCenterX, metrics: nil, views: ["stackView": stackView]))
         var imgview=UIImageView.init()
         
-        self.myfetch()
-        
+        DispatchQueue.global(qos: .background).async {
+        //==--self.myfetch()
+        }
        
         /*for imgs in images{
          

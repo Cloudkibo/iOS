@@ -5212,10 +5212,10 @@
                                                                     <rect key="frame" x="8" y="8" width="223" height="104"/>
                                                                 </imageView>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="78Z-XY-S4k">
-                                                                    <rect key="frame" x="15" y="14" width="187.5" height="51"/>
+                                                                    <rect key="frame" x="15" y="14" width="188" height="51"/>
                                                                     <subviews>
                                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MAv-h8-R9t">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="136.5" height="51"/>
+                                                                            <rect key="frame" x="0.0" y="0.0" width="137" height="51"/>
                                                                             <subviews>
                                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" misplaced="YES" text="You.Status12312324" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fQ8-4T-eiv">
                                                                                     <rect key="frame" x="8" y="8" width="130" height="21"/>
@@ -5249,7 +5249,7 @@
                                                                             </constraints>
                                                                         </view>
                                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chat_user_large" translatesAutoresizingMaskIntoConstraints="NO" id="Tpq-q5-VAj">
-                                                                            <rect key="frame" x="136.5" y="0.0" width="51" height="51"/>
+                                                                            <rect key="frame" x="137" y="0.0" width="51" height="51"/>
                                                                         </imageView>
                                                                     </subviews>
                                                                 </stackView>
@@ -5302,7 +5302,7 @@
                                                                     <rect key="frame" x="96" y="14" width="202" height="51"/>
                                                                     <subviews>
                                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5sB-rK-966">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="136.5" height="51"/>
+                                                                            <rect key="frame" x="0.0" y="0.0" width="137" height="51"/>
                                                                             <subviews>
                                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" misplaced="YES" text="You.Status12312324" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FyR-HG-ZyD">
                                                                                     <rect key="frame" x="8" y="8" width="121" height="21"/>
@@ -5336,7 +5336,7 @@
                                                                             </constraints>
                                                                         </view>
                                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chat_user_large" translatesAutoresizingMaskIntoConstraints="NO" id="Sx3-fE-asO">
-                                                                            <rect key="frame" x="136.5" y="0.0" width="65.5" height="51"/>
+                                                                            <rect key="frame" x="137" y="0.0" width="65" height="51"/>
                                                                         </imageView>
                                                                     </subviews>
                                                                 </stackView>
@@ -8934,9 +8934,6 @@
                                                 <constraint firstAttribute="bottomMargin" secondItem="RMb-Lg-Ne8" secondAttribute="bottom" constant="16" id="yIK-Gp-FI7"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="5QS-bR-y0h" kind="push" id="fNT-ly-iVC"/>
-                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="StatusCell" rowHeight="39" id="vCy-R1-kvp">
                                         <rect key="frame" x="0.0" y="99" width="320" height="39"/>
@@ -8977,6 +8974,7 @@
                     <connections>
                         <outlet property="tblStatusUpdates" destination="L1Y-ed-fun" id="Aag-4D-cah"/>
                         <segue destination="auQ-vR-CnT" kind="push" id="Fir-GQ-Dqx"/>
+                        <segue destination="5QS-bR-y0h" kind="push" identifier="viewStatusSlideshowMine" id="7FF-DM-cr7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="C4j-rj-m3t" userLabel="First Responder" sceneMemberID="firstResponder"/>

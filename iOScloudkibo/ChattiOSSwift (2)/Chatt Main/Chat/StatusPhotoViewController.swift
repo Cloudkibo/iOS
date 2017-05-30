@@ -101,10 +101,10 @@ class StatusPhotoViewController: UIViewController,UIImagePickerControllerDelegat
             let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
             let docsDir1 = dirPaths[0]
             var documentDir=docsDir1 as NSString
-            var filename=uniqueid+"."+"png"
-            var filePathVideo=documentDir.appendingPathComponent(uniqueid+"."+"png")
+            var filename=uniqueid+"."+"jpg"
+            var filePathVideo=documentDir.appendingPathComponent(uniqueid+"."+"jpg")
             var fm=FileManager.default
-            var fileExtension="."+"png"
+            var fileExtension="."+"jpg"
             var fileAttributes:[String:AnyObject]=["":"" as AnyObject]
             
             //!!var s=fm.createFile(atPath: filePathImage2, contents: nil, attributes: nil)
@@ -112,7 +112,8 @@ class StatusPhotoViewController: UIViewController,UIImagePickerControllerDelegat
             //  var written=fileData!.writeToFile(filePathImage2, atomically: false)
             
             //filePathImage2
-            do{var data=try UIImagePNGRepresentation(self.image)
+            
+            do{var data = UIImageJPEGRepresentation(self.image,0.9)
                 
                 var filesize=data?.count
                 
@@ -131,7 +132,7 @@ class StatusPhotoViewController: UIViewController,UIImagePickerControllerDelegat
                 //------
                 
                 //SPECIAL
-                sqliteDB.saveFile("all", from1: username!, owneruser1: username!, file_name1:filename, date1: nil, uniqueid1: uniqueID, file_size1: "\(filesize)", file_type1: "png", file_path1: filePathVideo, type1: "day_status",caption1:self.imgcaption)
+                sqliteDB.saveFile("all", from1: username!, owneruser1: username!, file_name1:filename, date1: nil, uniqueid1: uniqueID, file_size1: "\(filesize)", file_type1: "jpg", file_path1: filePathVideo, type1: "day_status",caption1:self.imgcaption)
                 
                 //==--self.addUploadInfo(self.selectedContact,uniqueid1: uniqueID, rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
                 
@@ -141,7 +142,7 @@ class StatusPhotoViewController: UIViewController,UIImagePickerControllerDelegat
                 
                 
                 
-                managerFile.uploadStatus(date1: Date.init(), uniqueid1: uniqueID, file_name1: filename, file_size1: filesize!.description, label1: self.imgcaption, file_type1: "png", uploadedBy1: username!, file_path1: filePathVideo)
+                managerFile.uploadStatus(date1: Date.init(), uniqueid1: uniqueID, file_name1: filename, file_size1: filesize!.description, label1: self.imgcaption, file_type1: "jpg", uploadedBy1: username!, file_path1: filePathVideo)
                 
                 
             }

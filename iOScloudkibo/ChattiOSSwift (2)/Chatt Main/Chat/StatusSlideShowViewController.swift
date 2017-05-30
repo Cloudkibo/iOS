@@ -16,14 +16,37 @@ class StatusSlideShowViewController: UIViewController {
         return .portrait
     }
 
-    
+    var slideshowarray:NSMutableArray!
+    var imageslist=[ImageSource]()
      let localSource = [ImageSource(imageString: "status.png")!, ImageSource(imageString: "avatar.png")!, ImageSource(imageString: "cross.png")!, ImageSource(imageString: "gallery.png")!]
+    
     
     @IBOutlet weak var slideshowOutlet: ImageSlideshow!
     override func viewDidLoad() {
         super.viewDidLoad()
-                self.slideshowOutlet.setImageInputs(localSource)
-        self.slideshowOutlet.contentScaleMode = .scaleAspectFill
+        
+        for messageObjects in slideshowarray
+        {
+            var messageDic = messageObjects as! [String : AnyObject];
+            //.object(at: indexPath.row) as! [String : AnyObject];
+            
+            var messages_from = messageDic["messages_from"] as! String
+            var messages_duration = messageDic["messages_duration"] as! String
+            var messages_file_type=messageDic["messages_file_type"] as! String
+            var messages_uniqueid=messageDic["messages_uniqueid"] as! String
+            var messages_file_name=messageDic["messages_file_name"] as! String
+            var messages_file_caption=messageDic["messages_file_caption"] as! String
+            var messages_file_pic=messageDic["messages_file_pic"] as! Data
+            
+            if let img=UIImage(data:messages_file_pic)
+            {
+                imageslist.append(ImageSource.init(image: img))
+            }
+        }
+        
+        
+                self.slideshowOutlet.setImageInputs(imageslist)
+        self.slideshowOutlet.contentScaleMode = .scaleAspectFit
         self.slideshowOutlet.slideshowInterval = 5
         self.slideshowOutlet.zoomEnabled = true
         self.slideshowOutlet.pageControlPosition = .insideScrollView
