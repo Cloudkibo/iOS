@@ -148,7 +148,7 @@ class StatusVideoViewController: UIViewController {
             //------
             
             //SPECIAL
-            sqliteDB.saveFile("all", from1: username!, owneruser1: username!, file_name1:filename, date1: nil, uniqueid1: uniqueID, file_size1: "\(filesize)", file_type1: uniqueID, file_path1: filePathVideo, type1: "day_status",caption1:self.videocaption)
+            sqliteDB.saveFile("all", from1: username!, owneruser1: username!, file_name1:filename, date1: nil, uniqueid1: uniqueID, file_size1: "\(filesize)", file_type1: self.videoURL.pathExtension, file_path1: filePathVideo, type1: "day_status",caption1:self.videocaption)
             
             //==--self.addUploadInfo(self.selectedContact,uniqueid1: uniqueID, rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
             

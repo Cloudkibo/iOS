@@ -20,7 +20,7 @@ class MyStatusDetailsViewController: UIViewController,UITableViewDataSource,UITa
     @IBOutlet weak var tblMyStatus: UITableView!
     
  
-    override func viewDidLoad() {
+        override func viewDidLoad() {
         super.viewDidLoad()
 
         messages=NSMutableArray()
