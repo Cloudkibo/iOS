@@ -2043,7 +2043,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="justified" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XAB-BP-Xg0">
-                                                            <rect key="frame" x="51" y="56" width="0.0" height="0.0"/>
+                                                            <rect key="frame" x="51" y="43" width="0.0" height="0.0"/>
                                                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -4088,7 +4088,7 @@
                                                                     </constraints>
                                                                 </view>
                                                                 <label opaque="NO" tag="12" contentMode="TopLeft" horizontalHuggingPriority="1000" verticalHuggingPriority="251" preservesSuperviewLayoutMargins="YES" text="damaged message" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Gz-mj-Phm" customClass="ActiveLabel" customModule="ActiveLabel">
-                                                                    <rect key="frame" x="206" y="80" width="94" height="13"/>
+                                                                    <rect key="frame" x="206" y="80" width="94" height="14"/>
                                                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="11"/>
                                                                     <nil key="highlightedColor"/>
@@ -4105,7 +4105,7 @@
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                 </imageView>
                                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" text="📢" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bdi-Z6-Z8q">
-                                                                    <rect key="frame" x="284" y="98" width="16" height="14"/>
+                                                                    <rect key="frame" x="284" y="99" width="16" height="14"/>
                                                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -4191,7 +4191,7 @@
                                                                     </constraints>
                                                                 </view>
                                                                 <label opaque="NO" tag="12" contentMode="TopLeft" horizontalHuggingPriority="1000" verticalHuggingPriority="251" preservesSuperviewLayoutMargins="YES" text="damaged message" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ytK-pq-WNd" customClass="ActiveLabel" customModule="ActiveLabel">
-                                                                    <rect key="frame" x="16" y="75" width="94" height="13"/>
+                                                                    <rect key="frame" x="16" y="75" width="94" height="14"/>
                                                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="11"/>
                                                                     <nil key="highlightedColor"/>
@@ -4204,7 +4204,7 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" text="📢" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L2l-Xt-L2M">
-                                                                    <rect key="frame" x="16" y="93" width="16" height="14"/>
+                                                                    <rect key="frame" x="16" y="94" width="16" height="14"/>
                                                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -8935,7 +8935,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="auQ-vR-CnT" kind="push" id="RFF-yp-GNa"/>
+                                            <segue destination="5QS-bR-y0h" kind="push" id="fNT-ly-iVC"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="StatusCell" rowHeight="39" id="vCy-R1-kvp">
@@ -9555,6 +9555,43 @@
             </objects>
             <point key="canvasLocation" x="306" y="3037"/>
         </scene>
+        <!--Status Slide Show View Controller-->
+        <scene sceneID="oVy-7c-I1V">
+            <objects>
+                <viewController hidesBottomBarWhenPushed="YES" id="5QS-bR-y0h" customClass="StatusSlideShowViewController" customModule="Chat" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ovp-DA-ITB"/>
+                        <viewControllerLayoutGuide type="bottom" id="Iic-Yd-cfu"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="WgB-QD-ePF">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9R2-3Q-ivN" customClass="ImageSlideshow" customModule="ImageSlideshow">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iAt-fZ-jCT">
+                                        <rect key="frame" x="8" y="8" width="46" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="&lt;Me"/>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="F4H-Nm-U12"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <connections>
+                        <outlet property="slideshowOutlet" destination="9R2-3Q-ivN" id="4Jg-ip-CKO"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NiV-AE-BwI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="680" y="3037"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="qSY-ZH-xxH">
             <objects>
@@ -9631,26 +9668,25 @@
         <simulatedScreenMetrics key="destination" type="retina4_0.fullscreen"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="c2i-dp-UEK"/>
-        <segue reference="DG8-Wc-RK7"/>
-        <segue reference="RFF-yp-GNa"/>
-        <segue reference="Spe-dd-EXu"/>
-        <segue reference="0Ba-7e-jXB"/>
         <segue reference="ADA-1C-gHV"/>
-        <segue reference="0xH-LE-leu"/>
-        <segue reference="cEg-U8-UBa"/>
+        <segue reference="0Ba-7e-jXB"/>
+        <segue reference="Spe-dd-EXu"/>
         <segue reference="jZZ-fL-lXE"/>
-        <segue reference="Jjq-iC-ovb"/>
+        <segue reference="cEg-U8-UBa"/>
+        <segue reference="Wyu-u6-g5L"/>
         <segue reference="Mz0-FN-AbK"/>
         <segue reference="nfZ-gF-nDM"/>
         <segue reference="Ite-sp-zyZ"/>
         <segue reference="LYu-6R-l0u"/>
         <segue reference="SBG-bF-djg"/>
         <segue reference="N5B-Ot-bcs"/>
-        <segue reference="Wyu-u6-g5L"/>
+        <segue reference="Jjq-iC-ovb"/>
+        <segue reference="0xH-LE-leu"/>
         <segue reference="xaI-60-nb7"/>
-        <segue reference="Cjg-Ar-cdZ"/>
+        <segue reference="c2i-dp-UEK"/>
+        <segue reference="DG8-Wc-RK7"/>
         <segue reference="3Qa-aS-eRu"/>
+        <segue reference="Cjg-Ar-cdZ"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.054901960784313725" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

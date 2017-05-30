@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 47;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -40,6 +40,7 @@
 		6E15ED3932019B101EFEED9637E25806 /* AUTO@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B20A19FB4D5CABCB8543CB7038CCA7CF /* AUTO@3x.png */; };
 		7064C2B84F2D0B40A9EEA1D60BBF93E9 /* FullScreenSlideshowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C215175037C674033D3A7D560CABE2C /* FullScreenSlideshowViewController.swift */; };
 		71361B18209728A71432598887137B7B /* InputSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96E9450485D456F55A898014C2DA75D /* InputSource.swift */; };
+		71D855081EDC415300B326F8 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71D855071EDC415300B326F8 /* ActivityIndicator.swift */; };
 		74FCD2CD233562CA059B4F591B495301 /* ImageSlideshowItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CBEC13D60122CA4A2A30A01797C9B8 /* ImageSlideshowItem.swift */; };
 		76BE7E023F97AF8B54BA61C875EB0EEA /* ActiveBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED409AC9AEC898AC5C4A73F1504B3781 /* ActiveBuilder.swift */; };
 		7B5FE28C7EA4122B0598738E54DBEBD8 /* SessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E337126713729675EC7F212D179A7D /* SessionDelegate.swift */; };
@@ -147,25 +148,25 @@
 		02359256BE1EF74F04BF60952EA04524 /* RTCICECandidate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTCICECandidate.h; path = libjingle_peerconnection/Headers/RTCICECandidate.h; sourceTree = "<group>"; };
 		06D5A211FDC18DF40A50D74948A6F0B5 /* ConstraintsSetup.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintsSetup.swift; path = Source/Extensions/ConstraintsSetup.swift; sourceTree = "<group>"; };
 		0759DC1B13822C138340851ED75017AC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		0B6CA9F3F5168AF1177BF0708F56BBCA /* focusIcon@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; name = "focusIcon@3x.png"; path = "Images/focusIcon@3x.png"; sourceTree = "<group>"; };
+		0B6CA9F3F5168AF1177BF0708F56BBCA /* focusIcon@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "focusIcon@3x.png"; path = "Images/focusIcon@3x.png"; sourceTree = "<group>"; };
 		12514E59D5C992E073074A192122B993 /* Alamofire.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Alamofire.xcconfig; sourceTree = "<group>"; };
 		1402EDD5EE4BAD480B048A9772C1EDC4 /* ImageSlideshow.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ImageSlideshow.swift; path = ImageSlideshow/Classes/Core/ImageSlideshow.swift; sourceTree = "<group>"; };
 		1756334ED40F7052E5516D27A147EAC9 /* RTCVideoSource.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTCVideoSource.h; path = libjingle_peerconnection/Headers/RTCVideoSource.h; sourceTree = "<group>"; };
 		178915035D0A1762A46D8D1CCECB8D66 /* RTCStatsReport.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTCStatsReport.h; path = libjingle_peerconnection/Headers/RTCStatsReport.h; sourceTree = "<group>"; };
 		1936034E165D7282BE40AEE7E6B3B45F /* RTCAVFoundationVideoSource.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTCAVFoundationVideoSource.h; path = libjingle_peerconnection/Headers/RTCAVFoundationVideoSource.h; sourceTree = "<group>"; };
 		19BB9388E2D76CD73E834E1839237BA8 /* Pods-Chat-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Chat-acknowledgements.markdown"; sourceTree = "<group>"; };
-		21323C450D89EA9D535844129B0471A3 /* ic_cross_white@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; name = "ic_cross_white@3x.png"; path = "ImageSlideshow/Assets/ic_cross_white@3x.png"; sourceTree = "<group>"; };
-		21F92A1F925001FAD031CBA54B3953CE /* ActiveLabel.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = ActiveLabel.modulemap; sourceTree = "<group>"; };
+		21323C450D89EA9D535844129B0471A3 /* ic_cross_white@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "ic_cross_white@3x.png"; path = "ImageSlideshow/Assets/ic_cross_white@3x.png"; sourceTree = "<group>"; };
+		21F92A1F925001FAD031CBA54B3953CE /* ActiveLabel.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = ActiveLabel.modulemap; sourceTree = "<group>"; };
 		23162C0F5A267709B0A5CBA8F72149EA /* ActiveLabel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ActiveLabel.swift; path = ActiveLabel/ActiveLabel.swift; sourceTree = "<group>"; };
 		23F87C64C08EE5B271B55D782C3CE055 /* RTCAudioSource.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTCAudioSource.h; path = libjingle_peerconnection/Headers/RTCAudioSource.h; sourceTree = "<group>"; };
 		261CAF7B59CFB9AF48AE2B8C1C8B2143 /* RTCNSGLVideoView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTCNSGLVideoView.h; path = libjingle_peerconnection/Headers/RTCNSGLVideoView.h; sourceTree = "<group>"; };
-		265D42083CCA97B02D94D08701927C89 /* ActiveLabel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = ActiveLabel.framework; path = ActiveLabel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		265D42083CCA97B02D94D08701927C89 /* ActiveLabel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ActiveLabel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2836E14097B8201F10CB7B4BED448E81 /* MultipartFormData.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MultipartFormData.swift; path = Source/MultipartFormData.swift; sourceTree = "<group>"; };
-		2B62F280A1299E0A771346944BA129FA /* Alamofire.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = Alamofire.modulemap; sourceTree = "<group>"; };
+		2B62F280A1299E0A771346944BA129FA /* Alamofire.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = Alamofire.modulemap; sourceTree = "<group>"; };
 		2ED00DE03540EEFC9703E46619B90295 /* UIImage+AspectFit.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIImage+AspectFit.swift"; path = "ImageSlideshow/Classes/Core/UIImage+AspectFit.swift"; sourceTree = "<group>"; };
-		2F7804A362AF79A048256EFC0727717F /* ImageSlideshow.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = ImageSlideshow.modulemap; sourceTree = "<group>"; };
+		2F7804A362AF79A048256EFC0727717F /* ImageSlideshow.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = ImageSlideshow.modulemap; sourceTree = "<group>"; };
 		2FA874099506BCD1C1D9B88F22BDACF8 /* RTCMediaConstraints.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTCMediaConstraints.h; path = libjingle_peerconnection/Headers/RTCMediaConstraints.h; sourceTree = "<group>"; };
-		300EAAEF164E18E672905BD35420E2FB /* SwiftyCam.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = SwiftyCam.modulemap; sourceTree = "<group>"; };
+		300EAAEF164E18E672905BD35420E2FB /* SwiftyCam.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = SwiftyCam.modulemap; sourceTree = "<group>"; };
 		30E337126713729675EC7F212D179A7D /* SessionDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SessionDelegate.swift; path = Source/SessionDelegate.swift; sourceTree = "<group>"; };
 		31AE4C2771C67B2AFFDAA0CC163F9638 /* TopView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TopView.swift; path = Source/TopView/TopView.swift; sourceTree = "<group>"; };
 		35A0DC3F4F91F709F42C5DC8D8F26B2E /* SwiftyCam-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftyCam-umbrella.h"; sourceTree = "<group>"; };
@@ -176,7 +177,7 @@
 		3DB157E055DC164C5A7CB49360C54126 /* Result.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Result.swift; path = Source/Result.swift; sourceTree = "<group>"; };
 		40CC5A1B265E12C00EAC70D3C514B619 /* UIImageView+Tools.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIImageView+Tools.swift"; path = "ImageSlideshow/Classes/Core/UIImageView+Tools.swift"; sourceTree = "<group>"; };
 		426361DE47197C3688ACF33ECC49932F /* RTCEAGLVideoView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTCEAGLVideoView.h; path = libjingle_peerconnection/Headers/RTCEAGLVideoView.h; sourceTree = "<group>"; };
-		4629B7530A328999BAAAC6C0DFD4E90D /* OFF@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; name = "OFF@3x.png"; path = "Images/OFF@3x.png"; sourceTree = "<group>"; };
+		4629B7530A328999BAAAC6C0DFD4E90D /* OFF@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "OFF@3x.png"; path = "Images/OFF@3x.png"; sourceTree = "<group>"; };
 		4656A710D904CD6248EA6D38D8160642 /* ImageStack.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ImageStack.swift; path = Source/BottomView/ImageStack.swift; sourceTree = "<group>"; };
 		495E335923D1EAA2C70AF9676D3F83C9 /* StringTrimExtension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StringTrimExtension.swift; path = ActiveLabel/StringTrimExtension.swift; sourceTree = "<group>"; };
 		4A391CE8AC82FC2D8506307EFD77219D /* Pods-Chat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Chat.release.xcconfig"; sourceTree = "<group>"; };
@@ -185,14 +186,14 @@
 		4C0B072BC6CFE00C5649F17D7AE0B066 /* ButtonPicker.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ButtonPicker.swift; path = Source/BottomView/ButtonPicker.swift; sourceTree = "<group>"; };
 		4C731880451170908E0732F713364E86 /* ResourceBundle-ImageSlideshow-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "ResourceBundle-ImageSlideshow-Info.plist"; sourceTree = "<group>"; };
 		4FC8CE4311438C38A9CB7565D034187A /* RTCICEServer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTCICEServer.h; path = libjingle_peerconnection/Headers/RTCICEServer.h; sourceTree = "<group>"; };
-		505E44E9D665C677241462AD5CBC9261 /* cameraIcon@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; name = "cameraIcon@3x.png"; path = "Images/cameraIcon@3x.png"; sourceTree = "<group>"; };
+		505E44E9D665C677241462AD5CBC9261 /* cameraIcon@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "cameraIcon@3x.png"; path = "Images/cameraIcon@3x.png"; sourceTree = "<group>"; };
 		51E4CA2AD12743F5CE6AE4FEBB6C94CD /* Alamofire.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Alamofire.swift; path = Source/Alamofire.swift; sourceTree = "<group>"; };
 		540BF6D5EA3FDADF999B8A9CE961E19E /* ImagePicker-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "ImagePicker-prefix.pch"; sourceTree = "<group>"; };
-		5429D4C264806AC229775F0557E96630 /* Pods-Chat.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-Chat.modulemap"; sourceTree = "<group>"; };
+		5429D4C264806AC229775F0557E96630 /* Pods-Chat.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-Chat.modulemap"; sourceTree = "<group>"; };
 		544FB52FB761593BBE7587D78232A2B9 /* RTCMediaSource.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTCMediaSource.h; path = libjingle_peerconnection/Headers/RTCMediaSource.h; sourceTree = "<group>"; };
-		554C8745E6705DD4097BD327A886BDEE /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Alamofire.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		554C8745E6705DD4097BD327A886BDEE /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5790B7D77E5679201C23B071022ACDDD /* Request.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Request.swift; path = Source/Request.swift; sourceTree = "<group>"; };
-		581D228C4AF1E7BA8B2C7D0692DF8478 /* Pods_Chat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_Chat.framework; path = "Pods-Chat.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		581D228C4AF1E7BA8B2C7D0692DF8478 /* Pods_Chat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Chat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		58FAB9480CCB6037F17B446050A3073E /* SessionManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SessionManager.swift; path = Source/SessionManager.swift; sourceTree = "<group>"; };
 		5B542B5557F70F22EBA02835D7C4E750 /* SwiftyCam-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftyCam-prefix.pch"; sourceTree = "<group>"; };
 		5C215175037C674033D3A7D560CABE2C /* FullScreenSlideshowViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FullScreenSlideshowViewController.swift; path = ImageSlideshow/Classes/Core/FullScreenSlideshowViewController.swift; sourceTree = "<group>"; };
@@ -202,13 +203,14 @@
 		5E7B811B1B6EC3BFC07727F7DE708865 /* RTCPeerConnectionInterface.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTCPeerConnectionInterface.h; path = libjingle_peerconnection/Headers/RTCPeerConnectionInterface.h; sourceTree = "<group>"; };
 		6372E55799993C4508BD2DB38FFC06E7 /* ImageSlideshow-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "ImageSlideshow-umbrella.h"; sourceTree = "<group>"; };
 		66D28B31C9E2D0824F4D1A89A202FD76 /* DispatchQueue+Alamofire.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "DispatchQueue+Alamofire.swift"; path = "Source/DispatchQueue+Alamofire.swift"; sourceTree = "<group>"; };
-		68474CA0C8DBAADF04851B9D7DD844E2 /* selectedImageGallery@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; name = "selectedImageGallery@3x.png"; path = "Images/selectedImageGallery@3x.png"; sourceTree = "<group>"; };
+		68474CA0C8DBAADF04851B9D7DD844E2 /* selectedImageGallery@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "selectedImageGallery@3x.png"; path = "Images/selectedImageGallery@3x.png"; sourceTree = "<group>"; };
 		6928DA2877F7B9C40BC3768A9468CB53 /* RTCPeerConnectionFactory.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTCPeerConnectionFactory.h; path = libjingle_peerconnection/Headers/RTCPeerConnectionFactory.h; sourceTree = "<group>"; };
 		69B8C30904C0CC722396E4424E249A0B /* RTCStatsDelegate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTCStatsDelegate.h; path = libjingle_peerconnection/Headers/RTCStatsDelegate.h; sourceTree = "<group>"; };
 		69D4C08F67587D8AC521D0FB4F5B3974 /* ImagePicker.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = ImagePicker.xcconfig; sourceTree = "<group>"; };
 		6CD37F859DB55BC1F251DB72635FB48B /* RTCVideoTrack.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTCVideoTrack.h; path = libjingle_peerconnection/Headers/RTCVideoTrack.h; sourceTree = "<group>"; };
 		7062898FF3ED2D816F90919D750B034D /* CameraMan.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CameraMan.swift; path = Source/CameraView/CameraMan.swift; sourceTree = "<group>"; };
-		7242782D136EB6C571B530A06890CC40 /* ic_cross_white@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; name = "ic_cross_white@2x.png"; path = "ImageSlideshow/Assets/ic_cross_white@2x.png"; sourceTree = "<group>"; };
+		71D855071EDC415300B326F8 /* ActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
+		7242782D136EB6C571B530A06890CC40 /* ic_cross_white@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "ic_cross_white@2x.png"; path = "ImageSlideshow/Assets/ic_cross_white@2x.png"; sourceTree = "<group>"; };
 		75789ABA4D581F8C54CDA4EB72C87361 /* ActiveLabel-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "ActiveLabel-umbrella.h"; sourceTree = "<group>"; };
 		783D1BEA2A1DF7881E536A2FA8C35C27 /* ImageSlideshow-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "ImageSlideshow-prefix.pch"; sourceTree = "<group>"; };
 		7BA87E506D4C019EC5A109E82CACF0C1 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -217,7 +219,7 @@
 		7D769E6B8C87605D762B432B9B334B9E /* RegexParser.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RegexParser.swift; path = ActiveLabel/RegexParser.swift; sourceTree = "<group>"; };
 		7F711D95521249F22E2B8D21B232C24D /* Configuration.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Configuration.swift; path = Source/Configuration.swift; sourceTree = "<group>"; };
 		8156208EF2EAFB2346F7223FB5865AE0 /* SwiftyCam-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SwiftyCam-dummy.m"; sourceTree = "<group>"; };
-		81C7E4F468D3B1F5EEF2153FF021C4D7 /* SwiftyCam.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SwiftyCam.framework; path = SwiftyCam.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		81C7E4F468D3B1F5EEF2153FF021C4D7 /* SwiftyCam.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftyCam.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		82A9DC4B26FAA21A78EE374397D3DB93 /* Validation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Validation.swift; path = Source/Validation.swift; sourceTree = "<group>"; };
 		84CBEC13D60122CA4A2A30A01797C9B8 /* ImageSlideshowItem.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ImageSlideshowItem.swift; path = ImageSlideshow/Classes/Core/ImageSlideshowItem.swift; sourceTree = "<group>"; };
 		86EF027A589F902DA16422FA6EF3DB3C /* Helper.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Helper.swift; path = Source/Helper.swift; sourceTree = "<group>"; };
@@ -226,26 +228,26 @@
 		8F39B1E739FA754ED16D2DABE2794C1A /* libWebRTC.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libWebRTC.a; path = libjingle_peerconnection/libWebRTC.a; sourceTree = "<group>"; };
 		907C0DAD7A0633DD09F2BE6AE6B6CA78 /* Notifications.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Notifications.swift; path = Source/Notifications.swift; sourceTree = "<group>"; };
 		937C8DBFBD83A8E49726A67530B9F218 /* ActiveLabel-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "ActiveLabel-prefix.pch"; sourceTree = "<group>"; };
-		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		93BE09386F40F4A4B1D015668964C334 /* ImageGalleryLayout.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ImageGalleryLayout.swift; path = Source/ImageGallery/ImageGalleryLayout.swift; sourceTree = "<group>"; };
 		93BE3B73B8263CB57D871076DE30ADDC /* ImagePicker-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "ImagePicker-dummy.m"; sourceTree = "<group>"; };
 		9D93769A5E85E1D0553E65BEC0823DCC /* RTCSessionDescriptionDelegate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTCSessionDescriptionDelegate.h; path = libjingle_peerconnection/Headers/RTCSessionDescriptionDelegate.h; sourceTree = "<group>"; };
 		9FC84C8597E535289AE1857D856AEE92 /* RTCVideoRenderer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTCVideoRenderer.h; path = libjingle_peerconnection/Headers/RTCVideoRenderer.h; sourceTree = "<group>"; };
-		A01870D221C73B7461BF699DF09239A5 /* ImageSlideshow.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = ImageSlideshow.bundle; path = ImageSlideshow.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		A01870D221C73B7461BF699DF09239A5 /* ImageSlideshow.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImageSlideshow.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0F12C8D62BE1B23EEF7AF67BD3496BA /* RTCMediaStream.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTCMediaStream.h; path = libjingle_peerconnection/Headers/RTCMediaStream.h; sourceTree = "<group>"; };
 		A186EBF81C5A145E9A97E7152F786957 /* TaskDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TaskDelegate.swift; path = Source/TaskDelegate.swift; sourceTree = "<group>"; };
-		A297E58FC7A454C2FB656D9C581D93CF /* ImagePicker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = ImagePicker.framework; path = ImagePicker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A297E58FC7A454C2FB656D9C581D93CF /* ImagePicker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ImagePicker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A62DB38EA7F526D5555D99F8BB237B90 /* RTCDataChannel.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTCDataChannel.h; path = libjingle_peerconnection/Headers/RTCDataChannel.h; sourceTree = "<group>"; };
 		A655F0AC81182A92D40F0F02E24ADE05 /* RTCI420Frame.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTCI420Frame.h; path = libjingle_peerconnection/Headers/RTCI420Frame.h; sourceTree = "<group>"; };
-		A6C52D71249DC78BF9CDE535715D2949 /* ON@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; name = "ON@3x.png"; path = "Images/ON@3x.png"; sourceTree = "<group>"; };
+		A6C52D71249DC78BF9CDE535715D2949 /* ON@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "ON@3x.png"; path = "Images/ON@3x.png"; sourceTree = "<group>"; };
 		A8AD7ABBEB8E6E79D1CDA8305F478663 /* ActiveType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ActiveType.swift; path = ActiveLabel/ActiveType.swift; sourceTree = "<group>"; };
 		A92567C804964EE08DBD0298A5E6E468 /* SwiftyCam.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftyCam.xcconfig; sourceTree = "<group>"; };
 		A9C1FE33C03026C203DEE1D7D7F3D174 /* ImageSlideshow.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = ImageSlideshow.xcconfig; sourceTree = "<group>"; };
 		A9CCDE42C48083C7BF41E8262F0617C2 /* SwiftyCamViewControllerDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SwiftyCamViewControllerDelegate.swift; path = Source/SwiftyCamViewControllerDelegate.swift; sourceTree = "<group>"; };
 		AA49208CCE17F557D85AD37988417361 /* SwiftyCamViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SwiftyCamViewController.swift; path = Source/SwiftyCamViewController.swift; sourceTree = "<group>"; };
-		ABA5C9E671A2EF397F693FB9EDD2D313 /* ImagePicker.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = ImagePicker.modulemap; sourceTree = "<group>"; };
+		ABA5C9E671A2EF397F693FB9EDD2D313 /* ImagePicker.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = ImagePicker.modulemap; sourceTree = "<group>"; };
 		B1CB56CA88C03559847865EEF8E098F7 /* Alamofire-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Alamofire-umbrella.h"; sourceTree = "<group>"; };
-		B20A19FB4D5CABCB8543CB7038CCA7CF /* AUTO@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; name = "AUTO@3x.png"; path = "Images/AUTO@3x.png"; sourceTree = "<group>"; };
+		B20A19FB4D5CABCB8543CB7038CCA7CF /* AUTO@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "AUTO@3x.png"; path = "Images/AUTO@3x.png"; sourceTree = "<group>"; };
 		B35BEAF8EF5CC7C384D07DDCFC77E642 /* ImageSlideshow-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "ImageSlideshow-dummy.m"; sourceTree = "<group>"; };
 		B4CD792B40DC57B453D14FACE5E30AD4 /* RTCFileLogger.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTCFileLogger.h; path = libjingle_peerconnection/Headers/RTCFileLogger.h; sourceTree = "<group>"; };
 		B61981540ADE25B3663088729B14A0B7 /* RTCLogging.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTCLogging.h; path = libjingle_peerconnection/Headers/RTCLogging.h; sourceTree = "<group>"; };
@@ -268,13 +270,13 @@
 		D1039E0FAB40720C485B0F03B2CC2925 /* BottomContainerView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BottomContainerView.swift; path = Source/BottomView/BottomContainerView.swift; sourceTree = "<group>"; };
 		D6937BFAB5F0CE418E0317460CD36020 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D98D879C17DED7055F15EBE97E072DCB /* StackView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StackView.swift; path = Source/BottomView/StackView.swift; sourceTree = "<group>"; };
-		DDD4A75618273A6AFC2166CFC5E80B9E /* ImageSlideshow.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = ImageSlideshow.framework; path = ImageSlideshow.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDD4A75618273A6AFC2166CFC5E80B9E /* ImageSlideshow.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ImageSlideshow.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1CE68E24B38BF0A77E3B430062E38E1 /* RTCSessionDescription.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTCSessionDescription.h; path = libjingle_peerconnection/Headers/RTCSessionDescription.h; sourceTree = "<group>"; };
 		E50A9850AA22A9DFD33B44831856D21C /* ActiveLabel.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = ActiveLabel.xcconfig; sourceTree = "<group>"; };
 		E5D60BB0BE9494B3B8E82BD8F0093964 /* Pods-Chat-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Chat-umbrella.h"; sourceTree = "<group>"; };
 		E612B08F297CFC57990976AFEC4679A6 /* ImagePicker-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "ImagePicker-umbrella.h"; sourceTree = "<group>"; };
 		E6BB5118C11D26B5DE43CDE49DC651C6 /* Timeline.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Timeline.swift; path = Source/Timeline.swift; sourceTree = "<group>"; };
-		E7F09BBECC261687C4BCA14A93ABB690 /* ImagePicker.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = ImagePicker.bundle; path = ImagePicker.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		E7F09BBECC261687C4BCA14A93ABB690 /* ImagePicker.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImagePicker.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB22ADC87CA3E02355DDE222DFCAB12A /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.0.sdk/System/Library/Frameworks/AVFoundation.framework; sourceTree = DEVELOPER_DIR; };
 		EBAABE9927124A86B916976E0CDCDE31 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EC986A406230C110DA82FD4CCA3DB0BB /* ServerTrustPolicy.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ServerTrustPolicy.swift; path = Source/ServerTrustPolicy.swift; sourceTree = "<group>"; };
@@ -286,7 +288,7 @@
 		F6EDB4F0148B0842890737A5E9CD642A /* AssetManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AssetManager.swift; path = Source/AssetManager.swift; sourceTree = "<group>"; };
 		F742FFDEDB636102E6A3BF5CAAC7210A /* RTCPeerConnection.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RTCPeerConnection.h; path = libjingle_peerconnection/Headers/RTCPeerConnection.h; sourceTree = "<group>"; };
 		FE8A4E540846EA79B6F71A0F8135D103 /* Alamofire-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Alamofire-prefix.pch"; sourceTree = "<group>"; };
-		FF3746CFF2A503A9CF3D1BB0D668ACB0 /* video@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; name = "video@3x.png"; path = "Images/video@3x.png"; sourceTree = "<group>"; };
+		FF3746CFF2A503A9CF3D1BB0D668ACB0 /* video@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "video@3x.png"; path = "Images/video@3x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -404,6 +406,7 @@
 				2ED00DE03540EEFC9703E46619B90295 /* UIImage+AspectFit.swift */,
 				40CC5A1B265E12C00EAC70D3C514B619 /* UIImageView+Tools.swift */,
 				BCE201D7EDDF02D341715433F3C6796E /* ZoomAnimatedTransitioning.swift */,
+				71D855071EDC415300B326F8 /* ActivityIndicator.swift */,
 				1681A904B66FAF23C897CFEB7E0AF3B0 /* Resources */,
 			);
 			name = Core;
@@ -419,7 +422,6 @@
 				495E335923D1EAA2C70AF9676D3F83C9 /* StringTrimExtension.swift */,
 				5500FDF290A8CBF42EBFFF37E4B5B935 /* Support Files */,
 			);
-			name = ActiveLabel;
 			path = ActiveLabel;
 			sourceTree = "<group>";
 		};
@@ -458,7 +460,6 @@
 				6CD37F859DB55BC1F251DB72635FB48B /* RTCVideoTrack.h */,
 				60DA2371C8F582FBA9F0B98D80F19F8E /* Frameworks */,
 			);
-			name = libjingle_peerconnection;
 			path = libjingle_peerconnection;
 			sourceTree = "<group>";
 		};
@@ -492,7 +493,6 @@
 				82A9DC4B26FAA21A78EE374397D3DB93 /* Validation.swift */,
 				2B59588BFFB8C2FA36EA3982D2D9521E /* Support Files */,
 			);
-			name = Alamofire;
 			path = Alamofire;
 			sourceTree = "<group>";
 		};
@@ -596,7 +596,6 @@
 				2E4780C3D503FF914BB4347B60292C9B /* Core */,
 				88D4E84847E5D58C3B64A3A01160F7BC /* Support Files */,
 			);
-			name = ImageSlideshow;
 			path = ImageSlideshow;
 			sourceTree = "<group>";
 		};
@@ -631,7 +630,6 @@
 				A9CCDE42C48083C7BF41E8262F0617C2 /* SwiftyCamViewControllerDelegate.swift */,
 				C4CB789D60DDAFD1A2D8894E7213916D /* Support Files */,
 			);
-			name = SwiftyCam;
 			path = SwiftyCam;
 			sourceTree = "<group>";
 		};
@@ -673,7 +671,6 @@
 				CFE32AB44B43BCD8758BF4E3E8A0D9BE /* Resources */,
 				04F101BA4B0573895C5F775D09334F85 /* Support Files */,
 			);
-			name = ImagePicker;
 			path = ImagePicker;
 			sourceTree = "<group>";
 		};
@@ -987,6 +984,7 @@
 			files = (
 				76BE7E023F97AF8B54BA61C875EB0EEA /* ActiveBuilder.swift in Sources */,
 				F5C368CE11EF85B6ECFD00690BC551A4 /* ActiveLabel-dummy.m in Sources */,
+				71D855081EDC415300B326F8 /* ActivityIndicator.swift in Sources */,
 				D74CC593702969A2913A437BF310FF7F /* ActiveLabel.swift in Sources */,
 				2DC337ED8DDE504E8BE546D56D25C1B8 /* ActiveType.swift in Sources */,
 				4686DB5DBB538B91A065969C4837FC23 /* RegexParser.swift in Sources */,
