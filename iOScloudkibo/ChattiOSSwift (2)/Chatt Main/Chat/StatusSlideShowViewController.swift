@@ -22,8 +22,7 @@ class StatusSlideShowViewController: UIViewController {
     @IBOutlet weak var slideshowOutlet: ImageSlideshow!
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.slideshowOutlet.setImageInputs(localSource)
+                self.slideshowOutlet.setImageInputs(localSource)
         self.slideshowOutlet.contentScaleMode = .scaleAspectFill
         self.slideshowOutlet.slideshowInterval = 5
         self.slideshowOutlet.zoomEnabled = true

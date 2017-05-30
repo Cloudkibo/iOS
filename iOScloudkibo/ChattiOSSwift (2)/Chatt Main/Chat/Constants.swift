@@ -112,7 +112,8 @@ static let connectionstring="Endpoint=sb://cloudkibo.servicebus.windows.net/;Sha
     static var muteURL="/api/groupmessaginguser/mute"
     static var unmuteURL="/api/groupmessaginguser/unmute"
     static var uploadstatusURL="/api/daystatus/create"
-    
+    static var muteContact="/api/contactslist/muteContact"
+    static var unmutecontact="/api/contactslist/unmuteContact"
     
   //  static var fetchSingleGroupChat="/api/groupchat/fetchSingleChat"
     /*

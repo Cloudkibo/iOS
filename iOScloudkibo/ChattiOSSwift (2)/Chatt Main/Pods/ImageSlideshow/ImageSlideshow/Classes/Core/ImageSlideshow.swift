@@ -44,6 +44,8 @@ public enum ImagePreload {
 /// Main view containing the Image Slideshow
 open class ImageSlideshow: UIView {
 
+    var progressView: UIProgressView?
+    var progressLabel: UILabel?
     /// Scroll View to wrap the slideshow
     open let scrollView = UIScrollView()
 
@@ -167,6 +169,11 @@ open class ImageSlideshow: UIView {
         
         addSubview(pageControl)
         pageControl.addTarget(self, action: #selector(pageControlValueChanged), for: .valueChanged)
+        progressView = UIProgressView(progressViewStyle: UIProgressViewStyle.default)
+        progressView?.frame=CGRect(x: 10, y: 10, width: frame.size.width-40, height: 30)
+        addSubview(progressView!)
+        
+
         
         setTimerIfNeeded()
         layoutScrollView()
@@ -311,7 +318,8 @@ open class ImageSlideshow: UIView {
     
     fileprivate func setTimerIfNeeded() {
         if slideshowInterval > 0 && scrollViewImages.count > 1 && slideshowTimer == nil {
-            slideshowTimer = Timer.scheduledTimer(timeInterval: slideshowInterval, target: self, selector: #selector(ImageSlideshow.slideshowTick(_:)), userInfo: nil, repeats: true)
+            slideshowTimer = Timer.scheduledTimer(timeInterval: slideshowInterval, target: self, selector: #selector(ImageSlideshow.slideshowTick(_:)), userInfo: nil, repeats: false)
+            
         }
     }
     
@@ -319,8 +327,20 @@ open class ImageSlideshow: UIView {
         let page = Int(scrollView.contentOffset.x / scrollView.frame.size.width)
         var nextPage = page + 1
         
+        let progressValue = self.progressView?.progress
+        progressLabel?.text = "\(progressValue! * 100) %"
         if !circular && page == scrollViewImages.count - 1 {
             nextPage = 0
+            progressView?.progress = 0
+            let progressValue = self.progressView?.progress
+            progressLabel?.textColor = .black
+            progressLabel?.text = "\(progressValue! * 100) %"
+        }
+        else{
+            progressView?.progress += 0.02
+            let progressValue = self.progressView?.progress
+            progressLabel?.textColor = .black
+            progressLabel?.text = "\(progressValue! * 100) %"
         }
 
         self.setScrollViewPage(nextPage, animated: true)

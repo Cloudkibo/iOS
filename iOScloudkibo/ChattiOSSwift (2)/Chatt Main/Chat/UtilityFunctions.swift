@@ -2621,6 +2621,32 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
 
         }
     }
+    
+    func muteContact(group_unique_id1:String,start_time1:String,end_time1:String,secondsInterval:Double)
+    {
+        var url=Constants.MainUrl+Constants.muteContact
+        //group_unique_id, start_time, end_time (these times are epoch seconds)
+        Alamofire.request("\(url)", method: .post, parameters: ["group_unique_id":group_unique_id1,"start_time":start_time1, "end_time":end_time1],encoding: JSONEncoding.default,headers:header).responseJSON { response in
+            
+            if(response.result.isSuccess)
+            {
+                print("muted success")
+                
+                var startDate=Date()
+                var enddate=startDate.addingTimeInterval(8*60)
+                
+                
+                sqliteDB.UpdateMuteGroupStatus(group_unique_id1, isMute1: true)
+                sqliteDB.muteGroup(starttime: startDate, endTime: enddate, groupid1: group_unique_id1)
+                
+                //success
+            }
+            else{
+                //failure
+            }
+            
+        }
+    }
 
     func unmutegroup(groupid1: String)
     {
@@ -2643,6 +2669,29 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         }
         
     }
+    
+    func unmuteContact(groupid1: String)
+    {
+        var url=Constants.MainUrl+Constants.unmutecontact
+        //group_unique_id, start_time, end_time (these times are epoch seconds)
+        Alamofire.request("\(url)", method: .post, parameters: ["group_unique_id":groupid1],encoding: JSONEncoding.default,headers:header).responseJSON { response in
+            
+            if(response.result.isSuccess)
+            {
+                print("unmuted success")
+                
+                sqliteDB.UpdateMuteGroupStatus(groupid1, isMute1: false)
+                sqliteDB.UnMuteGroup(groupid1: groupid1)
+                //success
+            }
+            else{
+                //failure
+            }
+            
+        }
+        
+    }
+    
     
     func getEpochSeconds(startDate:Date,numMinutes:Int)->String
     {
