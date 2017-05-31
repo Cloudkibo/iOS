@@ -9613,8 +9613,8 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="569"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </scrollView>
-                            <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AIp-xP-1xm">
-                                <rect key="frame" x="4" y="78" width="312" height="17"/>
+                            <stackView opaque="NO" contentMode="center" fixedFrame="YES" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="AIp-xP-1xm">
+                                <rect key="frame" x="4" y="10" width="312" height="10"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                             </stackView>
                         </subviews>

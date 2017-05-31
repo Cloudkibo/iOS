@@ -7,11 +7,13 @@
 //
 
 import UIKit
+import MediaPlayer
+import AVKit
     
     class StatusHybridSlideshowViewController: UIViewController, UIScrollViewDelegate {
         
         var timersList=[Timer]()
-        var imageslist=[UIImageView]()
+        var imageslist=[UIView]()
         @IBOutlet weak var stackView: UIStackView!
         var slideshowarray:NSMutableArray!
        // @IBOutlet var scrollView: UIScrollView!
@@ -25,6 +27,7 @@ import UIKit
         
         override func viewDidLoad() {
             super.viewDidLoad()
+            self.stackView.distribution = .fillEqually
             // Do any additional setup after loading the view, typically from a nib.
             //1
             
@@ -48,78 +51,6 @@ import UIKit
             let imgFour = UIImageView(frame: CGRect(x:scrollViewWidth*3, y:0,width:scrollViewWidth, height:scrollViewHeight))
             imgFour.image = UIImage(named: "Slide 4")
             */
-            var count=0
-            
-           for messageObjects in slideshowarray
-            {
-                var messageDic = messageObjects as! [String : AnyObject];
-                //.object(at: indexPath.row) as! [String : AnyObject];
-                
-                var messages_from = messageDic["messages_from"] as! String
-                var messages_duration = messageDic["messages_duration"] as! String
-                var messages_file_type=messageDic["messages_file_type"] as! String
-                var messages_uniqueid=messageDic["messages_uniqueid"] as! String
-                var messages_file_name=messageDic["messages_file_name"] as! String
-                var messages_file_caption=messageDic["messages_file_caption"] as! String
-                var messages_file_pic=messageDic["messages_file_pic"] as! Data
-                
-                print("size of image is \(messages_file_pic.count)")
-                if let img=UIImage(data:messages_file_pic)
-                {
-                    if(messages_file_pic.count>0)
-                    {
-                     let imgTwo = UIImageView(frame: CGRect(x:scrollViewWidth * CGFloat(count), y:0,width:scrollViewWidth, height:scrollViewHeight))
-                    
-                    imgTwo.image=img
-                    imageslist.append(imgTwo)
-                    
-                        
-                count += 1
-                }
-            }
-                else{
-                    print("empty image")
-                }
-            }
-            for imgss in imageslist{
-                self.scrollView.addSubview(imgss)
-                var progressView = UIProgressView(progressViewStyle: UIProgressViewStyle.default)
-                //progressView?.frame=CGRect(x: 10, y: 10, width: frame.size.width-40, height: 30)
-                self.stackView.distribution = .fillEqually
-                self.stackView.addArrangedSubview(progressView)
-                
-            }
-            print("imagelist array count is \(imageslist.count)")
-            
-            pageControl.frame = CGRect(x:0,y:264,width:480,height:36);
-            pageControl.numberOfPages=imageslist.count;
-            pageControl.autoresizingMask=[]
-            
-            
-            /*
-            self.scrollView.addSubview(imgOne)
-            self.scrollView.addSubview(imgTwo)
-            self.scrollView.addSubview(imgThree)
-            self.scrollView.addSubview(imgFour)
-            */
-            //4
-            //self.scrollView.contentSize = CGSize(width:self.scrollView.frame.width * 4, height:self.scrollView.frame.height)
-            
-            
-            self.scrollView.isPagingEnabled = true
-            self.scrollView.contentSize = CGSize(width: self.scrollView.frame.size.width * CGFloat(imageslist.count), height: self.scrollView.frame.size.height)
-          
-            scrollView.contentSize=CGSize(width:scrollView.frame.size.width*CGFloat(imageslist.count), height:scrollView.frame.size.height);
-            
-            var progressTimer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(self.startProgressViewTimer(_:)), userInfo: nil, repeats: true)
-            
-            //.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(self.startProgressViewTimer(_:)), userInfo: nil, repeats: true)
-            
-            timersList.append(progressTimer)
-            
-            // enable timer after each 2 seconds for scrolling.
-            var slideshowTimer = Timer.scheduledTimer(timeInterval: 4, target: self, selector: #selector(self.scrollingTimer(_:)), userInfo: nil, repeats: true)
-            
             
             ////self.configurePageControl()
             
@@ -139,6 +70,113 @@ import UIKit
             // Dispose of any resources that can be recreated.
         }
        
+        
+        override func viewWillAppear(_ animated: Bool) {
+            
+            var count=0
+            
+            for messageObjects in slideshowarray
+            {
+                var messageDic = messageObjects as! [String : AnyObject];
+                //.object(at: indexPath.row) as! [String : AnyObject];
+                
+                var messages_from = messageDic["messages_from"] as! String
+                var messages_duration = messageDic["messages_duration"] as! String
+                var messages_file_type=messageDic["messages_file_type"] as! String
+                var messages_uniqueid=messageDic["messages_uniqueid"] as! String
+                var messages_file_name=messageDic["messages_file_name"] as! String
+                var messages_file_caption=messageDic["messages_file_caption"] as! String
+                var messages_file_pic=messageDic["messages_file_pic"] as! Data
+                
+                print("size of image is \(messages_file_pic.count)")
+                var util=UtilityFunctions.init()
+                print("file type iss \((messages_file_type as String).lowercased()) and filename is \(messages_file_name)")
+                if(util.videoExtensions.contains((messages_file_type as String).lowercased()))
+                {
+                    print("filetype is video")
+                    let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+                    let docsDir1 = dirPaths[0]
+                    var documentDir=docsDir1 as NSString
+                    var videoPath=documentDir.appendingPathComponent(messages_file_name)
+                    
+                    let player = AVPlayer(url: URL.init(fileURLWithPath: videoPath))
+                    
+                    let playerViewController = AVPlayerViewController.init()
+                    playerViewController.player = player
+                    playerViewController.player?.play()
+                    playerViewController.view.frame=CGRect(dictionaryRepresentation: CGRect(x:scrollView.frame.width * CGFloat(count), y:CGFloat(0),width:scrollView.frame.width, height:scrollView.frame.height) as! CFDictionary)!
+                    imageslist.append(playerViewController.view)
+                    count += 1
+                }
+                /*if(notimage)
+                {
+                                   }*/
+                else{
+                if let img=UIImage(data:messages_file_pic)
+                {
+                    if(messages_file_pic.count>0)
+                    {
+                        let imgTwo = UIImageView(frame: CGRect(x:scrollView.frame.width * CGFloat(count), y:0,width:scrollView.frame.width, height:scrollView.frame.height))
+                        
+                        imgTwo.image=img
+                        imageslist.append(imgTwo)
+                        
+                        
+                        count += 1
+                    }
+                }
+                else{
+                    print("empty image")
+                }
+            }
+            }
+            for imgss in imageslist{
+                var progressView = UIProgressView(progressViewStyle: UIProgressViewStyle.default)
+                //progressView?.frame=CGRect(x: 10, y: 10, width: frame.size.width-40, height: 30)
+                
+                self.stackView.addArrangedSubview(progressView)
+                self.scrollView.addSubview(imgss)
+                
+                
+            }
+            print("imagelist array count is \(imageslist.count)")
+            
+            pageControl.frame = CGRect(x:0,y:264,width:480,height:36);
+            pageControl.numberOfPages=imageslist.count;
+            pageControl.autoresizingMask=[]
+            
+            
+            /*
+             self.scrollView.addSubview(imgOne)
+             self.scrollView.addSubview(imgTwo)
+             self.scrollView.addSubview(imgThree)
+             self.scrollView.addSubview(imgFour)
+             */
+            //4
+            //self.scrollView.contentSize = CGSize(width:self.scrollView.frame.width * 4, height:self.scrollView.frame.height)
+            
+            
+            self.scrollView.isPagingEnabled = true
+            self.scrollView.contentSize = CGSize(width: self.scrollView.frame.size.width * CGFloat(imageslist.count), height: self.scrollView.frame.size.height)
+            
+            scrollView.contentSize=CGSize(width:scrollView.frame.size.width*CGFloat(imageslist.count), height:scrollView.frame.size.height);
+            
+            
+            var currentProgressBar=stackView.arrangedSubviews[timersList.count] as! UIProgressView
+            currentProgressBar.progress=0
+            
+            var progressTimer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(self.startProgressViewTimer(_:)), userInfo: nil, repeats: true)
+            timersList.append(progressTimer)
+            
+            //.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(self.startProgressViewTimer(_:)), userInfo: nil, repeats: true)
+            
+            
+            
+            // enable timer after each 2 seconds for scrolling.
+            var slideshowTimer = Timer.scheduledTimer(timeInterval: 4, target: self, selector: #selector(self.scrollingTimer(_:)), userInfo: nil, repeats: true)
+            
+
+        }
   /*
 func configurePageControl() {
     // The total number of pages that are available is based on how many available colors we have.
@@ -170,9 +208,11 @@ func configurePageControl() {
         repeatinterval+=0.05
         var currentProgressBar=stackView.arrangedSubviews[timersList.count-1] as! UIProgressView
         currentProgressBar.progress+=0.0125
+       // currentProgressBar.progress+=Float(1.00/Double(currentProgressBar.frame.width/8))/8.0
         print("currentProgressBar \(currentProgressBar.progress)")
-            if(repeatinterval>=80)
-            {currentProgressBar.progress=1
+            if(repeatinterval>=8)
+            {
+                ///currentProgressBar.progress=1
                 repeatinterval=0.0
                 timer.invalidate()
             }
@@ -196,7 +236,15 @@ func configurePageControl() {
     //UIProgressView
     if( nextPage != imageslist.count )  {
         //progressView?.progress += 0.02
-        var progressTimer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(self.startProgressViewTimer(_:)), userInfo: nil, repeats: true)
+       
+
+        var prexProgressbar=stackView.arrangedSubviews[timersList.count-1] as! UIProgressView
+        prexProgressbar.progress=1
+         repeatinterval=0.0
+        var currentProgressBar=stackView.arrangedSubviews[timersList.count] as! UIProgressView
+        currentProgressBar.progress=0
+        
+                var progressTimer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(self.startProgressViewTimer(_:)), userInfo: nil, repeats: true)
         
         //.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(self.startProgressViewTimer(_:)), userInfo: nil, repeats: true)
         
