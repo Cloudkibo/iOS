@@ -10,6 +10,7 @@ import UIKit
     
     class StatusHybridSlideshowViewController: UIViewController, UIScrollViewDelegate {
         
+        var timersList=[Timer]()
         var imageslist=[UIImageView]()
         @IBOutlet weak var stackView: UIStackView!
         var slideshowarray:NSMutableArray!
@@ -86,6 +87,7 @@ import UIKit
                 //progressView?.frame=CGRect(x: 10, y: 10, width: frame.size.width-40, height: 30)
                 self.stackView.distribution = .fillEqually
                 self.stackView.addArrangedSubview(progressView)
+                
             }
             print("imagelist array count is \(imageslist.count)")
             
@@ -108,8 +110,15 @@ import UIKit
             self.scrollView.contentSize = CGSize(width: self.scrollView.frame.size.width * CGFloat(imageslist.count), height: self.scrollView.frame.size.height)
           
             scrollView.contentSize=CGSize(width:scrollView.frame.size.width*CGFloat(imageslist.count), height:scrollView.frame.size.height);
+            
+            var progressTimer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(self.startProgressViewTimer(_:)), userInfo: nil, repeats: true)
+            
+            //.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(self.startProgressViewTimer(_:)), userInfo: nil, repeats: true)
+            
+            timersList.append(progressTimer)
+            
             // enable timer after each 2 seconds for scrolling.
-            var slideshowTimer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.scrollingTimer(_:)), userInfo: nil, repeats: false)
+            var slideshowTimer = Timer.scheduledTimer(timeInterval: 4, target: self, selector: #selector(self.scrollingTimer(_:)), userInfo: nil, repeats: true)
             
             
             ////self.configurePageControl()
@@ -130,7 +139,7 @@ import UIKit
             // Dispose of any resources that can be recreated.
         }
        
-  
+  /*
 func configurePageControl() {
     // The total number of pages that are available is based on how many available colors we have.
     self.pageControl.numberOfPages = imageslist.count
@@ -143,10 +152,35 @@ func configurePageControl() {
     
    // var slideshowTimer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.scrollingTimer(_:)), userInfo: nil, repeats: false)
     //changePage
-    var slideshowTimer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.scrollingTimer(_:)), userInfo: nil, repeats: true)
+    
+
+    
+    //timersList[0]
+    
+    
+        var slideshowTimer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(self.scrollingTimer(_:)), userInfo: nil, repeats: true)
     
         }
- func scrollingTimer(_ timer: Timer) {
+        */
+        var repeatinterval=0.0
+        
+        
+    func startProgressViewTimer(_ timer: Timer)
+    {print("repeatinterval is \(repeatinterval)")
+        repeatinterval+=0.05
+        var currentProgressBar=stackView.arrangedSubviews[timersList.count-1] as! UIProgressView
+        currentProgressBar.progress+=0.0125
+        print("currentProgressBar \(currentProgressBar.progress)")
+            if(repeatinterval>=80)
+            {currentProgressBar.progress=1
+                repeatinterval=0.0
+                timer.invalidate()
+            }
+            
+        
+        }
+        
+    func scrollingTimer(_ timer: Timer) {
     
     // access the scroll view with the tag
     //UIScrollView *scrMain = (UIScrollView*) [self.view viewWithTag:1];
@@ -157,7 +191,20 @@ func configurePageControl() {
     // calculate next page to display
     var nextPage = Int(contentOffset/scrollView.frame.size.width) + 1 ;
     // if page is not 10, display it
+    
+    print("nextpage is \(nextPage)")
+    //UIProgressView
     if( nextPage != imageslist.count )  {
+        //progressView?.progress += 0.02
+        var progressTimer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(self.startProgressViewTimer(_:)), userInfo: nil, repeats: true)
+        
+        //.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(self.startProgressViewTimer(_:)), userInfo: nil, repeats: true)
+        
+        timersList.append(progressTimer)
+        //invalidate progresstimer of previous page
+        //var currentprogresstimer=timersList[0] as! Timer
+        //currentprogresstimer.invalidate()
+        
         scrollView.scrollRectToVisible(CGRect(x:CGFloat(nextPage)*scrollView.frame.size.width,y:0,width:scrollView.frame.size.width, height:scrollView.frame.size.height), animated: true)
         
        // scrollRectToVisible:CGRectMake(nextPage*scrMain.frame.size.width, 0, scrMain.frame.size.width, scrMain.frame.size.height) animated:YES];
