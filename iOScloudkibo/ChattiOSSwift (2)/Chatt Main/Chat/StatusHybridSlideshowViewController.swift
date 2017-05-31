@@ -100,11 +100,17 @@ import AVKit
                     var videoPath=documentDir.appendingPathComponent(messages_file_name)
                     
                     let player = AVPlayer(url: URL.init(fileURLWithPath: videoPath))
-                    
+                   // var videolayer=AVPlayerLayer.init(player: player)
                     let playerViewController = AVPlayerViewController.init()
+                   // playerViewController.videoBounds = CGRect.equalTo(scrollView.bounds)
                     playerViewController.player = player
                     playerViewController.player?.play()
-                    playerViewController.view.frame=CGRect(dictionaryRepresentation: CGRect(x:scrollView.frame.width * CGFloat(count), y:CGFloat(0),width:scrollView.frame.width, height:scrollView.frame.height) as! CFDictionary)!
+                  // playerViewController.view.frame=CGRect(dictionaryRepresentation: CGRect(x:scrollView.frame.width * CGFloat(count), y:CGFloat(0),width:scrollView.frame.width, height:scrollView.frame.height) as! CFDictionary)!
+                  // playerViewController.view.bounds=CGRect(x:scrollView.frame.width * CGFloat(count), y:0,width:scrollView.frame.width, height:scrollView.frame.height)
+                   playerViewController.videoGravity = AVLayerVideoGravityResizeAspectFill;
+                    playerViewController.showsPlaybackControls=true
+                    //playerViewController.view.frame=CGRect(x:scrollView.frame.width * CGFloat(count), y:0,width:scrollView.frame.width, height:scrollView.frame.height)
+                    
                     imageslist.append(playerViewController.view)
                     count += 1
                 }
@@ -135,6 +141,13 @@ import AVKit
                 //progressView?.frame=CGRect(x: 10, y: 10, width: frame.size.width-40, height: 30)
                 
                 self.stackView.addArrangedSubview(progressView)
+                if let imgview1=imgss as? UIImageView
+                {
+                    
+                }
+                else{
+                   imgss.frame=CGRect(x:scrollView.frame.width * CGFloat(count), y:0,width:scrollView.frame.width, height:scrollView.frame.height)
+                }
                 self.scrollView.addSubview(imgss)
                 
                 
