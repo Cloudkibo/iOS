@@ -9614,7 +9614,7 @@
                                 </constraints>
                             </pageControl>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BVk-lq-85g">
-                                <rect key="frame" x="0.0" y="-12" width="320" height="568"/>
+                                <rect key="frame" x="0.0" y="1" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </scrollView>
                         </subviews>
@@ -9622,6 +9622,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="iEh-yK-Z98"/>
                     <nil key="simulatedTopBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="pageControl" destination="oIp-ih-UJr" id="DAM-Wp-wPa"/>
                         <outlet property="scrollView" destination="BVk-lq-85g" id="y2g-ic-lwa"/>
