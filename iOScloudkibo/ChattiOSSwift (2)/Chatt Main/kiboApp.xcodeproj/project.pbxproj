@@ -217,6 +217,7 @@
 		71EA60821D78DDAA00117B55 /* SWTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 71EA607A1D78DDAA00117B55 /* SWTableViewCell.m */; };
 		71EA60831D78DDAA00117B55 /* SWUtilityButtonTapGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 71EA607C1D78DDAA00117B55 /* SWUtilityButtonTapGestureRecognizer.m */; };
 		71EA60841D78DDAA00117B55 /* SWUtilityButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 71EA607E1D78DDAA00117B55 /* SWUtilityButtonView.m */; };
+		71EF945D1EDE78BA000D4CF6 /* StatusHybridSlideshowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71EF945C1EDE78B9000D4CF6 /* StatusHybridSlideshowViewController.swift */; };
 		71F6233E1DE4262E00AC6370 /* String-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F6233D1DE4262E00AC6370 /* String-Extension.swift */; };
 		71F6683D1E72980E00A88E35 /* RestoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F6683C1E72980E00A88E35 /* RestoreService.swift */; };
 		71FF54B41E7FE47900BF512A /* UpwardSyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71FF54B31E7FE47900BF512A /* UpwardSyncService.swift */; };
@@ -770,6 +771,7 @@
 		71EA607C1D78DDAA00117B55 /* SWUtilityButtonTapGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWUtilityButtonTapGestureRecognizer.m; sourceTree = "<group>"; };
 		71EA607D1D78DDAA00117B55 /* SWUtilityButtonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWUtilityButtonView.h; sourceTree = "<group>"; };
 		71EA607E1D78DDAA00117B55 /* SWUtilityButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWUtilityButtonView.m; sourceTree = "<group>"; };
+		71EF945C1EDE78B9000D4CF6 /* StatusHybridSlideshowViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusHybridSlideshowViewController.swift; sourceTree = "<group>"; };
 		71F6233D1DE4262E00AC6370 /* String-Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String-Extension.swift"; sourceTree = "<group>"; };
 		71F6683C1E72980E00A88E35 /* RestoreService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestoreService.swift; sourceTree = "<group>"; };
 		71FF54B31E7FE47900BF512A /* UpwardSyncService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpwardSyncService.swift; sourceTree = "<group>"; };
@@ -1009,6 +1011,7 @@
 				7141A51B1EB726D100BA244A /* ConnectToDesktop.swift */,
 				711F82B91ED7679A00CB91BF /* StatusWindowViewController.swift */,
 				71D854E71EDC3D4600B326F8 /* StatusSlideShowViewController.swift */,
+				71EF945C1EDE78B9000D4CF6 /* StatusHybridSlideshowViewController.swift */,
 				7134C68D1EA7403000FF588E /* keyFile.txt */,
 				7134C68E1EA7403000FF588E /* valueFile.txt */,
 				71FF54B31E7FE47900BF512A /* UpwardSyncService.swift */,
@@ -1676,6 +1679,7 @@
 				71C84C601E44AB2400330105 /* SocketIOClientConfiguration.swift in Sources */,
 				71189AA21E79243500245D97 /* BlockedContactsViewController.swift in Sources */,
 				7142EC991DC196DB0070826F /* GroupInfoCells.swift in Sources */,
+				71EF945D1EDE78BA000D4CF6 /* StatusHybridSlideshowViewController.swift in Sources */,
 				71EA60711D77EC7800117B55 /* GroupInfo3ViewController.swift in Sources */,
 				712050181E71707700D87E2C /* RestoreChatsViewController.swift in Sources */,
 				7150119F1D12D0940091AD7B /* Reachability.swift in Sources */,

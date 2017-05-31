@@ -50,6 +50,7 @@ class StatusSlideShowViewController: UIViewController {
         self.slideshowOutlet.slideshowInterval = 5
         self.slideshowOutlet.zoomEnabled = true
         self.slideshowOutlet.pageControlPosition = .insideScrollView
+      
 //self.slideshowOutlet.activityIndicator = DefaultActivityIndicator(style: .whiteLarge, color: .black)
         
 

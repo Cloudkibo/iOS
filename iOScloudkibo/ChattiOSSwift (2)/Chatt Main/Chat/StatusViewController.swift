@@ -191,6 +191,7 @@ class StatusViewController: UIViewController,UITableViewDataSource,UITableViewDe
             
             
             //show only recent status
+            if(messagesMyStatus.count>0){
             var messageDic = messagesMyStatus.lastObject as! [String : AnyObject];
                 //.object(at: indexPath.row) as! [String : AnyObject];
             
@@ -230,6 +231,10 @@ class StatusViewController: UIViewController,UITableViewDataSource,UITableViewDe
             
         }
             timeElapsed.text=messages_duration
+            }
+            else{
+               cell = tblStatusUpdates.dequeueReusableCell(withIdentifier: "StatusCell")! as! UITableViewCell
+            }
         }
         else{
             
@@ -279,7 +284,9 @@ class StatusViewController: UIViewController,UITableViewDataSource,UITableViewDe
             if(messagesMyStatus.count>0)
             {
                 //segue to view status
-                self.performSegue(withIdentifier: "viewStatusSlideshowMine", sender: self)
+                
+                self.performSegue(withIdentifier: "slideshowHybridSegue", sender: self)
+               // self.performSegue(withIdentifier: "viewStatusSlideshowMine", sender: self)
             }
             else{
                 //segue to add new status
@@ -300,10 +307,10 @@ class StatusViewController: UIViewController,UITableViewDataSource,UITableViewDe
         
         //newGroupDetailsSegue
         //addParticipantsSegue
-        
-        if segue!.identifier == "viewStatusSlideshowMine" {
-            
-            if let destinationVC = segue!.destination as? StatusSlideShowViewController{
+        //slideshowHybridSegue
+       // if segue!.identifier == "viewStatusSlideshowMine" {
+        if segue!.identifier == "slideshowHybridSegue" {
+            if let destinationVC = segue!.destination as? StatusHybridSlideshowViewController{
                 
                 
                 var selectedRow=tblStatusUpdates.indexPathForSelectedRow
