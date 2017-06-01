@@ -2637,6 +2637,11 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
             
             if(response.result.isSuccess)
             {
+                print("1...\(response.result)")
+                print("2...\(response.data)")
+                print(JSON(response.data))
+                print(response.response)
+                
                 print("muted success")
                 
                 var startDate=Date()

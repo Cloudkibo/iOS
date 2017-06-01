@@ -12,6 +12,8 @@ import AVKit
     
     class StatusHybridSlideshowViewController: UIViewController, UIScrollViewDelegate {
         
+        var mytimer: Timer!
+        var progressTimer: Timer!
         var timersList=[Timer]()
         var imageslist=[UIView]()
         @IBOutlet weak var stackView: UIStackView!
@@ -160,7 +162,7 @@ import AVKit
  //imgss.frame=CGRect(x:scrollView.frame.width * CGFloat(count), y:0,width:scrollView.frame.width, height:scrollView.frame.height)
                 }
                 else{
-                  
+                  imgss.frame=self.view.frame
                 }
                 self.scrollView.addSubview(imgss)
                 
@@ -192,7 +194,7 @@ import AVKit
             var currentProgressBar=stackView.arrangedSubviews[timersList.count] as! UIProgressView
             currentProgressBar.progress=0
             
-            var progressTimer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(self.startProgressViewTimer(_:)), userInfo: nil, repeats: true)
+            progressTimer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(self.startProgressViewTimer(_:)), userInfo: nil, repeats: true)
             timersList.append(progressTimer)
             
             //.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(self.startProgressViewTimer(_:)), userInfo: nil, repeats: true)
@@ -210,7 +212,7 @@ import AVKit
             }*/
             
             // enable timer after each 2 seconds for scrolling.
-            var slideshowTimer = Timer.scheduledTimer(timeInterval: timerinterval, target: self, selector: #selector(self.scrollingTimer(_:)), userInfo: nil, repeats: false)
+            mytimer = Timer.scheduledTimer(timeInterval: timerinterval, target: self, selector: #selector(self.scrollingTimer(_:)), userInfo: nil, repeats: false)
             
 
         }
@@ -282,8 +284,8 @@ func configurePageControl() {
          repeatinterval=0.0
         var currentProgressBar=stackView.arrangedSubviews[timersList.count] as! UIProgressView
         currentProgressBar.progress=0
-        
-                var progressTimer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(self.startProgressViewTimer(_:)), userInfo: nil, repeats: true)
+        progressTimer.invalidate()
+                progressTimer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(self.startProgressViewTimer(_:)), userInfo: nil, repeats: true)
         
         //.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(self.startProgressViewTimer(_:)), userInfo: nil, repeats: true)
         
@@ -298,8 +300,9 @@ func configurePageControl() {
         
        // scrollRectToVisible:CGRectMake(nextPage*scrMain.frame.size.width, 0, scrMain.frame.size.width, scrMain.frame.size.height) animated:YES];
         pageControl.currentPage=nextPage;
+        mytimer.invalidate()
         
-        var newtimer = Timer.scheduledTimer(timeInterval: 4, target: self, selector: #selector(self.scrollingTimer(_:)), userInfo: nil, repeats: false)
+        mytimer = Timer.scheduledTimer(timeInterval: 4, target: self, selector: #selector(self.scrollingTimer(_:)), userInfo: nil, repeats: false)
         
         // else start sliding form 1 :)
     } else {
@@ -326,6 +329,13 @@ func configurePageControl() {
 
         override func viewDidLayoutSubviews() {
             
+            
+        }
+        
+        override func viewWillDisappear(_ animated: Bool) {
+    
+            progressTimer.invalidate()
+            mytimer.invalidate()
             
         }
 /*func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
