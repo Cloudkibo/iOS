@@ -100,6 +100,7 @@
 		7142EC8C1DBE33560070826F /* syncGroupsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7142EC8B1DBE33560070826F /* syncGroupsService.swift */; };
 		7142EC971DBF51DC0070826F /* UtilityFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7142EC961DBF51DC0070826F /* UtilityFunctions.swift */; };
 		7142EC991DC196DB0070826F /* GroupInfoCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7142EC981DC196DB0070826F /* GroupInfoCells.swift */; };
+		71438E531EE00B6300B13DC5 /* backicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 71438E521EE00B6300B13DC5 /* backicon.png */; };
 		7146903F1E66F4BF00FA6530 /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7146903D1E66F4BF00FA6530 /* GoogleMaps.framework */; };
 		714690401E66F4BF00FA6530 /* GoogleMapsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7146903E1E66F4BF00FA6530 /* GoogleMapsCore.framework */; };
 		714690601E66F51200FA6530 /* GoogleMapsBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7146905F1E66F51200FA6530 /* GoogleMapsBase.framework */; };
@@ -634,6 +635,7 @@
 		7142EC8B1DBE33560070826F /* syncGroupsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = syncGroupsService.swift; sourceTree = "<group>"; };
 		7142EC961DBF51DC0070826F /* UtilityFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilityFunctions.swift; sourceTree = "<group>"; };
 		7142EC981DC196DB0070826F /* GroupInfoCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupInfoCells.swift; sourceTree = "<group>"; };
+		71438E521EE00B6300B13DC5 /* backicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backicon.png; sourceTree = "<group>"; };
 		714560551B904DAA00C8E0D2 /* Contacts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Contacts.swift; sourceTree = "<group>"; };
 		7145605B1B90875D00C8E0D2 /* Accounts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Accounts.swift; sourceTree = "<group>"; };
 		7146903D1E66F4BF00FA6530 /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMaps.framework; sourceTree = "<group>"; };
@@ -931,6 +933,7 @@
 				713D519D1CC11896007E0B47 /* FileReceivedViewController.swift */,
 				713D519F1CC11896007E0B47 /* FileUtility.swift */,
 				7141A53B1EB8C30000BA244A /* 6e473dd6b06a83a5275bdd2e4db7f601.jpg */,
+				71438E521EE00B6300B13DC5 /* backicon.png */,
 				5BF6363119A9F3D900ABD0BA /* Images.xcassets */,
 				713D51A11CC11896007E0B47 /* JSONStringify.swift */,
 				713D51A21CC11896007E0B47 /* KeychainWrapper.swift */,
@@ -1591,6 +1594,7 @@
 				71E20B9F1CF720DD0042EDAD /* avatarTwo.png in Resources */,
 				713F39701D74459600F3A9C4 /* EPContactCell.xib in Resources */,
 				71C4018B1CF715C500D38126 /* audioOn@2x.png in Resources */,
+				71438E531EE00B6300B13DC5 /* backicon.png in Resources */,
 				71C401891CF715C500D38126 /* audioOff@2x.png in Resources */,
 				71E20B9E1CF720DD0042EDAD /* avatarHalf.png in Resources */,
 				71E20BA01CF720DD0042EDAD /* avatarTwoHalf.png in Resources */,

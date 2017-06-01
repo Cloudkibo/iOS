@@ -9603,8 +9603,29 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="backicon" translatesAutoresizingMaskIntoConstraints="NO" id="pCb-jJ-Coy">
+                                <rect key="frame" x="6" y="22" width="20" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="20" id="c8w-sT-mIg"/>
+                                    <constraint firstAttribute="height" constant="20" id="tPV-2N-zQo"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="&lt; Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="psN-cb-YWn">
+                                <rect key="frame" x="29" y="22" width="276" height="14"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                                <color key="shadowColor" red="0.58376736110000005" green="0.58376736110000005" blue="0.58376736110000005" alpha="1" colorSpace="calibratedRGB"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="date time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5xm-Fu-uE2">
+                                <rect key="frame" x="29" y="37" width="276" height="14"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                                <color key="shadowColor" red="0.58376736110000005" green="0.58376736110000005" blue="0.58376736110000005" alpha="1" colorSpace="calibratedRGB"/>
+                            </label>
                             <pageControl opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="oIp-ih-UJr">
-                                <rect key="frame" x="8" y="11" width="304" height="37"/>
+                                <rect key="frame" x="8" y="105" width="304" height="37"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="304" id="op2-5v-r5P"/>
                                 </constraints>
@@ -9619,6 +9640,14 @@
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="pCb-jJ-Coy" firstAttribute="top" secondItem="4XJ-BL-mB1" secondAttribute="bottom" constant="2" id="5Sl-lh-I5a"/>
+                            <constraint firstItem="psN-cb-YWn" firstAttribute="top" secondItem="4XJ-BL-mB1" secondAttribute="bottom" constant="2" id="HQ3-fg-TGh"/>
+                            <constraint firstItem="pCb-jJ-Coy" firstAttribute="leading" secondItem="4Mg-VU-zQQ" secondAttribute="leadingMargin" constant="-10" id="NAj-WO-IpW"/>
+                            <constraint firstItem="5xm-Fu-uE2" firstAttribute="top" secondItem="4XJ-BL-mB1" secondAttribute="bottom" constant="17" id="Tr8-Bq-ZDh"/>
+                            <constraint firstItem="5xm-Fu-uE2" firstAttribute="leading" secondItem="pCb-jJ-Coy" secondAttribute="trailing" constant="3" id="gcy-Ne-4EV"/>
+                            <constraint firstItem="psN-cb-YWn" firstAttribute="leading" secondItem="pCb-jJ-Coy" secondAttribute="leading" id="wFx-YW-4AO"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="iEh-yK-Z98"/>
                     <nil key="simulatedTopBarMetrics"/>
@@ -9658,6 +9687,7 @@
         <image name="audio_on" width="50" height="50"/>
         <image name="avatar" width="80" height="80"/>
         <image name="avatarTwo.png" width="320" height="364"/>
+        <image name="backicon" width="102" height="102"/>
         <image name="callIcon" width="26" height="26"/>
         <image name="callOut" width="26" height="26"/>
         <image name="chat_arrow" width="6" height="10"/>

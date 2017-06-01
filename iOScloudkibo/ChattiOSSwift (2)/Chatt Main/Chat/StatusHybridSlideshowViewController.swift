@@ -123,7 +123,12 @@ import AVKit
                     newview.layer.addSublayer(playerLayer)
                     */
                     //scrollView.addChildViewController(playerViewController)
-                    playerViewController.view.frame=self.view.frame
+                    
+                    
+                    
+                    
+                    playerViewController.view.frame=CGRect(x:self.view.frame.width * CGFloat(count), y:0,width:self.view.frame.width, height:self.view.frame.height)
+                   ///!!! playerViewController.view.frame=self.view.frame
                     imageslist.append(playerViewController.view)
                     
                     count += 1
@@ -157,12 +162,12 @@ import AVKit
                 self.stackView.addArrangedSubview(progressView)
                 if let imgview1=imgss as? AVPlayerViewController
                 {
-                     imgss.frame=self.view.frame
+                    //// imgss.frame=self.view.frame
                     
  //imgss.frame=CGRect(x:scrollView.frame.width * CGFloat(count), y:0,width:scrollView.frame.width, height:scrollView.frame.height)
                 }
                 else{
-                  imgss.frame=self.view.frame
+                 // imgss.frame=self.view.frame
                 }
                 self.scrollView.addSubview(imgss)
                 
@@ -212,7 +217,7 @@ import AVKit
             }*/
             
             // enable timer after each 2 seconds for scrolling.
-            mytimer = Timer.scheduledTimer(timeInterval: timerinterval, target: self, selector: #selector(self.scrollingTimer(_:)), userInfo: nil, repeats: false)
+            mytimer = Timer.scheduledTimer(timeInterval: timerinterval, target: self, selector: #selector(self.scrollingTimer(_:)), userInfo: nil, repeats: true)
             
 
         }
@@ -263,6 +268,7 @@ func configurePageControl() {
         
     func scrollingTimer(_ timer: Timer) {
     
+        
     // access the scroll view with the tag
     //UIScrollView *scrMain = (UIScrollView*) [self.view viewWithTag:1];
     // same way, access pagecontroll access
@@ -300,11 +306,14 @@ func configurePageControl() {
         
        // scrollRectToVisible:CGRectMake(nextPage*scrMain.frame.size.width, 0, scrMain.frame.size.width, scrMain.frame.size.height) animated:YES];
         pageControl.currentPage=nextPage;
-        mytimer.invalidate()
+       
         
-        mytimer = Timer.scheduledTimer(timeInterval: 4, target: self, selector: #selector(self.scrollingTimer(_:)), userInfo: nil, repeats: false)
+        //mytimer.invalidate()
+        
+        
         
         // else start sliding form 1 :)
+       //!! mytimer = Timer.scheduledTimer(timeInterval: 4, target: self, selector: #selector(self.scrollingTimer(_:)), userInfo: nil, repeats: false)
     } else {
         timer.invalidate()
        ////!!! scrollView.scrollRectToVisible(CGRect(x:0,y:0,width:scrollView.frame.size.width,height:scrollView.frame.size.height), animated: true)
