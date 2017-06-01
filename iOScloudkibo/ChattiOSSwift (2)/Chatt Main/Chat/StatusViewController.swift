@@ -40,10 +40,7 @@ class StatusViewController: UIViewController,UITableViewDataSource,UITableViewDe
         
         ///////////////==========var defaultTimeeee = formatter2.stringFromDate(defaultTimeZoneStr!)
        print("elapsed time is \(string!)")
-        if(string=="0 minutes")
-        {
-            string="just now"
-        }
+        
         return string!
        
     }
@@ -82,7 +79,7 @@ class StatusViewController: UIViewController,UITableViewDataSource,UITableViewDe
             
           
             
-            
+            var uploadtime=statuses["date"] as! Date
             var messages_duration = self.getTimeDuration(mydate:statuses["date"] as! Date)+" ago"
             var messages_uniqueid=statuses["uniqueid"] as! String
             var messages_contactphone=statuses["contactPhone"] as! String
@@ -112,10 +109,10 @@ class StatusViewController: UIViewController,UITableViewDataSource,UITableViewDe
             
             
             if(statuses["from"] as! String == username!){
-                messagesMyStatus2.add(["messages_from":messages_from,"messages_duration":messages_duration,"messages_file_type":messages_file_type,"messages_uniqueid":messages_uniqueid,"messages_file_name":messages_file_name,"messages_file_caption":messages_file_caption,"messages_file_pic":messages_file_pic])
+                messagesMyStatus2.add(["messages_from":messages_from,"messages_duration":messages_duration,"messages_file_type":messages_file_type,"messages_uniqueid":messages_uniqueid,"messages_file_name":messages_file_name,"messages_file_caption":messages_file_caption,"messages_file_pic":messages_file_pic,"uploadtime":uploadtime])
             }
             else{
-                messagesOthersStatus2.add(["messages_from":messages_from,"messages_duration":messages_duration,"messages_file_type":messages_file_type,"messages_uniqueid":messages_uniqueid,"messages_file_name":messages_file_name,"messages_file_caption":messages_file_caption,"messages_file_pic":messages_file_pic])
+                messagesOthersStatus2.add(["messages_from":messages_from,"messages_duration":messages_duration,"messages_file_type":messages_file_type,"messages_uniqueid":messages_uniqueid,"messages_file_name":messages_file_name,"messages_file_caption":messages_file_caption,"messages_file_pic":messages_file_pic,"uploadtime":uploadtime])
             }
             
         }
@@ -131,6 +128,17 @@ class StatusViewController: UIViewController,UITableViewDataSource,UITableViewDe
     
     @IBOutlet weak var tblStatusUpdates: UITableView!
     
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+        sqliteDB.getOldDayStatuses()
+        //messagesMyStatus=NSMutableArray()
+        //messagesOthersStatus=NSMutableArray()
+        // messagesOthersStatus.add(["displayName":"Sojharo","time":"1 hour ago"])
+        //messagesOthersStatus.add(["displayName":"XYZ","time":"just now"])
+        self.retrieveStatuses()
+        self.tblStatusUpdates.reloadData()
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         sqliteDB.getOldDayStatuses()
@@ -230,7 +238,13 @@ class StatusViewController: UIViewController,UITableViewDataSource,UITableViewDe
 
             
         }
+                if(messages_duration=="0 minutes")
+                {
+                    timeElapsed.text="just now"
+                }
+                else{
             timeElapsed.text=messages_duration
+                }
             }
             else{
                cell = tblStatusUpdates.dequeueReusableCell(withIdentifier: "StatusCell")! as! UITableViewCell

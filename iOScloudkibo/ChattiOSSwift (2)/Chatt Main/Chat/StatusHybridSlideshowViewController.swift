@@ -16,6 +16,10 @@ import AVKit
         var progressTimer: Timer!
         var timersList=[Timer]()
         var imageslist=[UIView]()
+        
+        
+        @IBOutlet weak var lbldatetime: UILabel!
+        @IBOutlet weak var lblname: UILabel!
         @IBOutlet weak var stackView: UIStackView!
         var slideshowarray:NSMutableArray!
        // @IBOutlet var scrollView: UIScrollView!
@@ -29,7 +33,24 @@ import AVKit
         
         override func viewDidLoad() {
             super.viewDidLoad()
-            self.stackView.distribution = .fillEqually
+            
+            
+            var messageDic = slideshowarray[0] as! [String : AnyObject];
+            //.object(at: indexPath.row) as! [String : AnyObject];
+            
+            var messages_from = messageDic["messages_from"] as! String
+            var namesender=sqliteDB.getNameFromAddressbook(messages_from)
+            if(namesender != nil)
+            {
+                self.lblname.text=namesender
+            }
+            else{
+                self.lblname.text=messages_from
+            }
+            var uploadtime = messageDic["uploadtime"] as! String
+            self.lbldatetime.text=uploadtime
+            
+             self.stackView.distribution = .fillEqually
             // Do any additional setup after loading the view, typically from a nib.
             //1
             
@@ -82,6 +103,7 @@ import AVKit
                 var messageDic = messageObjects as! [String : AnyObject];
                 //.object(at: indexPath.row) as! [String : AnyObject];
                 
+                var uploadtime=messageDic["uploadtime"] as! String
                 var messages_from = messageDic["messages_from"] as! String
                 var messages_duration = messageDic["messages_duration"] as! String
                 var messages_file_type=messageDic["messages_file_type"] as! String
