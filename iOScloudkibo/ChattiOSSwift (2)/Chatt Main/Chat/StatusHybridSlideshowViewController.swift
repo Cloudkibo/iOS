@@ -101,17 +101,29 @@ import AVKit
                     
                     let player = AVPlayer(url: URL.init(fileURLWithPath: videoPath))
                    // var videolayer=AVPlayerLayer.init(player: player)
-                    let playerViewController = AVPlayerViewController.init()
+                   let playerViewController = AVPlayerViewController.init()
                    // playerViewController.videoBounds = CGRect.equalTo(scrollView.bounds)
-                    playerViewController.player = player
+                   playerViewController.player = player
                     playerViewController.player?.play()
                   // playerViewController.view.frame=CGRect(dictionaryRepresentation: CGRect(x:scrollView.frame.width * CGFloat(count), y:CGFloat(0),width:scrollView.frame.width, height:scrollView.frame.height) as! CFDictionary)!
                   // playerViewController.view.bounds=CGRect(x:scrollView.frame.width * CGFloat(count), y:0,width:scrollView.frame.width, height:scrollView.frame.height)
-                   playerViewController.videoGravity = AVLayerVideoGravityResizeAspectFill;
-                    playerViewController.showsPlaybackControls=true
-                    //playerViewController.view.frame=CGRect(x:scrollView.frame.width * CGFloat(count), y:0,width:scrollView.frame.width, height:scrollView.frame.height)
+                   // playerViewController.showsPlaybackControls=true
+                    //!!!playerViewController.view.frame=CGRect(x:scrollView.frame.width * CGFloat(count), y:0,width:scrollView.frame.width, height:scrollView.frame.height)
+                   //playerViewController.videoGravity = AVLayerVideoGravityResizeAspectFill;
+                    
+                   /* var playerLayer = AVPlayerLayer.init(player: player)
+                    playerLayer.player?.play()
+                   // playerLayer.player = player;
+                   ////// playerLayer.frame = CGRect(x:scrollView.frame.width * CGFloat(count), y:0,width:scrollView.frame.width, height:scrollView.frame.height)
+                    //playerLayer.backgroundColor = [UIColor blackColor].CGColor;
+                    playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+                    var newview=UIView.init()
+                    newview.layer.addSublayer(playerLayer)
+                    */
+                    //scrollView.addChildViewController(playerViewController)
                     
                     imageslist.append(playerViewController.view)
+                    
                     count += 1
                 }
                 /*if(notimage)
@@ -141,12 +153,12 @@ import AVKit
                 //progressView?.frame=CGRect(x: 10, y: 10, width: frame.size.width-40, height: 30)
                 
                 self.stackView.addArrangedSubview(progressView)
-                if let imgview1=imgss as? UIImageView
+                if let imgview1=imgss as? AVPlayerViewController
                 {
-                    
+ imgss.frame=CGRect(x:scrollView.frame.width * CGFloat(count), y:0,width:scrollView.frame.width, height:scrollView.frame.height)
                 }
                 else{
-                   imgss.frame=CGRect(x:scrollView.frame.width * CGFloat(count), y:0,width:scrollView.frame.width, height:scrollView.frame.height)
+                  
                 }
                 self.scrollView.addSubview(imgss)
                 
@@ -293,6 +305,10 @@ func configurePageControl() {
     }
 }
 
+        override func viewDidLayoutSubviews() {
+            
+            
+        }
 /*func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
     
     let pageNumber = round(scrollView.contentOffset.x / scrollView.frame.size.width)
