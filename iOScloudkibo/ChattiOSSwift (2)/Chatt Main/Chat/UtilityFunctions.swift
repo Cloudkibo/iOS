@@ -2430,6 +2430,13 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         
     }
     
+    func sendStatusReply(uniqueidStatus:String, reply:String)
+    {
+     var imparas=["uniqueid":uniqueidStatus,"type":"day_status_chat","msg":reply,"from":username!,"date":"\(Date.init())","fromFullName":"\(displayname)"]
+
+        //manager.sendStatusReplyMessage(chatstanza:imparas)
+    }
+    
     func sendAttachment(_ screenshot: UIImage!,unique_id1:String) {
         var chunkLength=16000
         var imageData:Data = UIImageJPEGRepresentation(screenshot, 1.0)!

@@ -121,7 +121,7 @@ import AVKit
                     newview.layer.addSublayer(playerLayer)
                     */
                     //scrollView.addChildViewController(playerViewController)
-                    
+                    playerViewController.view.frame=self.view.frame
                     imageslist.append(playerViewController.view)
                     
                     count += 1
@@ -155,7 +155,9 @@ import AVKit
                 self.stackView.addArrangedSubview(progressView)
                 if let imgview1=imgss as? AVPlayerViewController
                 {
- imgss.frame=CGRect(x:scrollView.frame.width * CGFloat(count), y:0,width:scrollView.frame.width, height:scrollView.frame.height)
+                     imgss.frame=self.view.frame
+                    
+ //imgss.frame=CGRect(x:scrollView.frame.width * CGFloat(count), y:0,width:scrollView.frame.width, height:scrollView.frame.height)
                 }
                 else{
                   
@@ -195,10 +197,20 @@ import AVKit
             
             //.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(self.startProgressViewTimer(_:)), userInfo: nil, repeats: true)
             
-            
+            var timerinterval:Double=4.0
+           /* if let imgview1=imageslist[0] as? AVPlayerViewController
+            {
+                if(imgview1.player!.currentItem!.duration.seconds > 20.0)
+                {
+                    timerinterval=20.0
+                }
+                else{
+                    timerinterval=(imgview1.player?.currentItem?.duration.seconds)!
+                }
+            }*/
             
             // enable timer after each 2 seconds for scrolling.
-            var slideshowTimer = Timer.scheduledTimer(timeInterval: 4, target: self, selector: #selector(self.scrollingTimer(_:)), userInfo: nil, repeats: true)
+            var slideshowTimer = Timer.scheduledTimer(timeInterval: timerinterval, target: self, selector: #selector(self.scrollingTimer(_:)), userInfo: nil, repeats: false)
             
 
         }
@@ -232,6 +244,8 @@ func configurePageControl() {
     {print("repeatinterval is \(repeatinterval)")
         repeatinterval+=0.05
         var currentProgressBar=stackView.arrangedSubviews[timersList.count-1] as! UIProgressView
+        
+        
         currentProgressBar.progress+=0.0125
        // currentProgressBar.progress+=Float(1.00/Double(currentProgressBar.frame.width/8))/8.0
         print("currentProgressBar \(currentProgressBar.progress)")
@@ -278,10 +292,15 @@ func configurePageControl() {
         //var currentprogresstimer=timersList[0] as! Timer
         //currentprogresstimer.invalidate()
         
+        
+    
         scrollView.scrollRectToVisible(CGRect(x:CGFloat(nextPage)*scrollView.frame.size.width,y:0,width:scrollView.frame.size.width, height:scrollView.frame.size.height), animated: true)
         
        // scrollRectToVisible:CGRectMake(nextPage*scrMain.frame.size.width, 0, scrMain.frame.size.width, scrMain.frame.size.height) animated:YES];
         pageControl.currentPage=nextPage;
+        
+        var newtimer = Timer.scheduledTimer(timeInterval: 4, target: self, selector: #selector(self.scrollingTimer(_:)), userInfo: nil, repeats: false)
+        
         // else start sliding form 1 :)
     } else {
         timer.invalidate()
