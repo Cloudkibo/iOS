@@ -47,8 +47,17 @@ import AVKit
             else{
                 self.lblname.text=messages_from
             }
-            var uploadtime = messageDic["uploadtime"] as! String
-            self.lbldatetime.text=uploadtime
+            var uploadtime = messageDic["uploadtime"] as! Date
+            
+            let formatter = DateFormatter();
+            formatter.dateFormat = "MM/dd hh:mm a";
+            formatter.timeZone = TimeZone.autoupdatingCurrent
+            ////formatter.dateStyle = .ShortStyle
+            //formatter.timeStyle = .ShortStyle
+            let defaultTimeZoneStr = formatter.string(from: uploadtime);
+
+            
+            self.lbldatetime.text=defaultTimeZoneStr
             
              self.stackView.distribution = .fillEqually
             // Do any additional setup after loading the view, typically from a nib.
@@ -103,7 +112,7 @@ import AVKit
                 var messageDic = messageObjects as! [String : AnyObject];
                 //.object(at: indexPath.row) as! [String : AnyObject];
                 
-                var uploadtime=messageDic["uploadtime"] as! String
+                var uploadtime=messageDic["uploadtime"] as! Date
                 var messages_from = messageDic["messages_from"] as! String
                 var messages_duration = messageDic["messages_duration"] as! String
                 var messages_file_type=messageDic["messages_file_type"] as! String

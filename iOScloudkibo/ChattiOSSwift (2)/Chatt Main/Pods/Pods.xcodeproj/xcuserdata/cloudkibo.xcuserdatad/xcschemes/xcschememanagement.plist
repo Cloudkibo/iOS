@@ -14,6 +14,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Hue.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>ImagePicker-ImagePicker.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -34,6 +39,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Lightbox.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-Chat.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -47,7 +57,17 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>186548865F48E4C18FD32F43094CC1F3</key>
+		<key>057215426658BC0EE972E673CE010E6D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>37B66AF5870FA3E1022722ECFA09EB7C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>3DC473F91F7542A712D455BC8FA40614</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -77,7 +97,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>E143B98681B05A1F4A79673C51471046</key>
+		<key>B2542602E50EDF091ADB18B4688DF34F</key>
 		<dict>
 			<key>primary</key>
 			<true/>

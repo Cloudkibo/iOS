@@ -1,11 +1,14 @@
 PODS:
   - ActiveLabel (0.7.1)
   - Alamofire (4.3.0)
+  - Hue (2.0.1)
   - ImagePicker (2.1.1)
   - ImageSlideshow (1.0.0):
     - ImageSlideshow/Core (= 1.0.0)
   - ImageSlideshow/Core (1.0.0)
   - libjingle_peerconnection (11177.2.0)
+  - Lightbox (1.0.0):
+    - Hue
   - SwiftyCam (2.3.0)
 
 DEPENDENCIES:
@@ -14,6 +17,7 @@ DEPENDENCIES:
   - ImagePicker (from `https://github.com/hyperoslo/ImagePicker`, branch `master`)
   - ImageSlideshow (~> 1.0.0)
   - libjingle_peerconnection
+  - Lightbox
   - SwiftyCam (from `https://github.com/Awalz/SwiftyCam`)
 
 EXTERNAL SOURCES:
@@ -46,11 +50,13 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   ActiveLabel: faa96b5f50507770536a3e48a4cf291ee88fb7db
   Alamofire: 1f72088aff8f6b40828dadd61be2e9a31beca01e
+  Hue: 354caec055fdc9d38b5ef33ca2e7224721843baf
   ImagePicker: 4845cf22f8dd201ff5730474b619f017d374a3b8
   ImageSlideshow: 2787e10e202b79ecf5348a205c539fcc5bb8e62b
   libjingle_peerconnection: 3458f646ddd61f08a9f3a0c43fb01fff5c165eb8
+  Lightbox: 13f55a0a840f7945dc5ac87931564e7fe569fca9
   SwiftyCam: e460d1b253d26fb12ed2f6a00aa42bcd1e39e751
 
-PODFILE CHECKSUM: e8ad3997fe005c20e2d6eaa75a78af701c255857
+PODFILE CHECKSUM: 9017d6bdd84e36ae53185e4912a7ecdebf5302cc
 
 COCOAPODS: 1.2.0

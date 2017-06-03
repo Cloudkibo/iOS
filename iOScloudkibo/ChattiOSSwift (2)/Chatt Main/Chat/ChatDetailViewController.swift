@@ -4103,8 +4103,13 @@ var isKiboContact="false"
             {
                 chatImage.isUserInteractionEnabled = true
                 var filesData=sqliteDB.getFilesData(uniqueidDictValue as! String)
+                if(filesData["file_caption"] != nil)
+                {
                 caption=filesData["file_caption"] as! NSString
-                
+                }
+                else{
+                    caption=""
+                }
                 /*var predicate=NSPredicate(format: "uniqueid = %@", uniqueidDictValue)
                 var resultArray=uploadInfo.filteredArrayUsingPredicate(predicate)
                 if(resultArray.count>0)
