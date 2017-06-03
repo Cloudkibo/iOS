@@ -1,7 +1,6 @@
 import UIKit
 import AVFoundation
 import PhotosUI
-
 protocol CameraViewDelegate: class {
 
   func setFlashButtonHidden(_ hidden: Bool)
@@ -211,10 +210,16 @@ class CameraView: UIViewController, CLLocationManagerDelegate, CameraManDelegate
         })
     })
 
+   //!!!
+   
     cameraMan.takePhoto(previewLayer, location: locationManager?.latestLocation) {
       completion()
-      self.delegate?.imageToLibrary()
+      
+        
+        
+     self.delegate?.imageToLibrary()
     }
+ 
   }
 
   // MARK: - Timer methods

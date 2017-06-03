@@ -102,14 +102,25 @@ import Photos
         func wrapperDidPress(_ imagePicker: ImagePickerController, images: [UIImage]) {
             guard images.count > 0 else { return }
             
+            
+                
             let lightboxImages = images.map {
                 return LightboxImage(image: $0)
+                
+              
+                    
             }
+            let newVC = StatusPhotoViewController(image: lightboxImages[0].image!)
+            imagePicker.present(newVC, animated: true){
             
+                
+            /*
             let lightbox = LightboxController(images: lightboxImages, startIndex: 0)
             imagePicker.present(lightbox, animated: true, completion: nil)
+            */
         }
         
+        }
         func doneButtonDidPress(_ imagePicker: ImagePickerController, images: [UIImage]) {
             imagePicker.dismiss(animated: true, completion: nil)
         }

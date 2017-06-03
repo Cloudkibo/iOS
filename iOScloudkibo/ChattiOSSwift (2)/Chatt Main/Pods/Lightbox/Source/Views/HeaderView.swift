@@ -91,5 +91,7 @@ extension HeaderView: LayoutConfigurable {
       x: bounds.width - closeButton.frame.width - 17, y: 0)
 
     deleteButton.frame.origin = CGPoint(x: 17, y: 0)
+    /////////
+    
   }
 }

@@ -79,7 +79,12 @@ class ButtonPicker: UIButton {
     backgroundColor = UIColor.white
     layer.cornerRadius = Dimensions.buttonSize / 2
     accessibilityLabel = "Take photo"
-    addTarget(self, action: #selector(pickerButtonDidPress(_:)), for: .touchUpInside)
+    
+     let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(pickerButtonDidPress(_:)))
+    
+    addGestureRecognizer(longGesture)
+  
+    //!!!addTarget(self, action: #selector(pickerButtonDidPress(_:)), for: .touchUpInside)
     addTarget(self, action: #selector(pickerButtonDidHighlight(_:)), for: .touchDown)
   }
 
