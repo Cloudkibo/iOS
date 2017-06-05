@@ -2357,7 +2357,7 @@ class NetworkingManager
          */
         print("file type is \(file_type1)")
         var parameters:JSON = [
-                "date": date1,
+                "date": "\(date1)",
                 "uniqueid": uniqueid1,
                 "file_name":file_name1,
                 "file_size": file_size1,

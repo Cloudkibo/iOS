@@ -278,8 +278,50 @@ class StatusViewController: UIViewController,UITableViewDataSource,UITableViewDe
             else{
                  var messageDic = messagesOthersStatus.object(at: indexPath.row) as! [String : AnyObject];
                 cell = tblStatusUpdates.dequeueReusableCell(withIdentifier: "myStatusCell")! as! UITableViewCell
+                
+                messages_from = messageDic["messages_from"] as! String
+                messages_duration = messageDic["messages_duration"] as! String
+                messages_file_type=messageDic["messages_file_type"] as! String
+                messages_uniqueid=messageDic["messages_uniqueid"] as! String
+                messages_file_name=messageDic["messages_file_name"] as! String
+                messages_file_caption=messageDic["messages_file_caption"] as! String
+                messages_file_pic=messageDic["messages_file_pic"] as! Data
+                
+                
+                
+                
+                var profilePic=cell.viewWithTag(1) as! UIImageView
+
                 var name=cell.viewWithTag(2) as! UILabel
                 var time=cell.viewWithTag(3) as! UILabel
+                
+                name.text=messages_from
+                if let img=UIImage(data:messages_file_pic)
+                {
+                    profilePic.layer.borderWidth = 1.0
+                    profilePic.layer.masksToBounds = false
+                    profilePic.layer.borderColor = UIColor.white.cgColor
+                    profilePic.layer.cornerRadius = profilePic.frame.size.width/2
+                    profilePic.clipsToBounds = true
+                    
+                    imageCache.removeImage(withIdentifier: messages_uniqueid)
+                    imageCache.add(img, withIdentifier: messages_uniqueid)
+                    
+                    // Fetch
+                    var cachedAvatar = imageCache.image(withIdentifier: messages_uniqueid)
+                    cachedAvatar=UtilityFunctions.init().resizedAvatar(img: cachedAvatar, size: CGSize(width: profilePic.bounds.width,height: profilePic.bounds.height), sizeStyle: "Fill")
+                    
+                    profilePic.image=cachedAvatar
+                    
+                    
+                }
+                if(messages_duration=="0 minutes")
+                {
+                    time.text="just now"
+                }
+                else{
+                    time.text=messages_duration
+                }
                 //name.text=nameDict as String?
                 //time.text=timeDict as String?
 
