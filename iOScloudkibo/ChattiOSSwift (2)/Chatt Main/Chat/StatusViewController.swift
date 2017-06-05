@@ -123,6 +123,7 @@ class StatusViewController: UIViewController,UITableViewDataSource,UITableViewDe
             {
                 var imgdata=FileManager.default.contents(atPath: imgPath)!
                 messages_file_pic=imgdata
+                print("messages_file_pic is not nil")
             }
             
             
@@ -138,9 +139,13 @@ class StatusViewController: UIViewController,UITableViewDataSource,UITableViewDe
         {
         self.messagesMyStatus.setArray(messagesMyStatus2 as [AnyObject])
         }
-        else{
+        if(messagesOthersStatus.count>0)
+        {
         self.messagesOthersStatus.setArray(messagesOthersStatus2 as [AnyObject])
         }
+        print("count messagesMyStatus is \(messagesMyStatus.count)")
+
+        print("count messagesOthersStatus is \(messagesOthersStatus.count)")
     }
 
     
@@ -295,8 +300,17 @@ class StatusViewController: UIViewController,UITableViewDataSource,UITableViewDe
                 var name=cell.viewWithTag(2) as! UILabel
                 var time=cell.viewWithTag(3) as! UILabel
                 
-                name.text=messages_from
-                if let img=UIImage(data:messages_file_pic)
+                var contactname=sqliteDB.getNameFromAddressbook(messages_from)
+                if(contactname==nil)
+                {
+                    name.text=messages_from
+
+                }
+                else{
+                    name.text=contactname
+
+                }
+                               if let img=UIImage(data:messages_file_pic)
                 {
                     profilePic.layer.borderWidth = 1.0
                     profilePic.layer.masksToBounds = false
@@ -370,6 +384,8 @@ class StatusViewController: UIViewController,UITableViewDataSource,UITableViewDe
             if(messagesOthersStatus.count>0)
             {
                 //segue to view status of others
+                self.performSegue(withIdentifier: "slideshowHybridSegue", sender: self)
+
             }
             else{
                 
@@ -440,8 +456,13 @@ class StatusViewController: UIViewController,UITableViewDataSource,UITableViewDe
                 
                 
                 var selectedRow=tblStatusUpdates.indexPathForSelectedRow
+                if(selectedRow?.section==0)
+                {
                 destinationVC.slideshowarray=self.messagesMyStatus
-                
+                }
+                else{
+                   destinationVC.slideshowarray=self.messagesOthersStatus
+                }
                                 //selectedRow = tblForChat.indexPathForSelectedRow!.row
                 //messageDic = messages.object(at: selectedRow) as! [String : AnyObject];
                 //ContactUsernames = messageDic["ContactUsernames"] as! String
