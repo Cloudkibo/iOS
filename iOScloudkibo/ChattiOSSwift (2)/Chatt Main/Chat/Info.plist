@@ -114,7 +114,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.1320</string>
+	<string>0.1321</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLSchemes</key>
@@ -158,7 +158,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>This app requires access to camera</string>
 	<key>NSContactsUsageDescription</key>
-	<string>This app requires contacts access to function properly.</string>
+	<string>This app requires contacts access to function properly. Contact numbers from device phonebook will be uploaded to server. Here is the link to our Privacy policy https://api.cloudkibo.com/#/policy</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Allowing access to your location, you can spot your position on the map</string>
 	<key>NSMicrophoneUsageDescription</key>

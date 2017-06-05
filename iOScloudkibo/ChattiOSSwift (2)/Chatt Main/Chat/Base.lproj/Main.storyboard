@@ -8967,11 +8967,12 @@
                     <navigationItem key="navigationItem" id="Jey-EL-ulb">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="fAO-rq-O4t">
                             <connections>
-                                <segue destination="iAL-Uj-U1X" kind="push" id="3Kb-C2-dfn"/>
+                                <action selector="btnNewStatusPressed:" destination="Wia-kK-zOl" id="xr1-1z-3Mn"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="btnNewStatus" destination="fAO-rq-O4t" id="2CT-P4-MrY"/>
                         <outlet property="tblStatusUpdates" destination="L1Y-ed-fun" id="Aag-4D-cah"/>
                         <segue destination="auQ-vR-CnT" kind="push" id="Fir-GQ-Dqx"/>
                         <segue destination="5QS-bR-y0h" kind="push" identifier="viewStatusSlideshowMine" id="7FF-DM-cr7"/>
@@ -9542,7 +9543,7 @@
                         <viewControllerLayoutGuide type="bottom" id="BrS-dz-cWi"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="7Im-9m-BGM">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>

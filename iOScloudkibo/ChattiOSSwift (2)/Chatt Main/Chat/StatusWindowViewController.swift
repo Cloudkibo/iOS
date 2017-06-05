@@ -53,7 +53,20 @@ import Photos
         override func viewDidLoad() {
             super.viewDidLoad()
             
-            view.backgroundColor = UIColor.white
+            
+            var config = Configuration()
+            config.doneButtonTitle = "Finish"
+            config.noImagesTitle = "Sorry! There are no images here!"
+            config.recordLocation = false
+            config.allowVideoSelection = true
+            
+            let imagePicker = ImagePickerController()
+            imagePicker.configuration = config
+            imagePicker.delegate = self
+            
+            present(imagePicker, animated: true, completion: nil)
+            
+           /* view.backgroundColor = UIColor.white
             view.addSubview(button)
             button.translatesAutoresizingMaskIntoConstraints = false
             
@@ -68,6 +81,7 @@ import Photos
                                    relatedBy: .equal, toItem: view,
                                    attribute: .centerY, multiplier: 1,
                                    constant: 0))
+            */
         }
         
         func makeButton() -> UIButton {
@@ -110,7 +124,7 @@ import Photos
               
                     
             }
-            let newVC = StatusPhotoViewController(image: lightboxImages[0].image!)
+            let newVC = StatusPhotoViewController(image: (lightboxImages.last?.image!)!)
             imagePicker.present(newVC, animated: true){
             
                 

@@ -68,7 +68,7 @@ class StatusPhotoViewController: UIViewController,UIImagePickerControllerDelegat
         */
         let sendButton = UIButton(frame: CGRect(x: 220, y: 430, width: 30.0, height: 30.0))
         sendButton.setImage(#imageLiteral(resourceName: "send"), for: UIControlState())
-        sendButton.addTarget(self, action: #selector(cancel), for: .touchUpInside)
+        sendButton.addTarget(self, action: #selector(sendWithoutCaption), for: .touchUpInside)
         view.addSubview(sendButton)
         
         let captionfield=UIButton.init(frame: CGRect(x: 100.0, y: 430, width: 100.0, height: 30.0))
@@ -80,6 +80,76 @@ class StatusPhotoViewController: UIViewController,UIImagePickerControllerDelegat
         
         view.addSubview(captionfield)
     }
+    
+    func sendWithoutCaption()
+    {
+        self.imgcaption=""
+        var uniqueid=UtilityFunctions.init().generateUniqueid()
+        let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+        let docsDir1 = dirPaths[0]
+        var documentDir=docsDir1 as NSString
+        var filename=uniqueid+"."+"jpg"
+        var filePathVideo=documentDir.appendingPathComponent(uniqueid+"."+"jpg")
+        var fm=FileManager.default
+        var fileExtension="."+"jpg"
+        var fileAttributes:[String:AnyObject]=["":"" as AnyObject]
+        
+        //!!var s=fm.createFile(atPath: filePathImage2, contents: nil, attributes: nil)
+        
+        //  var written=fileData!.writeToFile(filePathImage2, atomically: false)
+        
+        //filePathImage2
+        
+        do{var data = UIImageJPEGRepresentation(self.image,0.9)
+            
+            var filesize=data?.count
+            
+            try? data?.write(to: URL(fileURLWithPath: filePathVideo), options: [.atomic])
+            
+            UtilityFunctions.init().log_papertrail("IPHONE-LOG: \(username!) is uploading video captured, saved file")
+            // data!.writeToFile(localPath.absoluteString, atomically: true)
+            var uniqueID=UtilityFunctions.init().generateUniqueid()
+            print("uniqueid video is \(uniqueID)")
+            var statusNow="pending"
+            
+            // var imParas=["from":"\(username!)","to":"\(self.selectedContact)","fromFullName":"\(displayname)","msg":self.filename,"uniqueid":uniqueID,"type":"file","file_type":"video","status":statusNow]
+            //print("imparas are \(imParas)")
+            
+            
+            //------
+            
+            //SPECIAL
+            sqliteDB.saveFile("all", from1: username!, owneruser1: username!, file_name1:filename, date1: nil, uniqueid1: uniqueID, file_size1: "\(filesize)", file_type1: "jpg", file_path1: filePathVideo, type1: "day_status",caption1:self.imgcaption)
+            
+            //==--self.addUploadInfo(self.selectedContact,uniqueid1: uniqueID, rowindex: self.messages.count, uploadProgress: 0.0, isCompleted: false)
+            
+            //if(self.selectedContact != "")
+            //{
+            
+            
+            
+            
+            managerFile.uploadStatus(date1: Date.init(), uniqueid1: uniqueID, file_name1: filename, file_size1: filesize!.description, label1: self.imgcaption, file_type1: "jpg", uploadedBy1: username!, file_path1: filePathVideo)
+            
+            
+        }
+        catch{
+            UtilityFunctions.init().log_papertrail("IPHONE-LOG: \(username) cannot write file \(error)")
+            
+            return
+            //==--self.showError("Error".localized, message: "Unable to get video".localized, button1: "Ok".localized)
+        }
+        
+        self.dismiss(animated: true, completion: {
+            
+            
+        })
+
+
+    }
+    
+    
+    
     
     func addcaptiontapped()
     {

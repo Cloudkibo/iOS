@@ -10,13 +10,31 @@ import UIKit
 import Kingfisher
 import SQLite
 import AlamofireImage
+import ImagePicker
+import Lightbox
 
-class StatusViewController: UIViewController,UITableViewDataSource,UITableViewDelegate {
+class StatusViewController: UIViewController,UITableViewDataSource,UITableViewDelegate,ImagePickerDelegate {
 
+    @IBOutlet weak var btnNewStatus: UIBarButtonItem!
     var imageCache=AutoPurgingImageCache()
     var messagesMyStatus:NSMutableArray!
     var messagesOthersStatus:NSMutableArray!
     
+    
+    @IBAction func btnNewStatusPressed(_ sender: Any) {
+        
+        var config = Configuration()
+        config.doneButtonTitle = "Finish"
+        config.noImagesTitle = "Sorry! There are no images here!"
+        config.recordLocation = false
+        config.allowVideoSelection = true
+        
+        let imagePicker = ImagePickerController()
+        imagePicker.configuration = config
+        imagePicker.delegate = self
+        
+        present(imagePicker, animated: true, completion: nil)
+    }
     
     func getTimeDuration(mydate:Date)->String
     {
@@ -315,6 +333,58 @@ class StatusViewController: UIViewController,UITableViewDataSource,UITableViewDe
                 
             }
         }
+    }
+    
+    
+    func cancelButtonDidPress(_ imagePicker: ImagePickerController) {
+        imagePicker.dismiss(animated: true, completion: nil)
+    }
+    
+    func wrapperDidPress(_ imagePicker: ImagePickerController, images: [UIImage]) {
+        guard images.count > 0 else { return }
+        
+        
+        
+        let lightboxImages = images.map {
+            return LightboxImage(image: $0)
+            
+            
+            
+        }
+        let newVC = StatusPhotoViewController(image: (lightboxImages.last?.image!)!)
+        imagePicker.present(newVC, animated: true){
+            
+            
+            /*
+             let lightbox = LightboxController(images: lightboxImages, startIndex: 0)
+             imagePicker.present(lightbox, animated: true, completion: nil)
+             */
+        }
+    }
+    func phototakenCompleted(_ imagePicker: ImagePickerController, images: [UIImage]) {
+        /* guard images.count > 0 else { return }
+         
+         
+         
+         let lightboxImages = images.map {
+         return LightboxImage(image: $0)
+         
+         
+         
+         }
+         let newVC = StatusPhotoViewController(image: lightboxImages[0].image!)
+         imagePicker.present(newVC, animated: true){
+         
+         
+         /*
+         let lightbox = LightboxController(images: lightboxImages, startIndex: 0)
+         imagePicker.present(lightbox, animated: true, completion: nil)
+         */
+         }
+         */
+    }
+    func doneButtonDidPress(_ imagePicker: ImagePickerController, images: [UIImage]) {
+        imagePicker.dismiss(animated: true, completion: nil)
     }
 
     override func prepare(for segue: UIStoryboardSegue?, sender: Any?) {
