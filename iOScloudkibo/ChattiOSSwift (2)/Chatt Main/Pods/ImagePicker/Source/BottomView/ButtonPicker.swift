@@ -3,6 +3,7 @@ import UIKit
 protocol ButtonPickerDelegate: class {
 
   func buttonDidPress()
+    func buttonDidHighlight()
 }
 
 class ButtonPicker: UIButton {
@@ -80,12 +81,12 @@ class ButtonPicker: UIButton {
     layer.cornerRadius = Dimensions.buttonSize / 2
     accessibilityLabel = "Take photo"
     
-     let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(pickerButtonDidPress(_:)))
+     let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(pickerButtonDidHighlight(_:)))
     
     addGestureRecognizer(longGesture)
   
     //!!!addTarget(self, action: #selector(pickerButtonDidPress(_:)), for: .touchUpInside)
-    addTarget(self, action: #selector(pickerButtonDidHighlight(_:)), for: .touchDown)
+    addTarget(self, action: #selector(pickerButtonDidPress(_:)), for: .touchDown)
   }
 
   // MARK: - Actions
@@ -105,5 +106,6 @@ class ButtonPicker: UIButton {
   func pickerButtonDidHighlight(_ button: UIButton) {
     numberLabel.textColor = UIColor.white
     backgroundColor = UIColor(red:0.3, green:0.3, blue:0.3, alpha:1)
+    delegate?.buttonDidHighlight()
   }
 }

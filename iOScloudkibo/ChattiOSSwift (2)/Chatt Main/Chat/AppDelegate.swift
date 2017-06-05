@@ -761,6 +761,20 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                         }
                      
                     }
+                    
+                    ///status:new_status_added
+                    if(type=="status:new_status_added")
+                    {
+                        
+                        
+                        var senderId=userInfo["senderId"] as? String  //from
+                        var uniqueid=userInfo["uniqueid"] as? String
+                        
+                        //var res=delegateCheckConvWindow.checkConversationWindowOpen(phone: (userInfo["senderId"] as? String)!)
+                       
+                            completionHandler([])
+                      
+                    }
             
             }
                 }
@@ -4013,6 +4027,19 @@ else{
                     UtilityFunctions.init().downloadProfileImage(groupId)
                 }
                 
+                if(type=="status:new_status_added")
+                {
+                    
+                    
+                    var senderId=userInfo["senderId"] as? String  //from
+                    var uniqueid=userInfo["uniqueid"] as? String
+                    
+                    //var res=delegateCheckConvWindow.checkConversationWindowOpen(phone: (userInfo["senderId"] as? String)!)
+                    sqliteDB.storeDayStatusInfoTable(uniqueid!, daystatus_status1: "pending", daystatus_contactphone1: senderId!)                   ////
+                    managerFile.downloadDayStatus(uniqueid: uniqueid!,senderId:senderId!)
+                }
+                
+            
                 if(type=="syncUpward")
                 {
                     

@@ -114,7 +114,7 @@ static let connectionstring="Endpoint=sb://cloudkibo.servicebus.windows.net/;Sha
     static var uploadstatusURL="/api/daystatus/create"
     static var muteContact="/api/contactslist/muteContact"
     static var unmutecontact="/api/contactslist/unmuteContact"
-    
+    static var daystatusDownload="/api/daystatus/getMedia"
   //  static var fetchSingleGroupChat="/api/groupchat/fetchSingleChat"
     /*
      private static String phoneContactsURL = "https://www.cloudkibo.com/api/users/searchaccountsbyphone/";

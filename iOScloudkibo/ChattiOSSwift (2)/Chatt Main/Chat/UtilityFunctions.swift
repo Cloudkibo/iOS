@@ -2388,6 +2388,11 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         }*/
         }
     
+    func downloadDayStatus()
+    {
+        
+    }
+    
     func getDateShortened(date2:String)->String
     {
         var displaydate=""

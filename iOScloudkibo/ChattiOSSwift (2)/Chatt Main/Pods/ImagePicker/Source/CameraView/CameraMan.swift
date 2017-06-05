@@ -16,6 +16,10 @@ class CameraMan {
 
   var backCamera: AVCaptureDeviceInput?
   var frontCamera: AVCaptureDeviceInput?
+    //!!IMPORTANT
+    var videoFileOutput:AVCaptureMovieFileOutput?
+    
+ // var videoFileOutput:AVCaptureMovieFileOutput?
   var stillImageOutput: AVCaptureStillImageOutput?
   var startOnFrontCamera: Bool = false
 
@@ -150,6 +154,34 @@ class CameraMan {
     }
   }
 
+    
+    func takeVideo(_ previewLayer: AVCaptureVideoPreviewLayer, location: CLLocation?, completion: (() -> Void)? = nil) {
+        guard let connection = stillImageOutput?.connection(withMediaType: AVMediaTypeVideo) else { return }
+        
+        connection.videoOrientation = Helper.videoOrientation()
+        
+        queue.async {
+            self.stillImageOutput?.captureStillImageAsynchronously(from: connection) {
+                buffer, error in
+                
+                guard let buffer = buffer, error == nil && CMSampleBufferIsValid(buffer),
+                    
+                    
+                    let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer),
+                    let image = UIImage(data: imageData)
+                    else {
+                        DispatchQueue.main.async {
+                            completion?()
+                        }
+                        return
+                }
+                
+                self.savePhoto(image, location: location, completion: completion)
+            }
+        }
+    }
+    
+    
   func takePhoto(_ previewLayer: AVCaptureVideoPreviewLayer, location: CLLocation?, completion: (() -> Void)? = nil) {
     guard let connection = stillImageOutput?.connection(withMediaType: AVMediaTypeVideo) else { return }
 
@@ -159,7 +191,12 @@ class CameraMan {
       self.stillImageOutput?.captureStillImageAsynchronously(from: connection) {
         buffer, error in
 
+        
+        
         guard let buffer = buffer, error == nil && CMSampleBufferIsValid(buffer),
+            
+          //!!  videoFileOutput?.startRecording(toOutputFileURL: <#T##URL!#>, recordingDelegate: <#T##AVCaptureFileOutputRecordingDelegate!#>)
+            
           let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer),
           let image = UIImage(data: imageData)
           else {
@@ -181,6 +218,8 @@ class CameraMan {
       request.location = location
       }, completionHandler: { _ in
         DispatchQueue.main.async {
+            
+            
           completion?()
         }
     })

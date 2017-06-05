@@ -2,6 +2,7 @@ import UIKit
 
 protocol BottomContainerViewDelegate: class {
 
+  func highlightButtonDidPress()
   func pickerButtonDidPress()
   func doneButtonDidPress()
   func cancelButtonDidPress()
@@ -121,7 +122,14 @@ open class BottomContainerView: UIView {
 
 extension BottomContainerView: ButtonPickerDelegate {
 
-  func buttonDidPress() {
+    func buttonDidHighlight() {
+        
+        delegate?.highlightButtonDidPress()
+    }
+ 
+    func buttonDidPress() {
     delegate?.pickerButtonDidPress()
   }
+    
+    
 }

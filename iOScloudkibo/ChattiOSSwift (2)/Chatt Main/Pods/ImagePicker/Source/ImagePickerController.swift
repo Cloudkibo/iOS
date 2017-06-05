@@ -7,6 +7,7 @@ import Photos
   func wrapperDidPress(_ imagePicker: ImagePickerController, images: [UIImage])
   func doneButtonDidPress(_ imagePicker: ImagePickerController, images: [UIImage])
   func cancelButtonDidPress(_ imagePicker: ImagePickerController)
+    func phototakenCompleted(_ imagePicker: ImagePickerController, images: [UIImage])
 }
 
 open class ImagePickerController: UIViewController {
@@ -331,6 +332,7 @@ open class ImagePickerController: UIViewController {
     bottomContainer.pickerButton.isEnabled = false
     bottomContainer.stackView.startLoader()
     let action: (Void) -> Void = { [unowned self] in
+        
       self.cameraController.takePicture { self.isTakingPicture = false }
     }
 
@@ -349,6 +351,12 @@ extension ImagePickerController: BottomContainerViewDelegate {
   func pickerButtonDidPress() {
     takePicture()
   }
+    
+    func highlightButtonDidPress()
+    {
+        print("highlight...")
+       //takePicture()
+    }
 
   func doneButtonDidPress() {
     var images: [UIImage]
@@ -402,7 +410,20 @@ extension ImagePickerController: CameraViewDelegate {
       self.galleryView.collectionView.transform = CGAffineTransform(translationX: collectionSize.width, y: 0)
       }, completion: { _ in
         self.galleryView.collectionView.transform = CGAffineTransform.identity
+        
+        
     })
+    var images: [UIImage]
+    if let preferredImageSize = preferredImageSize {
+        images = AssetManager.resolveAssets(stack.assets, size: preferredImageSize)
+    } else {
+        images = AssetManager.resolveAssets(stack.assets)
+    }
+    
+
+    self.delegate?.phototakenCompleted(self, images: images)
+    
+    
   }
 
   func cameraNotAvailable() {
