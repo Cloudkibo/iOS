@@ -20,6 +20,9 @@ class StatusViewController: UIViewController,UITableViewDataSource,UITableViewDe
     var messagesMyStatus:NSMutableArray!
     var messagesOthersStatus:NSMutableArray!
     
+    var messagesMyStatusAll:NSMutableArray!
+    var messagesOthersStatusAll:NSMutableArray!
+   
     
     @IBAction func btnNewStatusPressed(_ sender: Any) {
         
@@ -68,10 +71,15 @@ class StatusViewController: UIViewController,UITableViewDataSource,UITableViewDe
         //file table from-username - section 1 my statuses
         sqliteDB.deleteOldDayStatuses()
 
-        var daystatuses=sqliteDB.getDayStatusesData()
+        var daystatusesAll=sqliteDB.getDayStatusesData()
+        var daystatuses=sqliteDB.getDayStatusesDataGrouped()
         var messagesMyStatus2=NSMutableArray()
         var messagesOthersStatus2=NSMutableArray()
 
+        var messagesMyStatusAll2=NSMutableArray()
+        var messagesOthersStatusAll2=NSMutableArray()
+
+        
         print("daystatuses list \(daystatuses)")
         /*
          let to = Expression<String>("to")
@@ -87,6 +95,68 @@ class StatusViewController: UIViewController,UITableViewDataSource,UITableViewDe
          let file_caption = Expression<String>("file_caption")
          
          */
+        
+        for statuses in daystatusesAll{
+            
+            var messages_to=statuses["to"] as! String
+            var messages_from=statuses["from"] as! String
+            //self.ContactIDs.removeAll(keepCapacity: false)
+            
+            
+            
+            
+            var uploadtime=statuses["date"] as! Date
+            var messages_duration = self.getTimeDuration(mydate:statuses["date"] as! Date)+" ago"
+            var messages_uniqueid=statuses["uniqueid"] as! String
+            var messages_contactphone=statuses["contactPhone"] as! String
+            var messages_type=statuses["type"] as! String
+            var messages_file_name=statuses["file_name"] as! String
+            ////////////////////////
+            var messages_file_size=statuses["file_size"] as! String
+            ////////
+            
+            var messages_file_type=statuses["file_type"] as! String
+            ////self.ContactsEmail.removeAll(keepCapacity: false)
+            //////self.ContactMsgRead.removeAll(keepCapacity: false)
+            var messages_file_pic=Data.init()
+            //var messages_pic=Data.init()
+            var messages_file_caption=statuses["file_caption"] as! String
+            
+            let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+            let docsDir1 = dirPaths[0]
+            var documentDir=docsDir1 as NSString
+            var imgPath=documentDir.appendingPathComponent(messages_file_name)
+            print("imgpath is \(imgPath)")
+            if (FileManager.default.contents(atPath: imgPath) != nil)
+            {
+                var imgdata=FileManager.default.contents(atPath: imgPath)!
+                messages_file_pic=imgdata
+                print("messages_file_pic is not nil")
+            }
+            
+            
+            if(statuses["from"] as! String == username!){
+                messagesMyStatusAll2.add(["messages_from":messages_from,"messages_duration":messages_duration,"messages_file_type":messages_file_type,"messages_uniqueid":messages_uniqueid,"messages_file_name":messages_file_name,"messages_file_caption":messages_file_caption,"messages_file_pic":messages_file_pic,"uploadtime":uploadtime])
+            }
+            else{
+                messagesOthersStatusAll2.add(["messages_from":messages_from,"messages_duration":messages_duration,"messages_file_type":messages_file_type,"messages_uniqueid":messages_uniqueid,"messages_file_name":messages_file_name,"messages_file_caption":messages_file_caption,"messages_file_pic":messages_file_pic,"uploadtime":uploadtime])
+            }
+            
+        }
+        
+        if(messagesMyStatusAll2.count>0)
+        {
+            self.messagesMyStatusAll.setArray(messagesMyStatusAll2 as [AnyObject])
+        }
+        if(messagesOthersStatusAll2.count>0)
+        {
+            self.messagesOthersStatusAll.setArray(messagesOthersStatusAll2 as [AnyObject])
+        }
+        print("count messagesMyStatusAll is \(messagesMyStatusAll.count)")
+        
+        print("count messagesOthersStatusAll is \(messagesOthersStatusAll.count)")
+
+        
         
         for statuses in daystatuses{
             
@@ -139,7 +209,7 @@ class StatusViewController: UIViewController,UITableViewDataSource,UITableViewDe
         {
         self.messagesMyStatus.setArray(messagesMyStatus2 as [AnyObject])
         }
-        if(messagesOthersStatus.count>0)
+        if(messagesOthersStatus2.count>0)
         {
         self.messagesOthersStatus.setArray(messagesOthersStatus2 as [AnyObject])
         }
@@ -167,6 +237,8 @@ class StatusViewController: UIViewController,UITableViewDataSource,UITableViewDe
         sqliteDB.getOldDayStatuses()
         messagesMyStatus=NSMutableArray()
         messagesOthersStatus=NSMutableArray()
+        messagesMyStatusAll=NSMutableArray()
+        messagesOthersStatusAll=NSMutableArray()
        // messagesOthersStatus.add(["displayName":"Sojharo","time":"1 hour ago"])
         //messagesOthersStatus.add(["displayName":"XYZ","time":"just now"])
         self.retrieveStatuses()
@@ -242,7 +314,9 @@ class StatusViewController: UIViewController,UITableViewDataSource,UITableViewDe
             var timeElapsed=cell.viewWithTag(3) as! UILabel
             var btninfo=cell.viewWithTag(4) as! UIButton
             
-            if let img=UIImage(data:messages_file_pic)
+            btninfo.isHidden=false
+            
+                if let img=UIImage(data:messages_file_pic)
             {
             profilePic.layer.borderWidth = 1.0
             profilePic.layer.masksToBounds = false
@@ -261,7 +335,7 @@ class StatusViewController: UIViewController,UITableViewDataSource,UITableViewDe
 
             
         }
-                if(messages_duration=="0 minutes")
+                if(messages_duration=="0 minutes ago")
                 {
                     timeElapsed.text="just now"
                 }
@@ -299,7 +373,9 @@ class StatusViewController: UIViewController,UITableViewDataSource,UITableViewDe
 
                 var name=cell.viewWithTag(2) as! UILabel
                 var time=cell.viewWithTag(3) as! UILabel
+                var btninfo=cell.viewWithTag(4) as! UIButton
                 
+                btninfo.isHidden=true
                 var contactname=sqliteDB.getNameFromAddressbook(messages_from)
                 if(contactname==nil)
                 {
@@ -458,10 +534,10 @@ class StatusViewController: UIViewController,UITableViewDataSource,UITableViewDe
                 var selectedRow=tblStatusUpdates.indexPathForSelectedRow
                 if(selectedRow?.section==0)
                 {
-                destinationVC.slideshowarray=self.messagesMyStatus
+                destinationVC.slideshowarray=self.messagesMyStatusAll
                 }
                 else{
-                   destinationVC.slideshowarray=self.messagesOthersStatus
+                   destinationVC.slideshowarray=self.messagesOthersStatusAll
                 }
                                 //selectedRow = tblForChat.indexPathForSelectedRow!.row
                 //messageDic = messages.object(at: selectedRow) as! [String : AnyObject];

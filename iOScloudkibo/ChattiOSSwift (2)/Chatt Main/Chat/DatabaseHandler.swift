@@ -2397,7 +2397,7 @@ print("--------")
                 //  var filesObjectList=[[String:AnyObject]]()
         do
         {
-            let earlyDate = Date.init().addingTimeInterval(-3600*3) //one hour ago
+            let earlyDate = Date.init().addingTimeInterval(-3600*24) //one hour ago
             
             for filesData in try self.db.prepare(files.filter(date<=Date.init() && date>=earlyDate))
              {
@@ -2443,7 +2443,7 @@ print("--------")
         var nowdate=Date.init()
         //  var filesObjectList=[[String:AnyObject]]()
         
-            let earlyDate = Date.init().addingTimeInterval(-24*3600) //one hour ago
+            let earlyDate = Date.init().addingTimeInterval(-24*60*60) //one hour ago
         do{
             var row=try sqliteDB.db.run(self.files.filter(date<=earlyDate && type=="day_status").delete())
       print("Deleting status \(row)")
@@ -3398,6 +3398,48 @@ print("--------")
             fileObj["file_caption"]=filesData[file_caption] as AnyObject?
             StatusObjList.append(fileObj)
            
+            }
+        }catch{
+            
+        }
+        return StatusObjList
+        
+    }
+    
+    func getDayStatusesDataGrouped()->[[String:AnyObject]]
+    {
+        let to = Expression<String>("to")
+        let from = Expression<String>("from")
+        let date = Expression<Date>("date")
+        let uniqueid = Expression<String>("uniqueid")
+        let contactPhone = Expression<String>("contactPhone")
+        let type = Expression<String>("type")
+        let file_name = Expression<String>("file_name")
+        let file_size = Expression<String>("file_size")
+        let file_type = Expression<String>("file_type")
+        let file_path = Expression<String>("file_path")
+        let file_caption = Expression<String>("file_caption")
+        
+        var StatusObjList=[[String:AnyObject]]()
+        
+        //  var filesObjectList=[[String:AnyObject]]()
+        do
+        {for filesData in try self.db.prepare(files.filter(type=="day_status").group(from)){
+            // print("found status object matchedddd")
+            var fileObj=[String:AnyObject]()
+            fileObj["to"]=filesData[to] as AnyObject?
+            fileObj["from"]=filesData[from] as AnyObject?
+            fileObj["date"]=filesData[date] as AnyObject?
+            fileObj["uniqueid"]=filesData[uniqueid] as AnyObject?
+            fileObj["contactPhone"]=filesData[contactPhone] as AnyObject?
+            fileObj["type"]=filesData[type] as AnyObject?
+            fileObj["file_name"]=filesData[file_name] as AnyObject?
+            fileObj["file_size"]=filesData[file_size] as AnyObject?
+            fileObj["file_type"]=filesData[file_type] as AnyObject?
+            fileObj["file_path"]=filesData[file_path] as AnyObject?
+            fileObj["file_caption"]=filesData[file_caption] as AnyObject?
+            StatusObjList.append(fileObj)
+            
             }
         }catch{
             
