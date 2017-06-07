@@ -327,6 +327,7 @@ open class ImagePickerController: UIViewController {
     }
 
     fileprivate func takeVideo() {
+    print("inside takevideo here .. ")
         guard isBelowImageLimit() && !isTakingPicture else { return }
         isTakingPicture = true
         bottomContainer.pickerButton.isEnabled = false
@@ -335,12 +336,14 @@ open class ImagePickerController: UIViewController {
             
             self.cameraController.takeVideo{ self.isTakingPicture = false }
         }
+        action()
         
-        if configuration.collapseCollectionViewWhileShot {
+       /* if configuration.collapseCollectionViewWhileShot {
+            print("collapseCollectionViewWhileShot")
             collapseGalleryView(action)
         } else {
             action()
-        }
+        }*/
     }
     
   fileprivate func takePicture() {

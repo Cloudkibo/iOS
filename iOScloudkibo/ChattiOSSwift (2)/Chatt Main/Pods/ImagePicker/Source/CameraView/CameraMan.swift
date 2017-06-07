@@ -6,6 +6,7 @@ protocol CameraManDelegate: class {
   func cameraManNotAvailable(_ cameraMan: CameraMan)
   func cameraManDidStart(_ cameraMan: CameraMan)
   func cameraMan(_ cameraMan: CameraMan, didChangeInput input: AVCaptureDeviceInput)
+ func startVideoRecording(videofileoutput1:AVCaptureMovieFileOutput?,outputFilePath1:URL)
 }
 
 class CameraMan {
@@ -72,8 +73,8 @@ class CameraMan {
     // Output
     stillImageOutput = AVCaptureStillImageOutput()
     stillImageOutput?.outputSettings = [AVVideoCodecKey: AVVideoCodecJPEG]
-    
-    if self.session.canAddOutput(videoFileOutput) {
+    videoFileOutput = AVCaptureMovieFileOutput()
+   /* if self.session.canAddOutput(videoFileOutput) {
         self.session.addOutput(videoFileOutput)
         if let connection = videoFileOutput?.connection(withMediaType: AVMediaTypeVideo) {
             if connection.isVideoStabilizationSupported {
@@ -84,7 +85,8 @@ class CameraMan {
         
     videoFileOutput = AVCaptureMovieFileOutput()
     }
-   
+    self.session.commitConfiguration()
+   */
   }
     
     fileprivate func configurePhotoOutput() {
@@ -262,9 +264,9 @@ class CameraMan {
 
     
     func takeVideo(_ previewLayer: AVCaptureVideoPreviewLayer, location: CLLocation?, completion: (() -> Void)? = nil) {
-        guard let connection = videoFileOutput?.connection(withMediaType: AVMediaTypeVideo) else { return }
-        
-        connection.videoOrientation = Helper.videoOrientation()
+        //guard let connection = videoFileOutput?.connection(withMediaType: AVMediaTypeVideo) else { return }
+        print("inside take video .. 1")
+        //connection.videoOrientation = Helper.videoOrientation()
         
        /* queue.async {
             self.videoFileOutput?.captureStillImageAsynchronously(from: connection) {
@@ -285,7 +287,7 @@ class CameraMan {
                 self.savePhoto(image, location: location, completion: completion)
             }
         }*/
-        
+        print("self.videoFileOutput?.isRecording is \(self.videoFileOutput?.isRecording)")
         queue.async { [unowned self] in
             if !(self.videoFileOutput?.isRecording)! {
                 if UIDevice.current.isMultitaskingSupported {
@@ -306,7 +308,9 @@ class CameraMan {
                 let outputFileName = UUID().uuidString
                 let outputFilePath = (NSTemporaryDirectory() as NSString).appendingPathComponent((outputFileName as NSString).appendingPathExtension("mov")!)
                 print("outputFilePath is \(outputFilePath)")
-                self.videoFileOutput?.startRecording(toOutputFileURL: URL(fileURLWithPath: outputFilePath), recordingDelegate: nil)
+                self.delegate?.startVideoRecording(videofileoutput1:self.videoFileOutput,outputFilePath1:URL(fileURLWithPath: outputFilePath))
+                
+              //!!  self.videoFileOutput?.startRecording(toOutputFileURL: URL(fileURLWithPath: outputFilePath), recordingDelegate: CameraView.init())
                 self.isVideoRecording = true
                 DispatchQueue.main.async {
                     //self.cameraDelegate?.swiftyCam(self, didBeginRecordingVideo: self.currentCamera)
@@ -321,6 +325,26 @@ class CameraMan {
         
         
     }
+    
+    public func stopVideoRecording() {
+        if self.videoFileOutput?.isRecording == true {
+            self.isVideoRecording = false
+            videoFileOutput!.stopRecording()
+            //!!disableFlash()
+           /*
+            if currentInput?.device.position == .front && flashEnabled == true && flashView != nil {
+                UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseInOut, animations: {
+                    self.flashView?.alpha = 0.0
+                }, completion: { (_) in
+                    self.flashView?.removeFromSuperview()
+                })
+            }*/
+            DispatchQueue.main.async {
+               //!! self.cameraDelegate?.swiftyCam(self, didFinishRecordingVideo: self.currentCamera)
+            }
+        }
+    }
+    
     
     
   func takePhoto(_ previewLayer: AVCaptureVideoPreviewLayer, location: CLLocation?, completion: (() -> Void)? = nil) {

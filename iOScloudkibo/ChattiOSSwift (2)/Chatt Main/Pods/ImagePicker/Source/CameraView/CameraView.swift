@@ -8,7 +8,7 @@ protocol CameraViewDelegate: class {
   func cameraNotAvailable()
 }
 
-class CameraView: UIViewController, CLLocationManagerDelegate, CameraManDelegate {
+class CameraView: UIViewController, CLLocationManagerDelegate, CameraManDelegate, AVCaptureFileOutputRecordingDelegate {
 
   var configuration = Configuration()
 
@@ -99,6 +99,22 @@ class CameraView: UIViewController, CLLocationManagerDelegate, CameraManDelegate
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
+    
+    
+    func startVideoRecording(videofileoutput1:AVCaptureMovieFileOutput?,outputFilePath1:URL){
+    videofileoutput1?.startRecording(toOutputFileURL: outputFilePath1, recordingDelegate: self)
+    }
+    
+    
+    func capture(_ captureOutput: AVCaptureFileOutput!, didStartRecordingToOutputFileAt fileURL: URL!, fromConnections connections: [Any]!) {
+        print("didstartrecordingg")
+        
+    }
+    
+    func capture(_ captureOutput: AVCaptureFileOutput!, didFinishRecordingToOutputFileAt outputFileURL: URL!, fromConnections connections: [Any]!, error: Error!) {
+        
+        print("didfinishrecordingggg")
+    }
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -223,7 +239,9 @@ class CameraView: UIViewController, CLLocationManagerDelegate, CameraManDelegate
   }
 
     func takeVideo(_ completion: @escaping () -> ()) {
-        guard let previewLayer = previewLayer else { return }
+        
+        print("here take video 2")
+       guard let previewLayer = previewLayer else { return }
         
         UIView.animate(withDuration: 0.1, animations: {
             self.capturedImageView.alpha = 1
@@ -232,15 +250,14 @@ class CameraView: UIViewController, CLLocationManagerDelegate, CameraManDelegate
                 self.capturedImageView.alpha = 0
             })
         })
-        
-        //!!!
+ 
         
         cameraMan.takeVideo(previewLayer, location: locationManager?.latestLocation) {
             completion()
             
             
             
-        self.delegate?.imageToLibrary()
+      //!!!  self.delegate?.imageToLibrary()
         }
         
     }

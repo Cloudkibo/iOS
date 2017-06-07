@@ -5188,11 +5188,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pods/ImagePicker/Source/CameraView/CameraView.swift"
-            timestampString = "518178255.538771"
+            timestampString = "518516669.02879"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "205"
-            endingLineNumber = "205"
+            startingLineNumber = "221"
+            endingLineNumber = "221"
             landmarkName = "takePicture(_:)"
             landmarkType = "7">
             <Locations>
@@ -5236,11 +5236,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pods/ImagePicker/Source/CameraView/CameraView.swift"
-            timestampString = "518178527.71642"
+            timestampString = "518516669.02879"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "216"
-            endingLineNumber = "216"
+            startingLineNumber = "232"
+            endingLineNumber = "232"
             landmarkName = "takePicture(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -5252,11 +5252,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pods/ImagePicker/Source/CameraView/CameraView.swift"
-            timestampString = "518178255.538771"
+            timestampString = "518516669.02879"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "147"
-            endingLineNumber = "147"
+            startingLineNumber = "163"
+            endingLineNumber = "163"
             landmarkName = "setupPreviewLayer()"
             landmarkType = "7">
          </BreakpointContent>
@@ -5300,11 +5300,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pods/ImagePicker/Source/CameraView/CameraMan.swift"
-            timestampString = "518504283.615124"
+            timestampString = "518516669.02879"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "290"
-            endingLineNumber = "290"
+            startingLineNumber = "292"
+            endingLineNumber = "292"
             landmarkName = "takeVideo(_:location:completion:)"
             landmarkType = "7">
          </BreakpointContent>
