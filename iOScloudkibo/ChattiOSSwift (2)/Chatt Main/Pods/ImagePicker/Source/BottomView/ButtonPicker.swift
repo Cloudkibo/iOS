@@ -81,12 +81,15 @@ class ButtonPicker: UIButton {
     layer.cornerRadius = Dimensions.buttonSize / 2
     accessibilityLabel = "Take photo"
     
+   // addTarget(self, action: #selector(pickerButtonDidPress(_:)), for: .touchDown)
+    var tapgesture=UITapGestureRecognizer(target: self, action: #selector(pickerButtonDidPress(_:)))
+
      let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(pickerButtonDidHighlight(_:)))
     
     addGestureRecognizer(longGesture)
   
-    //!!!addTarget(self, action: #selector(pickerButtonDidPress(_:)), for: .touchUpInside)
-    addTarget(self, action: #selector(pickerButtonDidPress(_:)), for: .touchDown)
+    addTarget(self, action: #selector(pickerButtonDidPress(_:)), for: .touchUpInside)
+    
   }
 
   // MARK: - Actions
@@ -103,9 +106,14 @@ class ButtonPicker: UIButton {
     delegate?.buttonDidPress()
   }
 
-  func pickerButtonDidHighlight(_ button: UIButton) {
+  func pickerButtonDidHighlight(_ gestureRecognizer: UILongPressGestureRecognizer) {
     numberLabel.textColor = UIColor.white
     backgroundColor = UIColor(red:0.3, green:0.3, blue:0.3, alpha:1)
+    if (gestureRecognizer.state == UIGestureRecognizerState.ended) {
     delegate?.buttonDidHighlight()
+    }
+    if (gestureRecognizer.state == UIGestureRecognizerState.began) {
+        print("long pressed status camera")
+    }
   }
 }

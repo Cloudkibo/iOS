@@ -222,6 +222,30 @@ class CameraView: UIViewController, CLLocationManagerDelegate, CameraManDelegate
  
   }
 
+    func takeVideo(_ completion: @escaping () -> ()) {
+        guard let previewLayer = previewLayer else { return }
+        
+        UIView.animate(withDuration: 0.1, animations: {
+            self.capturedImageView.alpha = 1
+        }, completion: { _ in
+            UIView.animate(withDuration: 0.1, animations: {
+                self.capturedImageView.alpha = 0
+            })
+        })
+        
+        //!!!
+        
+        cameraMan.takeVideo(previewLayer, location: locationManager?.latestLocation) {
+            completion()
+            
+            
+            
+        self.delegate?.imageToLibrary()
+        }
+        
+    }
+
+    
   // MARK: - Timer methods
 
   func timerDidFire() {

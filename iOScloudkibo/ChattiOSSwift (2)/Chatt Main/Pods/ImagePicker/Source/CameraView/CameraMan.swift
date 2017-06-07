@@ -11,6 +11,8 @@ protocol CameraManDelegate: class {
 class CameraMan {
   weak var delegate: CameraManDelegate?
 
+    
+    var isVideoRecording=false
   let session = AVCaptureSession()
   let queue = DispatchQueue(label: "no.hyper.ImagePicker.Camera.SessionQueue")
 
@@ -36,12 +38,15 @@ class CameraMan {
 
   func setupDevices() {
     // Input
-    AVCaptureDevice
-    .devices().flatMap {
+    /*AVCaptureDevice
+    .devices()
+        
+        .flatMap {
       return $0 as? AVCaptureDevice
-    }.filter {
+    }/*.filter {
       return $0.hasMediaType(AVMediaTypeVideo)
-    }.forEach {
+    }*/
+        //.forEach {
       switch $0.position {
       case .front:
         self.frontCamera = try? AVCaptureDeviceInput(device: $0)
@@ -50,13 +55,107 @@ class CameraMan {
       default:
         break
       }
+   // }
+    */
+    if let devices = AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo) as? [AVCaptureDevice] {
+        switch devices.first.flatMap({return $0 as? AVCaptureDevice})?.position.rawValue
+        {
+        case 2?:
+            self.frontCamera = try? AVCaptureDeviceInput(device: devices.first)
+        case 1?: //1
+            self.backCamera = try? AVCaptureDeviceInput(device: devices.first)
+        default:
+            break
+        }
     }
-
+    
     // Output
     stillImageOutput = AVCaptureStillImageOutput()
     stillImageOutput?.outputSettings = [AVVideoCodecKey: AVVideoCodecJPEG]
+    
+    if self.session.canAddOutput(videoFileOutput) {
+        self.session.addOutput(videoFileOutput)
+        if let connection = videoFileOutput?.connection(withMediaType: AVMediaTypeVideo) {
+            if connection.isVideoStabilizationSupported {
+                connection.preferredVideoStabilizationMode = .auto
+            }
+        }
+        
+        
+    videoFileOutput = AVCaptureMovieFileOutput()
+    }
+   
   }
+    
+    fileprivate func configurePhotoOutput() {
+        let photoFileOutput = AVCaptureStillImageOutput()
+        
+        if self.session.canAddOutput(photoFileOutput) {
+            photoFileOutput.outputSettings  = [AVVideoCodecKey: AVVideoCodecJPEG]
+            self.session.addOutput(photoFileOutput)
+            self.stillImageOutput = photoFileOutput
+        }
+    }
 
+   /* func addVideoInput() {
+        switch currentInput {
+        /*case self.frontCamera:
+            videoDevice = SwiftyCamViewController.deviceWithMediaType(AVMediaTypeVideo, preferringPosition: .front)
+        case self.backCamera:
+            videoDevice = SwiftyCamViewController.deviceWithMediaType(AVMediaTypeVideo, preferringPosition: .back)
+        }*/
+        
+        /*if let device = videoDevice {
+            do {
+                try device.lockForConfiguration()
+                if device.isFocusModeSupported(.continuousAutoFocus) {
+                    device.focusMode = .continuousAutoFocus
+                    if device.isSmoothAutoFocusSupported {
+                        device.isSmoothAutoFocusEnabled = true
+                    }
+                }
+                
+                if device.isExposureModeSupported(.continuousAutoExposure) {
+                    device.exposureMode = .continuousAutoExposure
+                }
+                
+                if device.isWhiteBalanceModeSupported(.continuousAutoWhiteBalance) {
+                    device.whiteBalanceMode = .continuousAutoWhiteBalance
+                }
+                
+                if device.isLowLightBoostSupported && lowLightBoost == true {
+                    device.automaticallyEnablesLowLightBoostWhenAvailable = true
+                }
+                
+                device.unlockForConfiguration()
+            } catch {
+                print("[SwiftyCam]: Error locking configuration")
+            }
+        }
+        */
+ 
+        do {
+         //   let videoDeviceInput = try AVCaptureDeviceInput(device: videoDevice)
+            
+            if session.canAddInput(currentInput) {
+                session.addInput(videoDeviceInput)
+                self.videoDeviceInput = videoDeviceInput
+            } else {
+                print("[SwiftyCam]: Could not add video device input to the session")
+                print(session.canSetSessionPreset(videoInputPresetFromVideoQuality(quality: videoQuality)))
+                setupResult = .configurationFailed
+                session.commitConfiguration()
+                return
+            }
+        } catch {
+            print("[SwiftyCam]: Could not create video device input: \(error)")
+            setupResult = .configurationFailed
+            return
+        }
+    }
+
+    }*/
+    
   func addInput(_ input: AVCaptureDeviceInput) {
     configurePreset(input)
 
@@ -106,12 +205,19 @@ class CameraMan {
     // Devices
     setupDevices()
 
-    guard let input = (self.startOnFrontCamera) ? frontCamera ?? backCamera : backCamera, let output = stillImageOutput else { return }
-
-    addInput(input)
+    //!! guard let input = (self.startOnFrontCamera) ? frontCamera ?? backCamera : backCamera, let output = stillImageOutput else { return }
+     let imageinput = (self.startOnFrontCamera) ? frontCamera ?? backCamera : backCamera, output = stillImageOutput
+   
+    let videoinput = (self.startOnFrontCamera) ? frontCamera ?? backCamera : backCamera, videooutput = videoFileOutput
+    
+    addInput(imageinput!)
+    addInput(videoinput!)
 
     if session.canAddOutput(output) {
       session.addOutput(output)
+    }
+    if session.canAddOutput(videooutput) {
+        session.addOutput(videooutput)
     }
 
     queue.async {
@@ -156,12 +262,12 @@ class CameraMan {
 
     
     func takeVideo(_ previewLayer: AVCaptureVideoPreviewLayer, location: CLLocation?, completion: (() -> Void)? = nil) {
-        guard let connection = stillImageOutput?.connection(withMediaType: AVMediaTypeVideo) else { return }
+        guard let connection = videoFileOutput?.connection(withMediaType: AVMediaTypeVideo) else { return }
         
         connection.videoOrientation = Helper.videoOrientation()
         
-        queue.async {
-            self.stillImageOutput?.captureStillImageAsynchronously(from: connection) {
+       /* queue.async {
+            self.videoFileOutput?.captureStillImageAsynchronously(from: connection) {
                 buffer, error in
                 
                 guard let buffer = buffer, error == nil && CMSampleBufferIsValid(buffer),
@@ -178,7 +284,42 @@ class CameraMan {
                 
                 self.savePhoto(image, location: location, completion: completion)
             }
+        }*/
+        
+        queue.async { [unowned self] in
+            if !(self.videoFileOutput?.isRecording)! {
+                if UIDevice.current.isMultitaskingSupported {
+                    //!!self.backgroundRecordingID = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
+                }
+                
+                // Update the orientation on the movie file output video connection before starting recording.
+                let movieFileOutputConnection = self.videoFileOutput?.connection(withMediaType: AVMediaTypeVideo)
+                
+                
+                //flip video output if front facing camera is selected
+                if (self.currentInput?.device.position == .front) {
+                    movieFileOutputConnection?.isVideoMirrored = true
+                }
+                
+                movieFileOutputConnection?.videoOrientation = Helper.videoOrientation()
+                // Start recording to a temporary file.
+                let outputFileName = UUID().uuidString
+                let outputFilePath = (NSTemporaryDirectory() as NSString).appendingPathComponent((outputFileName as NSString).appendingPathExtension("mov")!)
+                print("outputFilePath is \(outputFilePath)")
+                self.videoFileOutput?.startRecording(toOutputFileURL: URL(fileURLWithPath: outputFilePath), recordingDelegate: nil)
+                self.isVideoRecording = true
+                DispatchQueue.main.async {
+                    //self.cameraDelegate?.swiftyCam(self, didBeginRecordingVideo: self.currentCamera)
+                }
+            }
+            else {
+                self.videoFileOutput?.stopRecording()
+            }
         }
+        
+        
+        
+        
     }
     
     
@@ -211,6 +352,8 @@ class CameraMan {
     }
   }
 
+  
+    
   func savePhoto(_ image: UIImage, location: CLLocation?, completion: (() -> Void)? = nil) {
     PHPhotoLibrary.shared().performChanges({
       let request = PHAssetChangeRequest.creationRequestForAsset(from: image)

@@ -16,7 +16,10 @@ import AVKit
         var progressTimer: Timer!
         var timersList=[Timer]()
         var imageslist=[UIView]()
+        var captionList=[String]()
         
+        @IBOutlet weak var btnReply: UIButton!
+        @IBOutlet weak var lblCaption: UILabel!
         
         @IBOutlet weak var lbldatetime: UILabel!
         @IBOutlet weak var lblname: UILabel!
@@ -161,7 +164,7 @@ import AVKit
                     playerViewController.view.frame=CGRect(x:self.view.frame.width * CGFloat(count), y:0,width:self.view.frame.width, height:self.view.frame.height)
                    ///!!! playerViewController.view.frame=self.view.frame
                     imageslist.append(playerViewController.view)
-                    
+                    captionList.append(messages_file_caption)
                     count += 1
                 }
                 /*if(notimage)
@@ -176,7 +179,7 @@ import AVKit
                         
                         imgTwo.image=img
                         imageslist.append(imgTwo)
-                        
+                        captionList.append(messages_file_caption)
                         
                         count += 1
                     }
@@ -232,7 +235,7 @@ import AVKit
             
             progressTimer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(self.startProgressViewTimer(_:)), userInfo: nil, repeats: true)
             timersList.append(progressTimer)
-            
+            lblCaption.text=captionList[0]
             //.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(self.startProgressViewTimer(_:)), userInfo: nil, repeats: true)
             
             var timerinterval:Double=4.0
@@ -337,7 +340,7 @@ func configurePageControl() {
         
        // scrollRectToVisible:CGRectMake(nextPage*scrMain.frame.size.width, 0, scrMain.frame.size.width, scrMain.frame.size.height) animated:YES];
         pageControl.currentPage=nextPage;
-       
+       lblCaption.text=captionList[nextPage]
         
         //mytimer.invalidate()
         

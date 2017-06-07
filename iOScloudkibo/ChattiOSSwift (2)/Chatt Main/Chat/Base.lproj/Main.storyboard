@@ -9669,6 +9669,7 @@
                             <constraint firstAttribute="trailing" secondItem="BVk-lq-85g" secondAttribute="trailing" id="aSv-em-cZj"/>
                             <constraint firstItem="oIp-ih-UJr" firstAttribute="leading" secondItem="4Mg-VU-zQQ" secondAttribute="leadingMargin" constant="-8" id="eet-7t-wbI"/>
                             <constraint firstItem="AIp-xP-1xm" firstAttribute="leading" secondItem="4Mg-VU-zQQ" secondAttribute="leadingMargin" constant="-12" id="iRC-Jw-Urw"/>
+                            <constraint firstItem="5xm-Fu-uE2" firstAttribute="leading" secondItem="psN-cb-YWn" secondAttribute="leading" id="lBa-IT-vsb"/>
                             <constraint firstItem="BVk-lq-85g" firstAttribute="top" secondItem="4Mg-VU-zQQ" secondAttribute="top" id="oFi-gL-19Z"/>
                             <constraint firstItem="avP-x2-P74" firstAttribute="top" secondItem="zeL-lR-QhJ" secondAttribute="bottom" constant="8" id="tDI-5M-zQg"/>
                             <constraint firstItem="psN-cb-YWn" firstAttribute="trailing" secondItem="5xm-Fu-uE2" secondAttribute="trailing" id="x8H-Gb-nJe"/>
@@ -9679,6 +9680,8 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="btnReply" destination="avP-x2-P74" id="VGi-gs-nHI"/>
+                        <outlet property="lblCaption" destination="zeL-lR-QhJ" id="L9J-Mf-dhk"/>
                         <outlet property="lbldatetime" destination="5xm-Fu-uE2" id="YpZ-E3-PaR"/>
                         <outlet property="lblname" destination="psN-cb-YWn" id="1BD-e2-f7f"/>
                         <outlet property="pageControl" destination="oIp-ih-UJr" id="DAM-Wp-wPa"/>

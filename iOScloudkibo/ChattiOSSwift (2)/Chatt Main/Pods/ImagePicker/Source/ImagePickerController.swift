@@ -326,6 +326,23 @@ open class ImagePickerController: UIViewController {
     return (imageLimit == 0 || imageLimit > galleryView.selectedStack.assets.count)
     }
 
+    fileprivate func takeVideo() {
+        guard isBelowImageLimit() && !isTakingPicture else { return }
+        isTakingPicture = true
+        bottomContainer.pickerButton.isEnabled = false
+        bottomContainer.stackView.startLoader()
+        let action: (Void) -> Void = { [unowned self] in
+            
+            self.cameraController.takeVideo{ self.isTakingPicture = false }
+        }
+        
+        if configuration.collapseCollectionViewWhileShot {
+            collapseGalleryView(action)
+        } else {
+            action()
+        }
+    }
+    
   fileprivate func takePicture() {
     guard isBelowImageLimit() && !isTakingPicture else { return }
     isTakingPicture = true
@@ -355,7 +372,7 @@ extension ImagePickerController: BottomContainerViewDelegate {
     func highlightButtonDidPress()
     {
         print("highlight...")
-       //takePicture()
+       takeVideo()
     }
 
   func doneButtonDidPress() {
