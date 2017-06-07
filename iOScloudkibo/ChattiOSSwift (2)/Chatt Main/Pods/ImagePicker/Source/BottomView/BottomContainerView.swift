@@ -7,6 +7,7 @@ protocol BottomContainerViewDelegate: class {
   func doneButtonDidPress()
   func cancelButtonDidPress()
   func imageStackViewDidPress()
+    func didEndHighlight()
 }
 
 open class BottomContainerView: UIView {
@@ -122,6 +123,11 @@ open class BottomContainerView: UIView {
 
 extension BottomContainerView: ButtonPickerDelegate {
 
+    func didEndLongPress()
+    {
+        delegate?.didEndHighlight()
+    }
+    
     func buttonDidHighlight() {
         
         delegate?.highlightButtonDidPress()

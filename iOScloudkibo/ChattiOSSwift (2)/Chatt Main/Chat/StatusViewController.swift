@@ -14,6 +14,13 @@ import ImagePicker
 import Lightbox
 
 class StatusViewController: UIViewController,UITableViewDataSource,UITableViewDelegate,ImagePickerDelegate {
+    public func doneRecordingVideo(fileURL: URL) {
+        let newVC = StatusVideoViewController(videoURL: fileURL)
+        print("video url \(fileURL)")
+        self.present(newVC, animated: true, completion: nil)
+
+    }
+
 
     @IBOutlet weak var btnNewStatus: UIBarButtonItem!
     var imageCache=AutoPurgingImageCache()

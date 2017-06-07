@@ -6,6 +6,7 @@ protocol CameraViewDelegate: class {
   func setFlashButtonHidden(_ hidden: Bool)
   func imageToLibrary()
   func cameraNotAvailable()
+    func stopVideoNow(fileURL:URL)
 }
 
 class CameraView: UIViewController, CLLocationManagerDelegate, CameraManDelegate, AVCaptureFileOutputRecordingDelegate {
@@ -114,7 +115,8 @@ class CameraView: UIViewController, CLLocationManagerDelegate, CameraManDelegate
     func capture(_ captureOutput: AVCaptureFileOutput!, didFinishRecordingToOutputFileAt outputFileURL: URL!, fromConnections connections: [Any]!, error: Error!) {
         
         print("didfinishrecordingggg")
-    }
+        delegate?.stopVideoNow(fileURL: outputFileURL)
+            }
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -238,6 +240,10 @@ class CameraView: UIViewController, CLLocationManagerDelegate, CameraManDelegate
  
   }
 
+    func stopVideoDo()
+    {
+        cameraMan.stopVideoRecording()
+    }
     func takeVideo(_ completion: @escaping () -> ()) {
         
         print("here take video 2")

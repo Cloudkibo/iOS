@@ -4,6 +4,7 @@ protocol ButtonPickerDelegate: class {
 
   func buttonDidPress()
     func buttonDidHighlight()
+    func didEndLongPress()
 }
 
 class ButtonPicker: UIButton {
@@ -111,11 +112,12 @@ class ButtonPicker: UIButton {
     backgroundColor = UIColor(red:0.3, green:0.3, blue:0.3, alpha:1)
     if (gestureRecognizer.state == UIGestureRecognizerState.ended) {
       //  buttonDidEndLongPress
-        
-    delegate?.buttonDidHighlight()
+        delegate?.didEndLongPress()
+    
     }
     if (gestureRecognizer.state == UIGestureRecognizerState.began) {
         print("long pressed status camera")
+        delegate?.buttonDidHighlight()
     }
   }
 }

@@ -330,6 +330,7 @@ class CameraMan {
         if self.videoFileOutput?.isRecording == true {
             self.isVideoRecording = false
             videoFileOutput!.stopRecording()
+            //self.delegate?.stopVideoRecording()
             //!!disableFlash()
            /*
             if currentInput?.device.position == .front && flashEnabled == true && flashView != nil {

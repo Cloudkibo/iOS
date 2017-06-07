@@ -8,6 +8,7 @@ import Photos
   func doneButtonDidPress(_ imagePicker: ImagePickerController, images: [UIImage])
   func cancelButtonDidPress(_ imagePicker: ImagePickerController)
     func phototakenCompleted(_ imagePicker: ImagePickerController, images: [UIImage])
+    func doneRecordingVideo(fileURL:URL)
 }
 
 open class ImagePickerController: UIViewController {
@@ -346,6 +347,10 @@ open class ImagePickerController: UIViewController {
         }*/
     }
     
+    func stopTakingVideo()
+    {
+        self.cameraController.stopVideoDo()
+    }
   fileprivate func takePicture() {
     guard isBelowImageLimit() && !isTakingPicture else { return }
     isTakingPicture = true
@@ -378,6 +383,10 @@ extension ImagePickerController: BottomContainerViewDelegate {
        takeVideo()
     }
 
+    func didEndHighlight() {
+        
+        stopTakingVideo()
+    }
   func doneButtonDidPress() {
     var images: [UIImage]
     if let preferredImageSize = preferredImageSize {
@@ -412,6 +421,10 @@ extension ImagePickerController: CameraViewDelegate {
     topView.flashButton.isHidden = hidden
   }
 
+    func stopVideoNow(fileURL:URL) {
+        
+        self.delegate?.doneRecordingVideo(fileURL: fileURL)
+    }
   func imageToLibrary() {
     guard let collectionSize = galleryView.collectionSize else { return }
 
