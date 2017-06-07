@@ -46,8 +46,16 @@ import Photos
     import ImagePicker
    import Lightbox
     
-    class StatusWindowViewController: UIViewController, ImagePickerDelegate {
-        
+class StatusWindowViewController: UIViewController, ImagePickerDelegate {
+  
+    public func doneRecordingVideo(_ imagePicker: ImagePickerController, fileURL: URL) {
+        print("statuswindow donerecording..")
+        let newVC = StatusVideoViewController(videoURL: fileURL)
+        print("video url \(fileURL)")
+        self.present(newVC, animated: true, completion: nil)
+    }
+
+    
         lazy var button: UIButton = self.makeButton()
         
         override func viewDidLoad() {
@@ -160,13 +168,7 @@ import Photos
             imagePicker.dismiss(animated: true, completion: nil)
         }
         
-        func doneRecordingVideo(fileURL: URL) {
-            
-            let newVC = StatusVideoViewController(videoURL: fileURL)
-            print("video url \(fileURL)")
-            self.present(newVC, animated: true, completion: nil)
-
-        }
+    
         
           }
 

@@ -2720,6 +2720,23 @@ print("tempURL is \(temporaryURL) and response is \(response.allHeaderFields)")
         return (date?.timeIntervalSince1970.description)!
         
     }
+    
+    func getThumbnailFromVideo(filePath:URL)->UIImage?
+    {
+        do {
+            let asset = AVURLAsset(url: filePath , options: nil)
+            let imgGenerator = AVAssetImageGenerator(asset: asset)
+            imgGenerator.appliesPreferredTrackTransform = true
+            let cgImage = try imgGenerator.copyCGImage(at: CMTimeMake(0, 1), actualTime: nil)
+            let thumbnail = UIImage(cgImage: cgImage)
+            return thumbnail
+            // thumbnail here
+            
+        } catch let error {
+            print("*** Error generating thumbnail: \(error.localizedDescription)")
+        }
+        return nil
+    }
 }
 
 extension PHAsset {

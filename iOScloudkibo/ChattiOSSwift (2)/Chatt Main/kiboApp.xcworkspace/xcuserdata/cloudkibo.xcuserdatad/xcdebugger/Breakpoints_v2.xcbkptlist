@@ -5064,11 +5064,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/StatusWindowViewController.swift"
-            timestampString = "518520041.254199"
+            timestampString = "518520652.353735"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "434"
-            endingLineNumber = "434">
+            startingLineNumber = "436"
+            endingLineNumber = "436">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -5078,11 +5078,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/StatusWindowViewController.swift"
-            timestampString = "518520041.254199"
+            timestampString = "518520652.353735"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "456"
-            endingLineNumber = "456">
+            startingLineNumber = "458"
+            endingLineNumber = "458">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -5124,11 +5124,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/StatusViewController.swift"
-            timestampString = "518520199.230884"
+            timestampString = "518521321.362186"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "609"
-            endingLineNumber = "609"
+            startingLineNumber = "615"
+            endingLineNumber = "615"
             landmarkName = "getElapsedInterval()"
             landmarkType = "7">
          </BreakpointContent>
@@ -5140,11 +5140,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/StatusViewController.swift"
-            timestampString = "518520199.230884"
+            timestampString = "518521321.362186"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "67"
-            endingLineNumber = "67"
+            startingLineNumber = "73"
+            endingLineNumber = "73"
             landmarkName = "getTimeDuration(mydate:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -5284,11 +5284,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/StatusWindowViewController.swift"
-            timestampString = "518334872.890192"
+            timestampString = "518520652.353735"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "127"
-            endingLineNumber = "127"
+            startingLineNumber = "135"
+            endingLineNumber = "135"
             landmarkName = "wrapperDidPress(_:images:)"
             landmarkType = "7">
          </BreakpointContent>

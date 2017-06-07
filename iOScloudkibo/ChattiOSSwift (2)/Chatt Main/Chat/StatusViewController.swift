@@ -14,14 +14,17 @@ import ImagePicker
 import Lightbox
 
 class StatusViewController: UIViewController,UITableViewDataSource,UITableViewDelegate,ImagePickerDelegate {
-    public func doneRecordingVideo(fileURL: URL) {
+   
+    
+    public func doneRecordingVideo(_ imagePicker: ImagePickerController, fileURL: URL) {
         let newVC = StatusVideoViewController(videoURL: fileURL)
         print("video url \(fileURL)")
-        self.present(newVC, animated: true, completion: nil)
-
+        imagePicker.present(newVC, animated: true, completion: nil)
+        
+        
     }
 
-
+    var utilFunc=UtilityFunctions.init()
     @IBOutlet weak var btnNewStatus: UIBarButtonItem!
     var imageCache=AutoPurgingImageCache()
     var messagesMyStatus:NSMutableArray!
@@ -38,6 +41,8 @@ class StatusViewController: UIViewController,UITableViewDataSource,UITableViewDe
         config.noImagesTitle = "Sorry! There are no images here!"
         config.recordLocation = false
         config.allowVideoSelection = true
+        config.allowMultiplePhotoSelection=false
+        config.showsImageCountLabel=false
         
         let imagePicker = ImagePickerController()
         imagePicker.configuration = config
@@ -45,6 +50,7 @@ class StatusViewController: UIViewController,UITableViewDataSource,UITableViewDe
         
         present(imagePicker, animated: true, completion: nil)
     }
+
     
     func getTimeDuration(mydate:Date)->String
     {
@@ -196,6 +202,9 @@ class StatusViewController: UIViewController,UITableViewDataSource,UITableViewDe
             var documentDir=docsDir1 as NSString
             var imgPath=documentDir.appendingPathComponent(messages_file_name)
             print("imgpath is \(imgPath)")
+            //file_type
+          
+            
             if (FileManager.default.contents(atPath: imgPath) != nil)
             {
                 var imgdata=FileManager.default.contents(atPath: imgPath)!
@@ -322,9 +331,40 @@ class StatusViewController: UIViewController,UITableViewDataSource,UITableViewDe
             var btninfo=cell.viewWithTag(4) as! UIButton
             
             btninfo.isHidden=false
-            
+                
+                if(utilFunc.videoExtensions.contains(messages_file_type))
+                {
+                    let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+                    let docsDir1 = dirPaths[0]
+                    var documentDir=docsDir1 as NSString
+                    var imgPath=documentDir.appendingPathComponent(messages_file_name)
+                    
+                    var imgThumbnail=utilFunc.getThumbnailFromVideo(filePath: URL.init(fileURLWithPath: imgPath))
+                    
+                    if(imgThumbnail != nil)
+                    {
+                        profilePic.layer.borderWidth = 1.0
+                        profilePic.layer.masksToBounds = false
+                        profilePic.layer.borderColor = UIColor.white.cgColor
+                        profilePic.layer.cornerRadius = profilePic.frame.size.width/2
+                        profilePic.clipsToBounds = true
+                        
+                        imageCache.removeImage(withIdentifier: messages_uniqueid)
+                        imageCache.add(imgThumbnail!, withIdentifier: messages_uniqueid)
+                        
+                        // Fetch
+                        var cachedAvatar = imageCache.image(withIdentifier: messages_uniqueid)
+                        cachedAvatar=utilFunc.resizedAvatar(img: cachedAvatar, size: CGSize(width: profilePic.bounds.width,height: profilePic.bounds.height), sizeStyle: "Fill")
+                        
+                        profilePic.image=cachedAvatar
+                        
+                        
+                    }
+                }
+                else{
+                
                 if let img=UIImage(data:messages_file_pic)
-            {
+                {
             profilePic.layer.borderWidth = 1.0
             profilePic.layer.masksToBounds = false
             profilePic.layer.borderColor = UIColor.white.cgColor
@@ -336,12 +376,13 @@ class StatusViewController: UIViewController,UITableViewDataSource,UITableViewDe
             
             // Fetch
             var cachedAvatar = imageCache.image(withIdentifier: messages_uniqueid)
-            cachedAvatar=UtilityFunctions.init().resizedAvatar(img: cachedAvatar, size: CGSize(width: profilePic.bounds.width,height: profilePic.bounds.height), sizeStyle: "Fill")
+            cachedAvatar=utilFunc.resizedAvatar(img: cachedAvatar, size: CGSize(width: profilePic.bounds.width,height: profilePic.bounds.height), sizeStyle: "Fill")
             
             profilePic.image=cachedAvatar
 
             
         }
+                }
                 if(messages_duration=="0 minutes ago")
                 {
                     timeElapsed.text="just now"
@@ -393,6 +434,37 @@ class StatusViewController: UIViewController,UITableViewDataSource,UITableViewDe
                     name.text=contactname
 
                 }
+                
+                if(utilFunc.videoExtensions.contains(messages_file_type))
+                {
+                    let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+                    let docsDir1 = dirPaths[0]
+                    var documentDir=docsDir1 as NSString
+                    var imgPath=documentDir.appendingPathComponent(messages_file_name)
+                    
+                    var imgThumbnail=utilFunc.getThumbnailFromVideo(filePath: URL.init(fileURLWithPath: imgPath))
+                    
+                    if(imgThumbnail != nil)
+                    {
+                        profilePic.layer.borderWidth = 1.0
+                        profilePic.layer.masksToBounds = false
+                        profilePic.layer.borderColor = UIColor.white.cgColor
+                        profilePic.layer.cornerRadius = profilePic.frame.size.width/2
+                        profilePic.clipsToBounds = true
+                        
+                        imageCache.removeImage(withIdentifier: messages_uniqueid)
+                        imageCache.add(imgThumbnail!, withIdentifier: messages_uniqueid)
+                        
+                        // Fetch
+                        var cachedAvatar = imageCache.image(withIdentifier: messages_uniqueid)
+                        cachedAvatar=utilFunc.resizedAvatar(img: cachedAvatar, size: CGSize(width: profilePic.bounds.width,height: profilePic.bounds.height), sizeStyle: "Fill")
+                        
+                        profilePic.image=cachedAvatar
+                        
+                        
+                    }
+                }
+                else{
                                if let img=UIImage(data:messages_file_pic)
                 {
                     profilePic.layer.borderWidth = 1.0
@@ -406,11 +478,12 @@ class StatusViewController: UIViewController,UITableViewDataSource,UITableViewDe
                     
                     // Fetch
                     var cachedAvatar = imageCache.image(withIdentifier: messages_uniqueid)
-                    cachedAvatar=UtilityFunctions.init().resizedAvatar(img: cachedAvatar, size: CGSize(width: profilePic.bounds.width,height: profilePic.bounds.height), sizeStyle: "Fill")
+                    cachedAvatar=utilFunc.resizedAvatar(img: cachedAvatar, size: CGSize(width: profilePic.bounds.width,height: profilePic.bounds.height), sizeStyle: "Fill")
                     
                     profilePic.image=cachedAvatar
                     
                     
+                }
                 }
                 if(messages_duration=="0 minutes")
                 {

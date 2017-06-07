@@ -8,13 +8,14 @@ import Photos
   func doneButtonDidPress(_ imagePicker: ImagePickerController, images: [UIImage])
   func cancelButtonDidPress(_ imagePicker: ImagePickerController)
     func phototakenCompleted(_ imagePicker: ImagePickerController, images: [UIImage])
-    func doneRecordingVideo(fileURL:URL)
+    func doneRecordingVideo(_ imagePicker: ImagePickerController,fileURL:URL)
 }
 
 open class ImagePickerController: UIViewController {
 
   open var configuration = Configuration()
-
+    
+ 
   struct GestureConstants {
     static let maximumHeight: CGFloat = 200
     static let minimumHeight: CGFloat = 125
@@ -423,7 +424,7 @@ extension ImagePickerController: CameraViewDelegate {
 
     func stopVideoNow(fileURL:URL) {
         
-        self.delegate?.doneRecordingVideo(fileURL: fileURL)
+        self.delegate?.doneRecordingVideo(self, fileURL: fileURL)
     }
   func imageToLibrary() {
     guard let collectionSize = galleryView.collectionSize else { return }
