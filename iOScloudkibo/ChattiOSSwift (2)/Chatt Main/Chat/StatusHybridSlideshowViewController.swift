@@ -124,6 +124,11 @@ import AVKit
                 var messages_file_caption=messageDic["messages_file_caption"] as! String
                 var messages_file_pic=messageDic["messages_file_pic"] as! Data
                 
+            
+                managerFile.init().sendDayStatusSeenUpdate(uniqueid:String,time:String,uploadedBy:String)
+                //uniqueid, time, uploadedBy
+
+                
                 print("size of image is \(messages_file_pic.count)")
                 var util=UtilityFunctions.init()
                 print("file type iss \((messages_file_type as String).lowercased()) and filename is \(messages_file_name)")

@@ -1518,138 +1518,7 @@ class NetworkingManager
         print("start download")
         print(Date())
         
-        /*if(Int.init(filePendingSize)<150000)
-         {
-         let queue2 = DispatchQueue(label: "com.kibochat.manager-response-queue-file", attributes: DispatchQueue.Attributes.concurrent)
-         let qqq=DispatchQueue.global(qos: DispatchQoS.QoSClass.background)
-         
-         let request = Alamofire.request("\(downloadURL)", method: .post, parameters: ["uniqueid":fileuniqueid],encoding: JSONEncoding.default, headers:header)
-         
-         ///////let request = Alamofire.request(.POST, "\(downloadURL)", parameters: ["uniqueid":fileuniqueid], headers:header)
-         
-         request.response(queue: queue2, completionHandler: { (response) in
-         
-         
-         //})
-         
-         /*response(
-         queue: queue2,
-         responseSerializer: Request.dataResponseSerializer(),
-         completionHandler: { response in
-         */
-         
-         /*  .response{
-         request, response_, data, error in
-         print("file download \(response_!.statusCode)")
-         print("data file is \(data)")
-         
-         */
-         if(response.response?.statusCode==200)
-         {
-         print("download request response success \(response.data)")
-         var data=response.data
-         
-         let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
-         let docsDir1 = dirPaths[0]
-         var documentDir=docsDir1 as NSString
-         var filePendingPath=documentDir.appendingPathComponent(filePendingName)
-         print("filepending path is \(filePendingPath)")
-         if(!self.imageExtensions.contains(filetype.lowercased()))
-         {
-         print("image compressing")
-         data=data?.uncompressed(using: Compression.zlib)
-         }
-         do{
-         print("file path is \(filePendingPath) and filetype is \(filetype)")// and data is \(data!)")
-         
-         var fileExists = FileManager().fileExists(atPath: filePendingPath)
-         while(fileExists==true)
-         {
-         var newname=filePendingName.components(separatedBy: ".")[0]+"1"+filePendingName.components(separatedBy: ".")[1]
-         
-         print("newname is \(newname)")
-         filePendingPath=documentDir.appendingPathComponent(newname)
-         print("filePendingPath is \(filePendingPath)")
-         fileExists = FileManager().fileExists(atPath: filePendingPath)
-         
-         }
-         // if let written = try data?.write(to: URL.init(fileURLWithPath: filePendingPath))
-         print("data is \(data)")
-         
-         try data?.write(to: URL.init(fileURLWithPath: filePendingPath))
-         //{
-         fileExists = FileManager().fileExists(atPath: filePendingPath)
-         
-         print("inside written")
-         if(fileExists==true)
-         {
-         
-         if(self.imageExtensions.contains(filetype.lowercased()))
-         {
-         //filePendingName
-         sqliteDB.saveFile(filePendingTo, from1: filefrom, owneruser1: username!, file_name1: filePendingName, date1: nil, uniqueid1: fileuniqueid, file_size1: filePendingSize, file_type1: filetype, file_path1: filePendingPath, type1: "image")
-         }
-         else{if(self.videoExtensions.contains(filetype.lowercased()))
-         {
-         //filePendingName
-         sqliteDB.saveFile(filePendingTo, from1: filefrom, owneruser1: username!, file_name1: filePendingName, date1: nil, uniqueid1: fileuniqueid, file_size1: filePendingSize, file_type1: filetype, file_path1: filePendingPath, type1: "video")
-         }
-         else
-         {
-         sqliteDB.saveFile(filePendingTo, from1: filefrom, owneruser1: username!, file_name1: filePendingName, date1: nil, uniqueid1: fileuniqueid, file_size1: filePendingSize, file_type1: filetype, file_path1: filePendingPath, type1: "document")
-         
-         }}
-         print("file written...")
-         
-         
-         
-         if(socketObj.delegateChat != nil)
-         {
-         socketObj.delegateChat.socketReceivedMessageChat("updateUI", data: nil)
-         }
-         
-         
-         //===
-         if(delegateRefreshChat != nil)
-         {
-         delegateRefreshChat?.refreshChatsUI("",uniqueid:fileuniqueid,from:filefrom,date1:NSDate() as Date!, type:"file")
-         
-         //===uncomment later  delegateRefreshChat?.refreshChatsUI("",uniqueid:fileuniqueid,from:filefrom,date1:NSDate(), type:"chat")
-         }
-         print("download done")
-         print(NSDate())
-         self.confirmDownload(fileuniqueid)
-         print("confirminggggggg")
-         }
-         else{
-         print("file not exist not written \(filePendingPath)")
-         }
-         }
-         
-         catch{
-         print("error writing file \(error)")
-         
-         }
-         
-         }
-         else{
-         print("unable to download file \(response.error)")
-         }
-         
-         })
-         
-         //filedownloaded’ to with parameters ‘senderoffile’, ‘receiveroffile’
-         
-         
-         
-         //print(error)
-         
-         
-         }
-         */
-        /// else{
-        //uncomment
-        
+  
         
         let path = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0] as URL
 
@@ -1797,139 +1666,7 @@ class NetworkingManager
         print("start download")
         print(Date())
         
-        /*if(Int.init(filePendingSize)<150000)
-        {
-        let queue2 = DispatchQueue(label: "com.kibochat.manager-response-queue-file", attributes: DispatchQueue.Attributes.concurrent)
-        let qqq=DispatchQueue.global(qos: DispatchQoS.QoSClass.background)
-         
-            let request = Alamofire.request("\(downloadURL)", method: .post, parameters: ["uniqueid":fileuniqueid],encoding: JSONEncoding.default, headers:header)
-         
-            ///////let request = Alamofire.request(.POST, "\(downloadURL)", parameters: ["uniqueid":fileuniqueid], headers:header)
-         
-            request.response(queue: queue2, completionHandler: { (response) in
-         
-         
-            //})
-         
-            /*response(
-                queue: queue2,
-                responseSerializer: Request.dataResponseSerializer(),
-                completionHandler: { response in
-            */
-            
-          /*  .response{
-            request, response_, data, error in
-           print("file download \(response_!.statusCode)")
-            print("data file is \(data)")
-            
-         */
-                if(response.response?.statusCode==200)
-                {
-                    print("download request response success \(response.data)")
-                var data=response.data
-                    
-                let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
-                let docsDir1 = dirPaths[0]
-                var documentDir=docsDir1 as NSString
-                var filePendingPath=documentDir.appendingPathComponent(filePendingName)
-                    print("filepending path is \(filePendingPath)")
-                if(!self.imageExtensions.contains(filetype.lowercased()))
-                {
-                    print("image compressing")
-                    data=data?.uncompressed(using: Compression.zlib)
-                }
-                    do{
-                        print("file path is \(filePendingPath) and filetype is \(filetype)")// and data is \(data!)")
-                        
-                        var fileExists = FileManager().fileExists(atPath: filePendingPath)
-                        while(fileExists==true)
-                        {
-                            var newname=filePendingName.components(separatedBy: ".")[0]+"1"+filePendingName.components(separatedBy: ".")[1]
-                            
-                            print("newname is \(newname)")
-                            filePendingPath=documentDir.appendingPathComponent(newname)
-                            print("filePendingPath is \(filePendingPath)")
-                            fileExists = FileManager().fileExists(atPath: filePendingPath)
-                            
-                        }
-                   // if let written = try data?.write(to: URL.init(fileURLWithPath: filePendingPath))
-                        print("data is \(data)")
-                    
-                        try data?.write(to: URL.init(fileURLWithPath: filePendingPath))
-                    //{
-                        fileExists = FileManager().fileExists(atPath: filePendingPath)
-                        
-                        print("inside written")
-                         if(fileExists==true)
-                        {
-
-                if(self.imageExtensions.contains(filetype.lowercased()))
-                {
-                    //filePendingName
-                    sqliteDB.saveFile(filePendingTo, from1: filefrom, owneruser1: username!, file_name1: filePendingName, date1: nil, uniqueid1: fileuniqueid, file_size1: filePendingSize, file_type1: filetype, file_path1: filePendingPath, type1: "image")
-                }
-                else{if(self.videoExtensions.contains(filetype.lowercased()))
-                        {
-                            //filePendingName
-                            sqliteDB.saveFile(filePendingTo, from1: filefrom, owneruser1: username!, file_name1: filePendingName, date1: nil, uniqueid1: fileuniqueid, file_size1: filePendingSize, file_type1: filetype, file_path1: filePendingPath, type1: "video")
-                        }
-                else
-                {
-                    sqliteDB.saveFile(filePendingTo, from1: filefrom, owneruser1: username!, file_name1: filePendingName, date1: nil, uniqueid1: fileuniqueid, file_size1: filePendingSize, file_type1: filetype, file_path1: filePendingPath, type1: "document")
-                    
-                    }}
-            print("file written...")
-                        
-                       
         
-                                if(socketObj.delegateChat != nil)
-                {
-                    socketObj.delegateChat.socketReceivedMessageChat("updateUI", data: nil)
-                }
-                
-                
-                //===
-                if(delegateRefreshChat != nil)
-                {
-                    delegateRefreshChat?.refreshChatsUI("",uniqueid:fileuniqueid,from:filefrom,date1:NSDate() as Date!, type:"file")
-                    
-                    //===uncomment later  delegateRefreshChat?.refreshChatsUI("",uniqueid:fileuniqueid,from:filefrom,date1:NSDate(), type:"chat")
-                }
-                print("download done")
-                print(NSDate())
-                self.confirmDownload(fileuniqueid)
-                print("confirminggggggg")
-                        }
-                        else{
-                            print("file not exist not written \(filePendingPath)")
-                        }
-                    }
-                    
-                    catch{
-                        print("error writing file \(error)")
-                        
-                    }
-
-            }
-                else{
-                    print("unable to download file \(response.error)")
-                }
-                
-                    })
-            
-                    //filedownloaded’ to with parameters ‘senderoffile’, ‘receiveroffile’
-                
-            
-                
-            //print(error)
-       
-        
-        }
-        */
-       /// else{
-        //uncomment
-      
-       
         let path = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0] as URL
         //print("path download is \(path)")
        //////// let newPath = path.URLByAppendingPathComponent(fileName1)
@@ -2098,27 +1835,7 @@ class NetworkingManager
                 switch encodingResult {
                     
 
-        /*
-        Alamofire.upload(
-            .POST,
-            url,
-            headers: header,
-            multipartFormData: { multipartFormData in
-                multipartFormData.appendBodyPart(data: imageData!, name: "file"
-                    ,fileName: filename, mimeType: UtilityFunctions.init().MimeType(fileType))
-                //,fileName: file_name1, mimeType: "image/\(file_type1)")
-                for (key, value) in parameters {
-                    multipartFormData.appendBodyPart(data: value.dataUsingEncoding(NSUTF8StringEncoding)!, name: key)
-                }
-                ///multipartFormData.appendBodyPart(data: jsonParameterData!, name: "goesIntoForm")
-                
-            },
-            encodingCompletion: { encodingResult in
-                switch encodingResult {
-                    */
-                    ////
-                
-                
+                    
                 case .success(let upload, _, _):
                     
                     upload.validate()
@@ -2131,34 +1848,6 @@ class NetworkingManager
                         
                         switch response.result {
                         case .success:
-                            
-                            
-               /* case .Success(let upload, _, _):
-                    upload.progress { bytesWritten, totalBytesWritten, totalBytesExpectedToWrite in
-                        DispatchQueue.main.async {
-                            let percent = (Float(totalBytesWritten) / Float(totalBytesExpectedToWrite))
-                            /////progress(percent: percent)
-                            /* if(self.delegateProgressUpload != nil)
-                             {
-                             if(percent<1.0)
-                             {
-                             self.delegateProgressUpload.updateProgressUpload(percent,uniqueid: uniqueid1)
-                             }
-                             
-                             }*/
-                            //Redraw specific table cell
-                            print("percentage is \(percent)")
-                        }
-                    }
-                    upload.validate()
-                    upload.responseJSON { response in
-                        print(response.response?.statusCode)
-                        print(response.data!)
-                        print(JSON(response.data!))
-                        switch response.result {
-                        case .Success:
-                            
-                            */
                             
                             
                             print("file uploaded successss")
@@ -2183,20 +1872,6 @@ class NetworkingManager
                         
                         
                         
-                        /*
-                         
-                         "__v" = 0;
-                         "_id" = 57c69e61dfff9e5223a8fcb2;
-                         activeStatus = Yes;
-                         companyid = cd89f71715f2014725163952;
-                         createdby = 554896ca78aed92f4e6db296;
-                         creationdate = "2016-08-31T09:07:45.236Z";
-                         groupid = 57c69e61dfff9e5223a8fcb1;
-                         "msg_channel_description" = "This channel is for general discussions";
-                         "msg_channel_name" = General;
-                         
-                         
-                         */
                         print("Add profile pic called")
                         if(response.result.isSuccess)
                         {
@@ -2212,6 +1887,24 @@ class NetworkingManager
         
     }
     
+    func sendDayStatusSeenUpdate(uniqueid:String,time:String,uploadedBy:String)
+    {
+        var url=Constants.MainUrl+Constants.sendDayStatusUpdate
+        let request = Alamofire.request("\(url)", method: .post, parameters: ["uniqueid":uniqueid,"time":time,"uploadedBy":uploadedBy],headers:header).responseJSON { response in
+            
+            //  Alamofire.request(.POST,"\(confirmURL)",headers:header,parameters:["uniqueid":uniqueid1]).validate(statusCode: 200..<300).responseJSON{response in
+            
+            
+            switch response.result {
+            case .success:
+                print("daystatus update sent \(uniqueid)")
+                
+            case .failure(let error):
+                print("daystatus update failed")
+            }}
+
+        
+    }
     
     func downloadDayStatus(uniqueid:String,senderId:String)
     {
@@ -2367,35 +2060,7 @@ class NetworkingManager
                 "uploadedBy":uploadedBy1
             ]
             
-            /*group_unique_id : req.body.group_unique_id,
-             from : req.body.from,
-             total_members: req.body.total_members,
-             uniqueid: req.body.uniqueid,
-             file_name : req.body.filename,
-             file_size : req.body.filesize,
-             path : serverPath,*/
-            
-            /*var parameterJSON = JSON([
-             "to": to1,
-             "from": from1,
-             "uniqueid": uniqueid1,
-             "file_name": file_name1,
-             "file_size": file_size1,
-             "file_type": file_type1
-             /*to
-             from
-             uniqueid
-             file_name
-             file_size
-             file_type
-             */
-             ])
-             
-             */
-            // JSON stringify
-            // let parameterString = parameterJSON.rawString(NSUTF8StringEncoding, options: NSJSONWritingOptions.PrettyPrinted )
-            // let jsonParameterData = parameterString!.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)
-            
+        
             var imageData:Data?
             if(self.imageExtensions.contains(file_type1.lowercased()))
             {
@@ -2418,10 +2083,7 @@ class NetworkingManager
                 print("old upload image compressed size is \(imageData2!.count)")
                 //}
             }
-            // var imageData=UIImageJPEGRepresentation(UIImage(contentsOfFile: filePath1)!,0.9)
-            
-            // print("ols upload image size is \(imageData2!.length)")
-            
+        
             print("mimetype is \(MimeType(file_type1))")
             
             var urlupload=Constants.MainUrl+Constants.uploadstatusURL
@@ -2441,24 +2103,6 @@ class NetworkingManager
                 encodingCompletion: { encodingResult in
                     switch encodingResult {
                         
-                        /*
-                         Alamofire.upload(
-                         .POST,
-                         urlupload,
-                         headers: header,
-                         multipartFormData: { multipartFormData in
-                         multipartFormData.appendBodyPart(data: imageData!, name: "file"
-                         ,fileName: file_name1, mimeType: self.MimeType(file_type1))
-                         //,fileName: file_name1, mimeType: "image/\(file_type1)")
-                         for (key, value) in parameters {
-                         multipartFormData.appendBodyPart(data: value.dataUsingEncoding(NSUTF8StringEncoding)!, name: key)
-                         }
-                         ///multipartFormData.appendBodyPart(data: jsonParameterData!, name: "goesIntoForm")
-                         
-                         },
-                         encodingCompletion: { encodingResult in
-                         switch encodingResult {
-                         */
                     case .success(let upload, _, _):
                         
                         upload.validate()
@@ -2476,18 +2120,7 @@ class NetworkingManager
                                 
                                 //var date=self.getDateString(Date())
                                 var status="pending"
-                                
-                                ///messages.add(["msg":txtFieldMessage.text!+" (pending)", "type":"2", "fromFullName":"","date":date,"uniqueid":uniqueid_chat])
-                                
-                                
-                                
-                                
-                                //save chat
-                                //////sqliteDB.storeGroupsChat(username!, group_unique_id1: self.groupid1, type1: "chat", msg1: self.txtFieldMessage.text!, from_fullname1: username!, date1: Date(), unique_id1: uniqueid_chat)
-                                
-                                
-                                
-                                
+                         
                                 
                                 
                                 DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async
@@ -2496,55 +2129,7 @@ class NetworkingManager
                                         //UPDATE STATUS SENT
                                         //!!sqliteDB.updateDayStatusReceipt()
                                         
-                                        /*var url=Constants.MainUrl+Constants.sendGroupChat
-                                        print(url)
-                                        print("..")
-                                        //filePath1:String,groupid1:String,from1:String, uniqueid1:String,file_name1:String,file_size1:String,file_type1:String,type1:String
                                         
-                                        print("send image chat filename \(file_name1)")
-                                        let request=Alamofire.request("\(url)", method: .post, parameters: ["group_unique_id":groupid1,"from":from1,"type":type1,"msg":file_name1,"from_fullname":username!,"unique_id":uniqueid1],headers:header).responseJSON { response in
-                                            
-                                            //  let request = Alamofire.request(.POST, "\(url)", parameters: ["group_unique_id":group_id,"from":from,"type":type,"msg":msg,"from_fullname":fromFullname,"unique_id":uniqueidChat],headers:header).responseJSON { response in
-                                            
-                                            
-                                            // You are now running on the concurrent `queue` you created earlier.
-                                            //print("Parsing JSON on thread: \(NSThread.currentThread()) is main thread: \(NSThread.isMainThread())")
-                                            
-                                            // Validate your JSON response and convert into model objects if necessary
-                                            //print(response.result.value) //status, uniqueid
-                                            
-                                            // To update anything on the main thread, just jump back on like so.
-                                            //print("\(chatstanza) ..  \(response)")
-                                            print("status code is \(response.response?.statusCode)")
-                                            print(response)
-                                            print(response.result.error)
-                                            if(response.response?.statusCode==200 || response.response?.statusCode==201)
-                                            {
-                                                var membersList=sqliteDB.getGroupMembersOfGroup(groupid1)
-                                                for i in 0 ..< membersList.count
-                                                {
-                                                    if((membersList[i]["member_phone"] as! String) != username! && (membersList[i]["membership_status"] as! String) != "left")
-                                                    {
-                                                        sqliteDB.updateGroupChatStatus(uniqueid_chat, memberphone1: membersList[i]["member_phone"]! as! String, status1: "sent", delivereddate1: Date(), readDate1: Date())
-                                                        
-                                                        // === wrong sqliteDB.storeGRoupsChatStatus(uniqueid_chat, status1: "sent", memberphone1: self.membersList[i]["member_phone"]! as! String, delivereddate1: UtilityFunctions.init().minimumDate(), readDate1: UtilityFunctions.init().minimumDate())
-                                                    }
-                                                }
-                                                /* if(self.delegateProgressUpload != nil)
-                                                 {
-                                                 self.delegateProgressUpload.updateProgressUpload(1.0,uniqueid: uniqueid1)
-                                                 
-                                                 }*/
-                                                
-                                                
-                                            }
-                                            else{
-                                                print("failed to send chat")
-                                            }
-                                            
-                                            //send chat end
-                                        }
-                                      */
                                 }
                                 
                             case .failure: print("case failure upload status encoding")

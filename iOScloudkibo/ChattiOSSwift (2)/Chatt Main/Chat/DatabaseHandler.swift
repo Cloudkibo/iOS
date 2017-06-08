@@ -914,7 +914,7 @@ print("alter table needed")
         
     }
     
-    func storeDayStatusInfoTable(_ daystatus_id1:String,daystatus_status1:String,daystatus_contactphone1:String)
+    func storeDayStatusUpdatesInfoTable(_ daystatus_id1:String,daystatus_status1:String,daystatus_contactphone1:String)
     {
         let daystatus_id = Expression<String>("daystatus_id")
         let daystatus_status = Expression<String>("daystatus_status")

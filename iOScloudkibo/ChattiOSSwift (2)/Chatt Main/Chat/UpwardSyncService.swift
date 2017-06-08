@@ -67,6 +67,18 @@ class syncService{
                     var partialGroupChatObjectList=resJSON["partialGroupChat"]//: the partial group chat
                     self.getPartialGroupChat(jsongroupinfo: partialGroupChatObjectList)
                     
+                        var daystatusObj=resJSON["daystatuses"]//: the partial group chat
+                        self.getDayStatuses(daystatuses: daystatusObj)
+                   
+                        //daystatusupdates
+                        var daystatusupdatesObj=resJSON["daystatusupdates"]//: the partial group chat
+                        self.getDayStatusUpdates(daystatusupdates: daystatusObj)
+                        
+                        
+                        var partialGroupChatObjectList=resJSON["partialGroupChat"]//: the partial group chat
+                        self.getPartialGroupChat(jsongroupinfo: partialGroupChatObjectList)
+                   
+                        
                     var statusOfSentMessagesObj=resJSON["statusOfSentMessages"]//: the partial group chat
                     print("statusOfSentMessages JSON is \(statusOfSentMessagesObj)")
                     self.statusofsentmessages(payload: statusOfSentMessagesObj, completion: { (result, error) in
@@ -91,6 +103,34 @@ class syncService{
         
     }
     }
+    
+    func getDayStatuses(daystatuses:JSON)
+    {
+        
+        /*for var i in 0 ..< daystatuses.count
+        {
+            var chat_unique_id=daystatuses[i]["chat_unique_id"].string!
+             var chat_unique_id=daystatuses[i]["chat_unique_id"].string!
+             var chat_unique_id=daystatuses[i]["chat_unique_id"].string!
+             var chat_unique_id=daystatuses[i]["chat_unique_id"].string!
+    
+        }*/
+    }
+    
+    func getDayStatusUpdates(daystatusupdates: JSON)
+    {
+        for var i in 0 ..< daystatusupdates.count
+        {
+            var uniqueid=daystatusupdates[i]["uniqueid"].string!
+            //var time=daystatusupdates[i]["time"].string!
+            var uploadedBy=daystatusupdates[i]["uploadedBy"].string!
+            var contact=daystatusupdates[i]["contact"].string!
+            
+            sqliteDB.storeDayStatusUpdatesInfoTable(uniqueid, daystatus_status1: "seen", daystatus_contactphone1: contact)
+            
+        }
+    }
+    
 /*
      try db.transaction {
      try db.run(alice.update(balance -= amount))

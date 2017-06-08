@@ -4035,7 +4035,7 @@ else{
                     var uniqueid=userInfo["uniqueid"] as? String
                     
                     //var res=delegateCheckConvWindow.checkConversationWindowOpen(phone: (userInfo["senderId"] as? String)!)
-                    sqliteDB.storeDayStatusInfoTable(uniqueid!, daystatus_status1: "pending", daystatus_contactphone1: senderId!)                   ////
+                    sqliteDB.storeDayStatusUpdatesInfoTable(uniqueid!, daystatus_status1: "pending", daystatus_contactphone1: senderId!)                   ////
                     managerFile.downloadDayStatus(uniqueid: uniqueid!,senderId:senderId!)
                 }
                 
