@@ -153,7 +153,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate,
         
         let token = credentials.token.map { String(format: "%02.2hhx", $0) }.joined()
         print("voip2 token: \(token)")
-        
+        UserDefaults.standard.set(token, forKey: "deviceToken")
         //NSLog("voip2 token: \(credentials.token.base64EncodedString())")
 
         

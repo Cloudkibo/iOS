@@ -382,7 +382,7 @@ class DisplayNameViewController: UIViewController,UNUserNotificationCenterDelega
             //var getUserDataURL=userDataUrl
         
         
-        Alamofire.request("\(urlToSendDisplayName)", method: .post, parameters: ["display_name":displayName],headers:header).responseJSON { response in
+        Alamofire.request("\(urlToSendDisplayName)", method: .post, parameters: ["display_name":displayName,"deviceToken":UserDefaults.standard.value(forKey: "deviceToken") as! String],headers:header).responseJSON { response in
       
             
             //alamofire4

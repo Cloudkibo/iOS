@@ -5124,11 +5124,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Chat/StatusViewController.swift"
-            timestampString = "518521321.362186"
+            timestampString = "518522845.965451"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "615"
-            endingLineNumber = "615"
+            startingLineNumber = "682"
+            endingLineNumber = "682"
             landmarkName = "getElapsedInterval()"
             landmarkType = "7">
          </BreakpointContent>
