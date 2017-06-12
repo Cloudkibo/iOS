@@ -12,6 +12,8 @@ import AVKit
     
     class StatusHybridSlideshowViewController: UIViewController, UIScrollViewDelegate {
         
+        
+        var globalcount=0
         var mytimer: Timer!
         var progressTimer: Timer!
         var timersList=[Timer]()
@@ -33,6 +35,100 @@ import AVKit
         //@IBOutlet var startButton: UIButton!
         
         @IBOutlet weak var pageControl: UIPageControl!
+        
+       
+        @IBAction func btnReplyPressed(_ sender: Any) {
+            
+            {
+                let alert = UIAlertController(title: "Enter Reply".localized, message: "", preferredStyle: .alert)
+                
+                //2. Add the text field. You can configure it however you need.
+                alert.addTextField(configurationHandler: { (textField) -> Void in
+                    //!! self.imgCaption = ""
+                    textField.text = ""
+                    
+                })
+                
+                
+                //3. Grab the value from the text field, and print it when the user clicks OK.
+                alert.addAction(UIAlertAction(title: "Send", style: .default, handler: { (action) -> Void in
+                    
+                    
+                    let textField = alert.textFields![0] as UITextField
+                    
+                    var reply=textField.text!
+                    var uniqueID=UtilityFunctions.init().generateUniqueid()
+                   // print("uniqueid video is \(uniqueID)")
+                    var statusNow="pending"
+                    print("globalcount is \(self.globalcount)")
+                    
+                   
+                            var messageDic = slideshowarray[globalcount] as! [String : AnyObject];
+                            //.object(at: indexPath.row) as! [String : AnyObject];
+                            
+                            var uploadtime=messageDic["uploadtime"] as! Date
+                            var messages_from = messageDic["messages_from"] as! String
+                            var messages_duration = messageDic["messages_duration"] as! String
+                            var messages_file_type=messageDic["messages_file_type"] as! String
+                            var messages_uniqueid=messageDic["messages_uniqueid"] as! String
+                            var messages_file_name=messageDic["messages_file_name"] as! String
+                            var messages_file_caption=messageDic["messages_file_caption"] as! String
+                            var messages_file_pic=messageDic["messages_file_pic"] as! Data
+                            
+                    var imparas=["uniqueid":uniqueID,"type":"day_status_chat","msg":reply,"from":username!,"date":"\(Date.init())","fromFullName":"\(displayname)","file_type":messages_uniqueid]
+                    
+                    sqliteDB.SaveChat("all", from1: username!, owneruser1: username!, fromFullName1: displayname!, msg1: reply, date1: nil, uniqueid1: uniqueID, status1: "pending", type1: "day_status_chat", file_type1: messages_uniqueid, file_path1: "")
+                    
+                    managerFile.sendStatusReplyMessage(imparas, completion: { (result) in
+                        
+                        
+                    })
+                  
+                        // data!.writeToFile(localPath.absoluteString, atomically: true)
+                    
+                        // var imParas=["from":"\(username!)","to":"\(self.selectedContact)","fromFullName":"\(displayname)","msg":self.filename,"uniqueid":uniqueID,"type":"file","file_type":"video","status":statusNow]
+                        //print("imparas are \(imParas)")
+                        
+                        
+                        //------
+                        
+                        //SPECIAL
+                    
+                        
+                    
+                        //==--self.showError("Error".localized, message: "Unable to get video".localized, button1: "Ok".localized)
+                   
+                    //!!self.imgCaption = textField.text!
+                    // let textField = alert.textFields![0] as UITextField
+                    
+                    //!!--self.imagePickerController(picker, didFinishPickingImage: (info[UIImagePickerControllerOriginalImage] as? UIImage)!, editingInfo: info as [String : AnyObject]?)
+                    
+                    //!!
+                    /*if(self.showKeyboard==true)
+                     {
+                     self.textFieldShouldReturn(textField)
+                     
+                     }*/
+                    self.dismiss(animated: true, completion: {
+                        
+                        
+                    })
+                    
+                    
+                    
+                }))
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) -> Void in
+                    
+                    
+                }))
+                self.present(alert, animated: true, completion: {
+                })
+                
+                
+            }
+        }
+        
+        
         
         override func viewDidLoad() {
             super.viewDidLoad()
@@ -291,6 +387,7 @@ func configurePageControl() {
         repeatinterval+=0.05
         var currentProgressBar=stackView.arrangedSubviews[timersList.count-1] as! UIProgressView
         
+        globalcount=timersList.count-1
         
         currentProgressBar.progress+=0.0125
        // currentProgressBar.progress+=Float(1.00/Double(currentProgressBar.frame.width/8))/8.0

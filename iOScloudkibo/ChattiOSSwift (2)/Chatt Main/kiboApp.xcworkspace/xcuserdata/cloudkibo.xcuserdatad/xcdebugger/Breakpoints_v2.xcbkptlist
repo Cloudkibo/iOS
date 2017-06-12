@@ -2268,7 +2268,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1987"
             endingLineNumber = "1987"
-            landmarkName = "downloadBroadcastFile(_:filePendingName:filefrom:filetype:filePendingSize:filependingDate:filePendingTo:filecaption:)"
+            landmarkName = "downloadDayStatus(uniqueid:senderId:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2978,8 +2978,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1799"
             endingLineNumber = "1799"
-            landmarkName = "downloadBroadcastFile(_:filePendingName:filefrom:filetype:filePendingSize:filependingDate:filePendingTo:filecaption:)"
-            landmarkType = "7">
+            landmarkName = "NetworkingManager"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
