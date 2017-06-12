@@ -1261,31 +1261,13 @@ var isKiboContact="false"
                                         else{
                                         print("hereee 2 ")
                                         
-                                       /* var urlArray=UtilityFunctions.init().getURLs(text: tblContacts[msg])
-                                        if(urlArray.count>0)
-                                        {
-                                            print("found url \(urlArray.first!)")
-                                           var urlInfoDB=sqliteDB.getSingleURLInfo("\(urlArray.first!)")
-                                            if(urlInfoDB.count>0){
-                                        
-                                                 var title=urlInfoDB["title"]
-                                                var description=urlInfoDB["desc"]
-                                                var url=urlInfoDB["url"]
-                                                //newEntry["msg"]=URLinfo.get(msg) as AnyObject
-                                                messages2.add(["message":tblContacts[msg]/*+" (\(tblContacts[status])) "*/,"status":tblContacts[status], "type":"22", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid],"title":title,"description":description,"url":url])
-                                                
-
+                                            if(tblContacts[type]=="day_status_chat")
+                                            {
+                                                messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"16", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid],"uniqueid_daystatus":tblContacts[file_type]])
                                             }
                                             else{
-                                                messages2.add(["message":tblContacts[msg]/*+" (\(tblContacts[status])) "*/,"status":tblContacts[status], "type":"22", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
-                                                
-                                            }
-                                        }
-                                        
-                                      */
-
-                                      //  else{
                                         messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                            }
                                         //}
                                         /*var urlArray=UtilityFunctions.init().getURLs(text: tblContacts[msg])
                                         print()
@@ -1483,7 +1465,15 @@ var isKiboContact="false"
                                     }
                                     
                                     else{
+                                            
+                                            if(tblContacts[type]=="day_status_chat")
+                                            {
+                                                messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"15", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid],"uniqueid_daystatus":tblContacts[file_type]])
+                                            }
+                                            else{
+                                                
                                         messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"1", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                            }
                                     }
                                     }
                                 }
@@ -2109,8 +2099,15 @@ var isKiboContact="false"
                                                     //  messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"22", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid],"title"])
                                                 }
                                                 else{
+                                                    
+                                                    if(tblContacts[type]=="day_status_chat")
+                                                    {
+                                                        messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"16", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid],"uniqueid_daystatus":tblContacts[file_type]])
+                                                    }
+                                                    else{
                                                 
                                 messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"2", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                                }
                                                 }
                                     }
                                         }
@@ -2259,7 +2256,14 @@ var isKiboContact="false"
                                                 //  messages2.add(["message":tblContacts[msg]+" (\(tblContacts[status])) ","status":tblContacts[status], "type":"22", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid],"title"])
                                             }
                                             else{
+                                                
+                                                if(tblContacts[type]=="day_status_chat")
+                                                {
+                                                     messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"15", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid],"uniqueid_daystatus":tblContacts[file_type]])
+                                                }
+                                                else{
                             messages2.add(["message":tblContacts[msg],"status":tblContacts[status], "type":"1", "date":defaultTimeeee, "uniqueid":tblContacts[uniqueid]])
+                                                }
                                             }
                                         }
                                         }
@@ -5548,6 +5552,34 @@ var isKiboContact="false"
             timeLabel.text="\(displaydate) \(status!)"
          
         }
+        
+        if (msgType?.isEqual(to: "15"))!{
+            cell = ///tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
+                
+                //FileImageReceivedCell
+                tblForChats.dequeueReusableCell(withIdentifier: "ChatDayStatusSentCell")! as UITableViewCell
+            
+            //=====cell.tag = indexPath.row
+            
+           
+            
+        }
+
+        
+        if (msgType?.isEqual(to: "16"))!{
+            cell = ///tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
+                
+                //FileImageReceivedCell
+                tblForChats.dequeueReusableCell(withIdentifier: "ChatDayStatusReceivedCell")! as UITableViewCell
+            
+            //=====cell.tag = indexPath.row
+            
+           
+            
+        }
+
+        
+        //
 
         
         

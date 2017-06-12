@@ -4040,6 +4040,17 @@ else{
                     managerFile.downloadDayStatus(uniqueid: uniqueid!,senderId:senderId!)
                 }
                 
+                if(type=="status:your_status_seen")
+                {
+                    print("got push of day_status_chat")
+                    var senderId=userInfo["senderId"] as? String  //from
+                    var uniqueid=userInfo["uniqueid"] as? String
+                    var time=userInfo["time"] as? String
+                    //var res=delegateCheckConvWindow.checkConversationWindowOpen(phone: (userInfo["senderId"] as? String)!)
+                    sqliteDB.storeDayStatusUpdatesInfoTable(uniqueid!, daystatus_status1: "seen", daystatus_contactphone1: senderId!)                   ////
+                    
+                }
+                
             
                 if(type=="syncUpward")
                 {
