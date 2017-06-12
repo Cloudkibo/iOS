@@ -39,7 +39,7 @@ import AVKit
        
         @IBAction func btnReplyPressed(_ sender: Any) {
             
-            {
+            
                 let alert = UIAlertController(title: "Enter Reply".localized, message: "", preferredStyle: .alert)
                 
                 //2. Add the text field. You can configure it however you need.
@@ -63,7 +63,7 @@ import AVKit
                     print("globalcount is \(self.globalcount)")
                     
                    
-                            var messageDic = slideshowarray[globalcount] as! [String : AnyObject];
+                            var messageDic = self.slideshowarray[self.globalcount] as! [String : AnyObject];
                             //.object(at: indexPath.row) as! [String : AnyObject];
                             
                             var uploadtime=messageDic["uploadtime"] as! Date
@@ -75,9 +75,9 @@ import AVKit
                             var messages_file_caption=messageDic["messages_file_caption"] as! String
                             var messages_file_pic=messageDic["messages_file_pic"] as! Data
                             
-                    var imparas=["uniqueid":uniqueID,"type":"day_status_chat","msg":reply,"from":username!,"date":"\(Date.init())","fromFullName":"\(displayname)","file_type":messages_uniqueid]
+                    var imparas=["uniqueid":uniqueID,"type":"day_status_chat","msg":reply,"from":username!,"date":"\(Date.init())","fromFullName":"\(displayname)","file_type":messages_uniqueid,"to":messages_from]
                     
-                    sqliteDB.SaveChat("all", from1: username!, owneruser1: username!, fromFullName1: displayname!, msg1: reply, date1: nil, uniqueid1: uniqueID, status1: "pending", type1: "day_status_chat", file_type1: messages_uniqueid, file_path1: "")
+                    sqliteDB.SaveChat(messages_from, from1: username!, owneruser1: username!, fromFullName1: displayname, msg1: reply, date1: nil, uniqueid1: uniqueID, status1: "pending", type1: "day_status_chat", file_type1: messages_uniqueid, file_path1: "")
                     
                     managerFile.sendStatusReplyMessage(imparas, completion: { (result) in
                         
@@ -126,7 +126,7 @@ import AVKit
                 
                 
             }
-        }
+        
         
         
         
@@ -220,8 +220,19 @@ import AVKit
                 var messages_file_caption=messageDic["messages_file_caption"] as! String
                 var messages_file_pic=messageDic["messages_file_pic"] as! Data
                 
-            
-                managerFile.sendDayStatusSeenUpdate(uniqueid,time,uploadedBy)
+                if(messages_from != username!)
+                {
+             var statusUpdates=sqliteDB.getDayStatusesUpdatesInfoData(uniqueid: messages_uniqueid,seenby: username!)
+                
+                var seenstatus=statusUpdates["daystatus_status"]
+                print("status of day status is ..... \(seenstatus)")
+                
+            if(seenstatus?.lowercased != "seen")
+            {
+                print("not seen day status")
+                managerFile.sendDayStatusSeenUpdate(uniqueid: messages_uniqueid,time: "\(Date.init())",uploadedBy: messages_from)
+                }
+                }
                 //uniqueid, time, uploadedBy
 
                 

@@ -72,7 +72,7 @@ class syncService{
                    
                         //daystatusupdates
                         var daystatusupdatesObj=resJSON["daystatusupdates"]//: the partial group chat
-                        self.getDayStatusUpdates(daystatusupdates: daystatusObj)
+                        self.getDayStatusUpdates(daystatusupdates: daystatusupdatesObj)
                         
                         
                     
