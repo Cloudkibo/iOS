@@ -1908,7 +1908,7 @@ class NetworkingManager
     
     func downloadDayStatus(uniqueid:String,senderId:String)
     {
-        
+        print("downloadDayStatus")
        
     /// else{
     //uncomment

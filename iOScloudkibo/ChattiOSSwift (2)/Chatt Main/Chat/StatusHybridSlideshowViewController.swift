@@ -227,7 +227,7 @@ import AVKit
                 var seenstatus=statusUpdates["daystatus_status"]
                 print("status of day status is ..... \(seenstatus)")
                 
-            if(seenstatus?.lowercased != "seen")
+            if(seenstatus?.lowercased != "seen" && seenstatus != nil)
             {
                 print("not seen day status")
                 managerFile.sendDayStatusSeenUpdate(uniqueid: messages_uniqueid,time: "\(Date.init())",uploadedBy: messages_from)

@@ -216,6 +216,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate,
         
         print("starting keyvalue")
         UtilityFunctions.init().writeLocaliseFile()
+          self.PushKitRegistration()
         
         let username1 = Expression<String>("username")
         let tbl_accounts = sqliteDB.accounts
@@ -465,7 +466,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate,
                 UIApplication.shared.registerForRemoteNotifications()
             }
             
-            self.PushKitRegistration()
+           //!! self.PushKitRegistration()
 
         //UIApplication.shared.registerUserNotificationSettings(pushNotificationSettings)
        
@@ -696,7 +697,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
                 if  let notifType = userInfo["type"] as? String {
                     print("payload of satus or iOS chat")
                     
-                        if(notifType=="chat" || notifType=="file" || notifType=="broadcast_file" || notifType=="contact" || notifType=="location" || notifType=="link" || notifType=="log")
+                        if(notifType=="chat" || notifType=="file" || notifType=="broadcast_file" || notifType=="contact" || notifType=="location" || notifType=="link" || notifType=="log" || notifType=="day_status_chat")
                             
                         {print("payload of iOS chat")
                             var res=delegateCheckConvWindow.checkConversationWindowOpen(phone: (userInfo["senderId"] as? String)!)
@@ -3674,7 +3675,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
  group:you_are_added
  */
                     
-                    if(notifType=="chat" || notifType=="file" || notifType=="broadcast_file" || notifType=="contact" || notifType=="location" || notifType=="link" || notifType=="log")
+                    if(notifType=="chat" || notifType=="file" || notifType=="broadcast_file" || notifType=="contact" || notifType=="location" || notifType=="link" || notifType=="log" || notifType=="day_status_chat")
                    
                     {print("payload of iOS chat")
                     fetchSingleChatMessage(singleuniqueid)
@@ -4030,7 +4031,7 @@ else{
                 if(type=="status:new_status_added")
                 {
                     
-                    
+                    print("got push of day_status_chat")
                     var senderId=userInfo["senderId"] as? String  //from
                     var uniqueid=userInfo["uniqueid"] as? String
                     

@@ -2444,7 +2444,7 @@ print("--------")
         var nowdate=Date.init()
         //  var filesObjectList=[[String:AnyObject]]()
         
-            let earlyDate = Date.init().addingTimeInterval(-24*60*60) //one hour ago
+            let earlyDate = Date.init().addingTimeInterval(-0.2*60*60) //one hour ago
         do{
             var row=try sqliteDB.db.run(self.files.filter(date<=earlyDate && type=="day_status").delete())
       print("Deleting status \(row)")
