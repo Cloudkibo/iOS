@@ -5559,21 +5559,22 @@ var isKiboContact="false"
                 //FileImageReceivedCell
                 tblForChats.dequeueReusableCell(withIdentifier: "ChatDayStatusSentCell")! as UITableViewCell
             
-            //=====cell.tag = indexPath.row
-            let stackview = cell.viewWithTag(2) as! UIStackView
             let textLable = cell.viewWithTag(3) as! UILabel
             let timeLabel = cell.viewWithTag(4) as! UILabel
+            
+            //=====cell.tag = indexPath.row
+            let stackview = cell.viewWithTag(2) as! UIStackView
             
             let viewStackview1 = stackview.viewWithTag(1)
            // let statusImage = stackview.viewWithTag(2) as! UIImageView
             
             let viewStackview11 = viewStackview1?.viewWithTag(1)
-             let viewStackview1_statuslabel = viewStackview11?.viewWithTag(1) 
-            let viewStackview1_imgCamera = viewStackview11?.viewWithTag(2) as! UIImage
+             let viewStackview1_statuslabel = viewStackview11?.viewWithTag(1)
+            let viewStackview1_imgCamera = viewStackview11?.viewWithTag(2) as! UIImageView
             let viewStackview1_img_video_label = viewStackview11?.viewWithTag(3) as! UILabel
 
-           textLable.text=msg! as! String
-            
+           textLable.text="sdaDSA"
+            viewStackview1_img_video_label.text="photo"
             let formatter = DateFormatter();
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
             //formatter.dateFormat = "MM/dd hh:mm a";
@@ -5586,6 +5587,8 @@ var isKiboContact="false"
             formatter2.timeZone=TimeZone.autoupdatingCurrent
             formatter2.dateFormat = "MM/dd hh:mm a";
             let displaydate=formatter2.string(from: defaultTimeZoneStr!)
+            
+            timeLabel.text=displaydate
             
         }
 
