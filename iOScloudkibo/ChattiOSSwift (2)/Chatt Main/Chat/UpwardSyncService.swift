@@ -75,9 +75,7 @@ class syncService{
                         self.getDayStatusUpdates(daystatusupdates: daystatusObj)
                         
                         
-                        var partialGroupChatObjectList=resJSON["partialGroupChat"]//: the partial group chat
-                        self.getPartialGroupChat(jsongroupinfo: partialGroupChatObjectList)
-                   
+                    
                         
                     var statusOfSentMessagesObj=resJSON["statusOfSentMessages"]//: the partial group chat
                     print("statusOfSentMessages JSON is \(statusOfSentMessagesObj)")

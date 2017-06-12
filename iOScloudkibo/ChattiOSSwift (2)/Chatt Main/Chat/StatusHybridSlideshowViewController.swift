@@ -125,7 +125,7 @@ import AVKit
                 var messages_file_pic=messageDic["messages_file_pic"] as! Data
                 
             
-                managerFile.init().sendDayStatusSeenUpdate(uniqueid:String,time:String,uploadedBy:String)
+                managerFile.sendDayStatusSeenUpdate(uniqueid,time,uploadedBy)
                 //uniqueid, time, uploadedBy
 
                 
