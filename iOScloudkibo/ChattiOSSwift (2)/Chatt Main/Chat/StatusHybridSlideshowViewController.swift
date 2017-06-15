@@ -13,6 +13,8 @@ import AVKit
     class StatusHybridSlideshowViewController: UIViewController, UIScrollViewDelegate {
         
         
+        var seenList=[[String:AnyObject]]()
+        var timerinterval:Double=4.0
         var globalcount=0
         var mytimer: Timer!
         var progressTimer: Timer!
@@ -36,10 +38,24 @@ import AVKit
         
         @IBOutlet weak var pageControl: UIPageControl!
         
+        @IBOutlet weak var stacjviewReadReceipts: UIStackView!
        
+        
+        
+        
+        
+        
+        
         @IBAction func btnReplyPressed(_ sender: Any) {
+            var messageDic = slideshowarray[0] as! [String : AnyObject];
+            //.object(at: indexPath.row) as! [String : AnyObject];
             
-            
+            var messages_from = messageDic["messages_from"] as! String
+            if(messages_from != username)
+            {
+                stacjviewReadReceipts.isHidden=true
+                mytimer.invalidate()
+            progressTimer.invalidate()
                 let alert = UIAlertController(title: "Enter Reply".localized, message: "", preferredStyle: .alert)
                 
                 //2. Add the text field. You can configure it however you need.
@@ -53,6 +69,7 @@ import AVKit
                 //3. Grab the value from the text field, and print it when the user clicks OK.
                 alert.addAction(UIAlertAction(title: "Send", style: .default, handler: { (action) -> Void in
                     
+                  
                     
                     let textField = alert.textFields![0] as UITextField
                     
@@ -84,6 +101,13 @@ import AVKit
                         
                     })
                   
+                    
+                    self.progressTimer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(self.startProgressViewTimer(_:)), userInfo: nil, repeats: true)
+                    //==--timersList.append(progressTimer)
+                    
+                    
+                    self.mytimer = Timer.scheduledTimer(timeInterval: self.timerinterval, target: self, selector: #selector(self.scrollingTimer(_:)), userInfo: nil, repeats: true)
+                    
                         // data!.writeToFile(localPath.absoluteString, atomically: true)
                     
                         // var imParas=["from":"\(username!)","to":"\(self.selectedContact)","fromFullName":"\(displayname)","msg":self.filename,"uniqueid":uniqueID,"type":"file","file_type":"video","status":statusNow]
@@ -111,14 +135,16 @@ import AVKit
                      }*/
                     self.dismiss(animated: true, completion: {
                         
-                        
                     })
                     
                     
                     
                 }))
                 alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) -> Void in
-                    
+                    self.progressTimer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(self.startProgressViewTimer(_:)), userInfo: nil, repeats: true)
+                    //==--self.timersList.append(progressTimer)
+
+                    self.mytimer = Timer.scheduledTimer(timeInterval: self.timerinterval, target: self, selector: #selector(self.scrollingTimer(_:)), userInfo: nil, repeats: true)
                     
                 }))
                 self.present(alert, animated: true, completion: {
@@ -126,7 +152,10 @@ import AVKit
                 
                 
             }
-        
+            else{
+                stacjviewReadReceipts.isHidden=false
+            }
+        }
         
         
         
@@ -138,6 +167,12 @@ import AVKit
             //.object(at: indexPath.row) as! [String : AnyObject];
             
             var messages_from = messageDic["messages_from"] as! String
+            
+            if(messages_from==username!)
+            {
+                btnReply.setTitle("", for: .normal)
+                btnReply.setImage(UIImage.init(named:"view"), for: .normal)
+            }
             var namesender=sqliteDB.getNameFromAddressbook(messages_from)
             if(namesender != nil)
             {
@@ -232,6 +267,13 @@ import AVKit
                 print("not seen day status")
                 managerFile.sendDayStatusSeenUpdate(uniqueid: messages_uniqueid,time: "\(Date.init())",uploadedBy: messages_from)
                 }
+                }
+                else{
+                    var seendata=sqliteDB.getSeenUsers(uniqueid: messages_uniqueid)
+                    var seencontact=seendata["daystatus_contactphone"] as! String
+                    
+                    seenList.append(["seenby":seencontact as AnyObject])
+                    //daystatus_contactphone
                 }
                 //uniqueid, time, uploadedBy
 
@@ -348,9 +390,13 @@ import AVKit
             progressTimer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(self.startProgressViewTimer(_:)), userInfo: nil, repeats: true)
             timersList.append(progressTimer)
             lblCaption.text=captionList[0]
+            
+            var newview=UIView.init(frame: stacjviewReadReceipts.subviews[0].bounds)
+            var seenbylabel=stacjviewReadReceipts.subviews[0].subviews[0] as! UILabel
+            seenbylabel.text = seenList[0]["seenby"] as! String
             //.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(self.startProgressViewTimer(_:)), userInfo: nil, repeats: true)
             
-            var timerinterval:Double=4.0
+            
            /* if let imgview1=imageslist[0] as? AVPlayerViewController
             {
                 if(imgview1.player!.currentItem!.duration.seconds > 20.0)

@@ -4817,6 +4817,23 @@
                                                                 <imageView opaque="NO" tag="1" contentMode="redraw" misplaced="YES" preservesSuperviewLayoutMargins="YES" image="chat_receive" highlighted="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jpr-rX-1gz">
                                                                     <rect key="frame" x="8" y="8" width="223" height="104"/>
                                                                 </imageView>
+                                                                <label opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" misplaced="YES" text="This is a sample long long comment on status just for testing purpose." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ywf-8O-YGT">
+                                                                    <rect key="frame" x="15" y="72" width="194" height="21"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="200" id="6UW-CJ-x4E"/>
+                                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="pVP-L3-ROt"/>
+                                                                    </constraints>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                    <nil key="textColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="4" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="12:45 PM" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vli-bV-VS9">
+                                                                    <rect key="frame" x="15" y="91" width="194" height="14"/>
+                                                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
                                                                 <stackView opaque="NO" tag="2" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="78Z-XY-S4k">
                                                                     <rect key="frame" x="15" y="14" width="187.5" height="51"/>
                                                                     <subviews>
@@ -4859,34 +4876,17 @@
                                                                         </imageView>
                                                                     </subviews>
                                                                 </stackView>
-                                                                <label opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="1000" misplaced="YES" text="This is a sample long long comment on status just for testing purpose." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ywf-8O-YGT">
-                                                                    <rect key="frame" x="15" y="72" width="194" height="21"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="200" id="6UW-CJ-x4E"/>
-                                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="pVP-L3-ROt"/>
-                                                                    </constraints>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                                    <nil key="textColor"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
-                                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="4" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="12:45 PM" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vli-bV-VS9">
-                                                                    <rect key="frame" x="15" y="91" width="194" height="14"/>
-                                                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
                                                             </subviews>
                                                             <constraints>
                                                                 <constraint firstItem="MAv-h8-R9t" firstAttribute="top" secondItem="G4S-9c-RN6" secondAttribute="topMargin" constant="6" id="7EE-EA-Che"/>
                                                                 <constraint firstItem="jpr-rX-1gz" firstAttribute="height" secondItem="Ywf-8O-YGT" secondAttribute="height" constant="100" id="9uj-eQ-AFD"/>
                                                                 <constraint firstAttribute="topMargin" secondItem="jpr-rX-1gz" secondAttribute="top" id="A2Y-ix-ksk"/>
                                                                 <constraint firstAttribute="bottomMargin" secondItem="jpr-rX-1gz" secondAttribute="bottom" id="CCU-sC-1eb"/>
+                                                                <constraint firstItem="Ywf-8O-YGT" firstAttribute="leading" secondItem="jpr-rX-1gz" secondAttribute="leading" constant="10" id="DKT-4V-PR8"/>
                                                                 <constraint firstItem="Vli-bV-VS9" firstAttribute="leading" secondItem="G4S-9c-RN6" secondAttribute="leadingMargin" constant="7" id="DhT-q3-MxH"/>
                                                                 <constraint firstItem="Vli-bV-VS9" firstAttribute="top" secondItem="Ywf-8O-YGT" secondAttribute="bottom" constant="-2" id="JgV-z2-kzx"/>
                                                                 <constraint firstItem="MAv-h8-R9t" firstAttribute="leading" secondItem="G4S-9c-RN6" secondAttribute="leadingMargin" constant="7" id="NZS-30-TFy"/>
                                                                 <constraint firstItem="jpr-rX-1gz" firstAttribute="width" secondItem="78Z-XY-S4k" secondAttribute="width" constant="20" id="Yd5-bs-4sk"/>
-                                                                <constraint firstItem="Ywf-8O-YGT" firstAttribute="leading" secondItem="G4S-9c-RN6" secondAttribute="leadingMargin" constant="7" id="cPZ-nz-Yah"/>
                                                                 <constraint firstAttribute="leadingMargin" secondItem="jpr-rX-1gz" secondAttribute="leading" id="dhi-ke-3ny"/>
                                                                 <constraint firstAttribute="bottomMargin" secondItem="Vli-bV-VS9" secondAttribute="bottom" constant="7" id="mVr-fR-8cU"/>
                                                                 <constraint firstItem="Tpq-q5-VAj" firstAttribute="top" secondItem="G4S-9c-RN6" secondAttribute="topMargin" constant="6" id="mkF-Nf-7hT"/>
@@ -4904,6 +4904,23 @@
                                                                 <imageView opaque="NO" tag="1" contentMode="redraw" misplaced="YES" preservesSuperviewLayoutMargins="YES" image="chat_send" highlighted="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VTB-qu-XXF">
                                                                     <rect key="frame" x="89" y="8" width="223" height="104"/>
                                                                 </imageView>
+                                                                <label opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="1000" misplaced="YES" text="This is a sample long long comment on status just for testing purpose." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xfO-uV-riw">
+                                                                    <rect key="frame" x="96" y="72" width="194" height="21"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="200" id="E7W-bu-WyX"/>
+                                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="fzI-6C-hd3"/>
+                                                                    </constraints>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                    <nil key="textColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="4" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="12:45 PM" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d5R-CZ-fF9">
+                                                                    <rect key="frame" x="96" y="91" width="194" height="14"/>
+                                                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
                                                                 <stackView opaque="NO" tag="2" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HNY-sE-vUb">
                                                                     <rect key="frame" x="96" y="14" width="202" height="51"/>
                                                                     <subviews>
@@ -4916,6 +4933,12 @@
                                                                                     <nil key="textColor"/>
                                                                                     <nil key="highlightedColor"/>
                                                                                 </label>
+                                                                                <label opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="photo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z38-Da-GfJ">
+                                                                                    <rect key="frame" x="25" y="30" width="104" height="15"/>
+                                                                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                                                    <nil key="textColor"/>
+                                                                                    <nil key="highlightedColor"/>
+                                                                                </label>
                                                                                 <imageView userInteractionEnabled="NO" tag="2" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chat_camera" translatesAutoresizingMaskIntoConstraints="NO" id="hcO-cL-yql">
                                                                                     <rect key="frame" x="8" y="32" width="15" height="12"/>
                                                                                     <constraints>
@@ -4923,12 +4946,6 @@
                                                                                         <constraint firstAttribute="height" constant="12" id="IVS-zH-Kq3"/>
                                                                                     </constraints>
                                                                                 </imageView>
-                                                                                <label opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="photo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z38-Da-GfJ">
-                                                                                    <rect key="frame" x="25" y="30" width="104" height="15"/>
-                                                                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                                                                    <nil key="textColor"/>
-                                                                                    <nil key="highlightedColor"/>
-                                                                                </label>
                                                                             </subviews>
                                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                             <constraints>
@@ -4946,23 +4963,6 @@
                                                                         </imageView>
                                                                     </subviews>
                                                                 </stackView>
-                                                                <label opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="1000" misplaced="YES" text="This is a sample long long comment on status just for testing purpose." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xfO-uV-riw">
-                                                                    <rect key="frame" x="96" y="72" width="194" height="21"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="200" id="E7W-bu-WyX"/>
-                                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="fzI-6C-hd3"/>
-                                                                    </constraints>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                                    <nil key="textColor"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
-                                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="4" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="12:45 PM" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d5R-CZ-fF9">
-                                                                    <rect key="frame" x="96" y="91" width="194" height="14"/>
-                                                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
                                                             </subviews>
                                                             <constraints>
                                                                 <constraint firstAttribute="trailingMargin" secondItem="VTB-qu-XXF" secondAttribute="trailing" id="1I3-xp-8K7"/>
@@ -9261,6 +9261,32 @@
                                     <action selector="btnReplyPressed:" destination="TvF-PL-uUT" eventType="touchUpInside" id="KHw-5s-6EK"/>
                                 </connections>
                             </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="f0m-bX-08W">
+                                <rect key="frame" x="6" y="437" width="306" height="55"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lO8-M4-qmm">
+                                        <rect key="frame" x="0.0" y="0.0" width="306" height="55"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="No Views yet" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E5c-ez-qcc">
+                                                <rect key="frame" x="8" y="8" width="181" height="39"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kn3-Cs-Rfv">
+                                                <rect key="frame" x="197" y="8" width="101" height="39"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </view>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -9294,6 +9320,7 @@
                         <outlet property="lblname" destination="psN-cb-YWn" id="1BD-e2-f7f"/>
                         <outlet property="pageControl" destination="oIp-ih-UJr" id="DAM-Wp-wPa"/>
                         <outlet property="scrollView" destination="BVk-lq-85g" id="y2g-ic-lwa"/>
+                        <outlet property="stacjviewReadReceipts" destination="f0m-bX-08W" id="MgD-Qy-fg5"/>
                         <outlet property="stackView" destination="AIp-xP-1xm" id="ixY-z8-X6f"/>
                     </connections>
                 </viewController>

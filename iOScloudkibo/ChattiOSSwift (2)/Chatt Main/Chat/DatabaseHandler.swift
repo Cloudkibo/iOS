@@ -3365,6 +3365,38 @@ print("--------")
         return statusObjectList
     }
     
+    func getSeenUsers(uniqueid:String)->[String:AnyObject]
+    {
+        let daystatus_id = Expression<String>("daystatus_id")
+        let daystatus_status = Expression<String>("daystatus_status")
+        let daystatus_contactphone = Expression<String>("daystatus_contactphone")
+        
+        
+        
+        self.dayStatusUpdatesTable = Table("dayStatusUpdatesTable")
+        
+        // var StatusObjList=[String:AnyObject]()
+        var fileObj=[String:AnyObject]()
+        
+        //  var filesObjectList=[[String:AnyObject]]()
+        do
+        {for daystatusupdates in try self.db.prepare(dayStatusUpdatesTable.filter(daystatus_id==uniqueid && daystatus_status=="seen")){
+            // print("found status object matchedddd")
+            fileObj["daystatus_id"]=daystatusupdates[daystatus_id] as AnyObject?
+            fileObj["daystatus_status"]=daystatusupdates[daystatus_status] as AnyObject?
+            fileObj["daystatus_contactphone"]=daystatusupdates[daystatus_contactphone] as AnyObject?
+            
+            // StatusObjList.append(fileObj)
+            
+            }
+        }
+            
+        catch{
+            print("error in gettingdaystatus updates")
+        }
+        return fileObj
+    }
+    
     func getDayStatusesUpdatesInfoData(uniqueid:String,seenby:String)->[String:AnyObject]
     {
     let daystatus_id = Expression<String>("daystatus_id")

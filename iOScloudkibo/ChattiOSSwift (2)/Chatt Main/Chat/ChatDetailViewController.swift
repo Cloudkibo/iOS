@@ -26,12 +26,16 @@ import GooglePlaces
 import GoogleMaps
 import ActiveLabel
 import MessageUI
+import AlamofireImage
 //import URLEmbeddedView
 //import GoogleMaps
 
 class ChatDetailViewController: UIViewController,SocketClientDelegate,UpdateChatDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,FileManagerDelegate,showUploadProgressDelegate,UpdateChatViewsDelegate,UpdateSingleChatDetailDelegate,CNContactPickerDelegate,CNContactViewControllerDelegate,UIPickerViewDelegate,AVAudioRecorderDelegate,CLLocationManagerDelegate,insertChatAtLastDelegate,updateChatStatusRowDelegate,insertBulkChatsSyncDelegate,insertBulkChatsStatusesSyncDelegate,ActiveLabelDelegate,MFMessageComposeViewControllerDelegate,CheckConversationWindowOpenDelegate
 {
     
+    
+    var imageCache=AutoPurgingImageCache()
+
     var imgCaption=""
 var swipe=false
 var isKiboContact="false"
@@ -5553,27 +5557,80 @@ var isKiboContact="false"
          
         }
         
-        if (msgType?.isEqual(to: "15"))!{
+        if (msgType?.isEqual(to: "16"))!{
             cell = ///tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
                 
                 //FileImageReceivedCell
                 tblForChats.dequeueReusableCell(withIdentifier: "ChatDayStatusSentCell")! as UITableViewCell
+    
             
             let textLable = cell.viewWithTag(3) as! UILabel
             let timeLabel = cell.viewWithTag(4) as! UILabel
             
+            textLable.text=msg! as! String
+
+            
             //=====cell.tag = indexPath.row
             let stackview = cell.viewWithTag(2) as! UIStackView
             
-            let viewStackview1 = stackview.viewWithTag(1)
-           // let statusImage = stackview.viewWithTag(2) as! UIImageView
-            
+           // let lbl_status_user = stackview.subviews[0] as! UILabel
+           let statusImage = stackview.subviews[1] as! UIImageView
+            let viewStackview1=stackview.viewWithTag(1)
             let viewStackview11 = viewStackview1?.viewWithTag(1)
-             let viewStackview1_statuslabel = viewStackview11?.viewWithTag(1)
+             let lbl_status_user = viewStackview11?.subviews[0] as! UILabel
             let viewStackview1_imgCamera = viewStackview11?.viewWithTag(2) as! UIImageView
             let viewStackview1_img_video_label = viewStackview11?.viewWithTag(3) as! UILabel
 
-           textLable.text="sdaDSA"
+            var name=sqliteDB.getNameFromAddressbook(selectedContact)
+            if(name != nil)
+            {
+               lbl_status_user.text="\(name!).Status"
+            }
+            else{
+                lbl_status_user.text="\(selectedContact).Status"
+            }
+            
+            
+            var daystatusID=messageDic["uniqueid_daystatus"] as! NSString
+            var filesmetadata=sqliteDB.getFilesData(daystatusID as String)
+            print("daystatusfilemetadata is \(filesmetadata)")
+            
+            if(filesmetadata["file_name"] != nil)
+            {
+                let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+                let docsDir1 = dirPaths[0]
+                var documentDir=docsDir1 as NSString
+                var statusPath=documentDir.appendingPathComponent(filesmetadata["file_name"] as! String)
+                var fileURL=URL.init(fileURLWithPath: statusPath)
+                
+                do
+                {if let img=UIImage(data: try Data.init(contentsOf: fileURL))
+                {
+                    statusImage.layer.borderWidth = 1.0
+                    statusImage.layer.masksToBounds = false
+                    statusImage.layer.borderColor = UIColor.white.cgColor
+                    ////statusImage.layer.cornerRadius = statusImage.frame.size.width/2
+                    statusImage.clipsToBounds = true
+                    
+                    imageCache.removeImage(withIdentifier: uniqueidDictValue as! String)
+                    imageCache.add(img, withIdentifier: uniqueidDictValue as! String)
+                    
+                    // Fetch
+                    var cachedAvatar = imageCache.image(withIdentifier: uniqueidDictValue as! String)
+                    cachedAvatar=UtilityFunctions.init().resizedAvatar(img: cachedAvatar, size: CGSize(width: statusImage.bounds.width,height: statusImage.bounds.height), sizeStyle: "Fill")
+                    
+                    statusImage.image=cachedAvatar
+                    
+                    
+                }
+                }
+                catch{
+                    print("day status not found")
+                    statusImage.image=nil
+                }
+            }
+            
+           textLable.text=msg! as! String
             viewStackview1_img_video_label.text="photo"
             let formatter = DateFormatter();
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
@@ -5593,14 +5650,87 @@ var isKiboContact="false"
         }
 
         
-        if (msgType?.isEqual(to: "16"))!{
+        if (msgType?.isEqual(to: "15"))!{
             cell = ///tblForChats.dequeueReusableCellWithIdentifier("ChatReceivedCell")! as UITableViewCell
                 
                 //FileImageReceivedCell
                 tblForChats.dequeueReusableCell(withIdentifier: "ChatDayStatusReceivedCell")! as UITableViewCell
             
             //=====cell.tag = indexPath.row
+            let textLable = cell.viewWithTag(3) as! UILabel
+            let timeLabel = cell.viewWithTag(4) as! UILabel
             
+            //=====cell.tag = indexPath.row
+            let stackview = cell.viewWithTag(2) as! UIStackView
+            let viewStackview1=stackview.viewWithTag(1)
+            //==-let lbl_status_user = stackview.subviews[0] as! UILabel
+            let statusImage = stackview.subviews[1] as! UIImageView
+            
+            let viewStackview11 = viewStackview1?.viewWithTag(1)
+             let lbl_status_user = viewStackview11?.subviews[0] as! UILabel
+            let viewStackview1_imgCamera = viewStackview11?.viewWithTag(2) as! UIImageView
+            let viewStackview1_img_video_label = viewStackview11?.viewWithTag(3) as! UILabel
+            
+           
+                lbl_status_user.text="You.Status"
+          
+                textLable.text=msg! as! String
+            
+            var daystatusID=messageDic["uniqueid_daystatus"] as! NSString
+            var filesmetadata=sqliteDB.getFilesData(daystatusID as String)
+            print("daystatusfilemetadata is \(filesmetadata)")
+            
+            if(filesmetadata["file_name"] != nil)
+            {
+                let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+                let docsDir1 = dirPaths[0]
+                var documentDir=docsDir1 as NSString
+                var statusPath=documentDir.appendingPathComponent(filesmetadata["file_name"] as! String)
+                var fileURL=URL.init(fileURLWithPath: statusPath)
+                
+                do
+                {if let img=UIImage(data: try Data.init(contentsOf: fileURL))
+                {
+                    statusImage.layer.borderWidth = 1.0
+                    statusImage.layer.masksToBounds = false
+                    statusImage.layer.borderColor = UIColor.white.cgColor
+                    ////statusImage.layer.cornerRadius = statusImage.frame.size.width/2
+                    statusImage.clipsToBounds = true
+                    
+                    imageCache.removeImage(withIdentifier: uniqueidDictValue as! String)
+                    imageCache.add(img, withIdentifier: uniqueidDictValue as! String)
+                    
+                    // Fetch
+                    var cachedAvatar = imageCache.image(withIdentifier: uniqueidDictValue as! String)
+                    cachedAvatar=UtilityFunctions.init().resizedAvatar(img: cachedAvatar, size: CGSize(width: statusImage.bounds.width,height: statusImage.bounds.height), sizeStyle: "Fill")
+                    
+                    statusImage.image=cachedAvatar
+                    
+                    
+                    }
+                }
+                catch{
+                    print("day status not found")
+                    statusImage.image=nil
+                }
+            }
+            
+            textLable.text=msg! as! String
+            viewStackview1_img_video_label.text="photo"
+            let formatter = DateFormatter();
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+            //formatter.dateFormat = "MM/dd hh:mm a";
+            formatter.timeZone = TimeZone.autoupdatingCurrent
+            print("line 2055")
+            let defaultTimeZoneStr = formatter.date(from: date2 as! String)
+            //print("defaultTimeZoneStr \(defaultTimeZoneStr)")
+            
+            let formatter2 = DateFormatter();
+            formatter2.timeZone=TimeZone.autoupdatingCurrent
+            formatter2.dateFormat = "MM/dd hh:mm a";
+            let displaydate=formatter2.string(from: defaultTimeZoneStr!)
+            
+            timeLabel.text=displaydate
            
             
         }
