@@ -196,6 +196,15 @@ print("alter table needed")
             catch{
                 print("unable to alter \(error)")
             }
+            
+            let listIsArchived = Expression<String>("listIsArchived")
+            
+            do{
+                try db.run(self.broadcastlisttable.addColumn(listIsArchived, defaultValue:"false"))
+            }
+            catch{
+                print("unable to alter \(error)")
+            }
         }
     }
     

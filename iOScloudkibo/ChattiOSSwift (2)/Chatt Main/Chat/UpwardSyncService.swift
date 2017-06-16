@@ -109,10 +109,10 @@ class syncService{
             var date=daystatuses[i]["date"].string!
              var uniqueid=daystatuses[i]["uniqueid"].string!
              var file_name=daystatuses[i]["file_name"].string!
-             var file_size=daystatuses[i]["file_size"].string!
-    var label=daystatuses[i]["label"].string!
+         //    var file_size=daystatuses[i]["file_size"].string!
+   // var label=daystatuses[i]["label"].string!
 
-    var file_type=daystatuses[i]["file_type"].string!
+   // var file_type=daystatuses[i]["file_type"].string!
 
     var uploadedBy=daystatuses[i]["uploadedBy"].string!
           

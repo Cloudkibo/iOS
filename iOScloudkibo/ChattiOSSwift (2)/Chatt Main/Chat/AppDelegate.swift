@@ -262,7 +262,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate,
         GMSPlacesClient.provideAPIKey("AIzaSyA4ayZ7WiMRkulzF6OxZhBa8WXp7w4BkhI")
         GMSServices.provideAPIKey("AIzaSyA4ayZ7WiMRkulzF6OxZhBa8WXp7w4BkhI")
         
-       //==--self.checkFirstRun()
+       self.checkFirstRun()
         
         
         let nsObject: AnyObject? = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as AnyObject?
