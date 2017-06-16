@@ -51,7 +51,7 @@ import AVKit
             //.object(at: indexPath.row) as! [String : AnyObject];
             
             var messages_from = messageDic["messages_from"] as! String
-            if(messages_from != username)
+            if(messages_from != username!)
             {
                 stacjviewReadReceipts.isHidden=true
                 mytimer.invalidate()
@@ -170,8 +170,8 @@ import AVKit
             
             if(messages_from==username!)
             {
-                btnReply.setTitle("", for: .normal)
-                btnReply.setImage(UIImage.init(named:"view"), for: .normal)
+               //!! btnReply.setTitle("", for: .normal)
+                //!!btnReply.setImage(UIImage.init(named:"view"), for: .normal)
             }
             var namesender=sqliteDB.getNameFromAddressbook(messages_from)
             if(namesender != nil)
@@ -257,6 +257,8 @@ import AVKit
                 
                 if(messages_from != username!)
                 {
+                    stacjviewReadReceipts.isHidden=true
+
              var statusUpdates=sqliteDB.getDayStatusesUpdatesInfoData(uniqueid: messages_uniqueid,seenby: username!)
                 
                 var seenstatus=statusUpdates["daystatus_status"]
@@ -269,10 +271,15 @@ import AVKit
                 }
                 }
                 else{
+                    stacjviewReadReceipts.isHidden=true
+
                     var seendata=sqliteDB.getSeenUsers(uniqueid: messages_uniqueid)
+                    if(seendata.count>0)
+                    {
                     var seencontact=seendata["daystatus_contactphone"] as! String
                     
                     seenList.append(["seenby":seencontact as AnyObject])
+                    }
                     //daystatus_contactphone
                 }
                 //uniqueid, time, uploadedBy
@@ -391,9 +398,12 @@ import AVKit
             timersList.append(progressTimer)
             lblCaption.text=captionList[0]
             
+            if(seenList.count>0)
+            {
             var newview=UIView.init(frame: stacjviewReadReceipts.subviews[0].bounds)
             var seenbylabel=stacjviewReadReceipts.subviews[0].subviews[0] as! UILabel
             seenbylabel.text = seenList[0]["seenby"] as! String
+            }
             //.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(self.startProgressViewTimer(_:)), userInfo: nil, repeats: true)
             
             

@@ -104,15 +104,23 @@ class syncService{
     
     func getDayStatuses(daystatuses:JSON)
     {
-        
-        /*for var i in 0 ..< daystatuses.count
+        for var i in 0 ..< daystatuses.count
         {
-            var chat_unique_id=daystatuses[i]["chat_unique_id"].string!
-             var chat_unique_id=daystatuses[i]["chat_unique_id"].string!
-             var chat_unique_id=daystatuses[i]["chat_unique_id"].string!
-             var chat_unique_id=daystatuses[i]["chat_unique_id"].string!
+            var date=daystatuses[i]["date"].string!
+             var uniqueid=daystatuses[i]["uniqueid"].string!
+             var file_name=daystatuses[i]["file_name"].string!
+             var file_size=daystatuses[i]["file_size"].string!
+    var label=daystatuses[i]["label"].string!
+
+    var file_type=daystatuses[i]["file_type"].string!
+
+    var uploadedBy=daystatuses[i]["uploadedBy"].string!
+          
+            sqliteDB.storeDayStatusUpdatesInfoTable(uniqueid, daystatus_status1: "pending", daystatus_contactphone1: uploadedBy)
+            ////
+            managerFile.downloadDayStatus(uniqueid: uniqueid,senderId:uploadedBy)
     
-        }*/
+        }
     }
     
     func getDayStatusUpdates(daystatusupdates: JSON)
