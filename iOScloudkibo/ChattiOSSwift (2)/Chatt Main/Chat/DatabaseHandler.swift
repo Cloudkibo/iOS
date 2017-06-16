@@ -3891,7 +3891,7 @@ print("--------")
         let listIsArchived = Expression<Bool>("listIsArchived")
         //listIsArchived
         self.broadcastlisttable = Table("broadcastlisttable")
-        let query = self.broadcastlisttable.select(uniqueid,listname).filter(uniqueid == uniqueid1)
+        let query = self.broadcastlisttable.select(uniqueid,listname,listIsArchived).filter(uniqueid == uniqueid1)
         do
         {for list in try self.db.prepare(query)
         {   newEntry["uniqueid"]=list.get(uniqueid)

@@ -51,9 +51,15 @@ class BroadcastListDetailsViewController: UIViewController,UINavigationControlle
         membersnames.removeAll()
         for i in 0 ..< broadcastmembers.count
         {
+            var name=sqliteDB.getNameFromAddressbook(broadcastmembers[i])
+            if(name != nil)
+            {
             membersnames.append(sqliteDB.getNameFromAddressbook(broadcastmembers[i]))
             
-            
+            }
+            else{
+                membersnames.append(broadcastmembers[i])
+            }
             var joinrows=self.leftJoinContactsTables(broadcastmembers[i])
             
             if(joinrows.count>0)
