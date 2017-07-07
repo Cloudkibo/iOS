@@ -37,6 +37,11 @@ kARDWebSocketChannelStateError*/
 
 class LoginAPI{
    
+    
+    var fu=FileUtility()
+    var bytesarraytowrite:Array<UInt8>!
+    var totalChunks=0
+    var chunklengthDesktop=0
     var utilityService=UtilityFunctions.init()
     var delegateChat:UpdateChatDelegate!
     var socket:SocketIOClient
@@ -302,6 +307,46 @@ class LoginAPI{
             
             //==serviceSendInitialData.startInitialDataLoad(phone: username!, to_connection_id: self.desktopRoomID, from_connection_id: self.mobileSocketID, data: dataconversations as AnyObject, type: "loading_conversation")
             
+
+            if(type=="received_attachment")
+            {
+                var jsondata1=(JSON(data[0] as! String))["data"] as! [String:AnyObject]
+                self.chunklengthDesktop=Int(jsondata1["chunklength"] as! Double)
+                self.totalChunks=Int(jsondata1["totalChunks"] as! Double)
+                var chunkNum=Int(jsondata1["chunkNum"] as! Double)
+                var filesize=Int(jsondata1["filesize"] as! Double)
+                var filename=jsondata1["filename"] as! String
+                if(chunkNum<=self.totalChunks)
+                {
+                    var bytes=Array<UInt8>(repeating: 0, count: filesize)
+                    for eachbyte in bytes
+                    {
+                        print("appending bytes array")
+                        bytesarraytowrite.append(eachbyte)
+                    }
+                }
+                else
+                {
+                   
+                    var filedata:Data=fu.convert_byteArray_to_fileNSData(bytesarraytowrite)
+                    
+                    var s=fu.createFile(atPath: filename, contents: nil, attributes: nil)
+                    
+                    var written=(try? filedata.write(to: URL(fileURLWithPath: filename), options: [])) != nil
+                    
+                    if(written==true)
+                    {
+                        var furl2=URL(fileURLWithPath: filename)
+                        print("local furl2 is\(furl2)")
+                        
+                  self.utilityService.SaveFile(furl2)
+                  self.utilityService.sendAttachmentToServer(furl2)
+                    }
+                }
+                
+               // self.utilityService.sendAttachment(profilepic, unique_id1: "1234456")
+                
+            }
 
         }
         

@@ -35,6 +35,7 @@
 		71301E4D1E9FBB4A00F40772 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71301E4F1E9FBB4A00F40772 /* Main.storyboard */; };
 		71301E501E9FBB5300F40772 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71301E521E9FBB5300F40772 /* LaunchScreen.storyboard */; };
 		71301E621E9FC46500F40772 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 71301E601E9FC46500F40772 /* Localizable.strings */; };
+		7133D8501EF5185E00B12169 /* ImagePicker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7133D84F1EF5185E00B12169 /* ImagePicker.framework */; };
 		7134C68F1EA7403000FF588E /* keyFile.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7134C68D1EA7403000FF588E /* keyFile.txt */; };
 		7134C6901EA7403000FF588E /* valueFile.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7134C68E1EA7403000FF588E /* valueFile.txt */; };
 		7134C6921EA76C3100FF588E /* storyTrans.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7134C6911EA76C3100FF588E /* storyTrans.txt */; };
@@ -559,6 +560,7 @@
 		71301E671E9FC60F00F40772 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		71301E681E9FC60F00F40772 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Main.strings; sourceTree = "<group>"; };
 		71301E691E9FC61000F40772 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		7133D84F1EF5185E00B12169 /* ImagePicker.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImagePicker.framework; path = "../../../../../../../Library/Developer/Xcode/DerivedData/kiboApp-ckwegrnpnjdryqfinanunrzashgm/Build/Products/Debug-iphoneos/ImagePicker/ImagePicker.framework"; sourceTree = "<group>"; };
 		7134C6861EA62C4F00FF588E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		7134C6871EA62C4F00FF588E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		7134C6881EA62C4F00FF588E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -787,6 +789,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7133D8501EF5185E00B12169 /* ImagePicker.framework in Frameworks */,
 				71E50DEE1E95985300A3C5BB /* libxml2.2.tbd in Frameworks */,
 				71E50DDE1E95972F00A3C5BB /* libxml2.tbd in Frameworks */,
 				715A61AC1E65B1A800FB4A1D /* SystemConfiguration.framework in Frameworks */,
@@ -1179,6 +1182,7 @@
 		FB1C3696C1C732596BCC879C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7133D84F1EF5185E00B12169 /* ImagePicker.framework */,
 				71E50DED1E95985300A3C5BB /* libxml2.2.tbd */,
 				71E50DDD1E95972F00A3C5BB /* libxml2.tbd */,
 				71CB8C001E6D86E9009D5D05 /* CloudKit.framework */,

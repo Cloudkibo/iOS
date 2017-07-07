@@ -161,7 +161,7 @@ import AVKit
         
         override func viewDidLoad() {
             super.viewDidLoad()
-            
+           // seenList.append(["seenby":"+923333000645" as AnyObject,"time":"03:01 am" as AnyObject])
             
             var messageDic = slideshowarray[0] as! [String : AnyObject];
             //.object(at: indexPath.row) as! [String : AnyObject];
@@ -267,21 +267,67 @@ import AVKit
             if(seenstatus?.lowercased != "seen")
             {
                 print("not seen day status")
+                let date22=Date()
+                let formatter = DateFormatter();
+                formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+                ///newwwwwwww
+                formatter.timeZone = TimeZone.autoupdatingCurrent
+                
+                
+                
+                //formatter.dateFormat = "MM/dd hh:mm a"";
+                ////////////////==formatter.timeZone = NSTimeZone.defaultTimeZone()
+                //formatter.dateStyle = .ShortStyle
+                //formatter.timeStyle = .ShortStyle
+                let defaultTimeZoneStr2 = formatter.string(from: date22);
+                
+                
+                let formatter2 = DateFormatter();
+                formatter2.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+                
+                //////formatter.timeZone = NSTimeZone.local()
+                let defaultTimeZoneStr = formatter2.date(from: defaultTimeZoneStr2)
+                var id1=UtilityFunctions.init().generateUniqueid()
+                
+                sqliteDB.storeDayStatusUpdatesInfoTable(uniqueid1: id1, daystatus_id1: messages_uniqueid, daystatus_status1: "seen", daystatus_contactphone1: messages_from, daystatus_uploadedBy1: messages_from, daystatus_time1: defaultTimeZoneStr!)
+                
                 managerFile.sendDayStatusSeenUpdate(uniqueid: messages_uniqueid,time: "\(Date.init())",uploadedBy: messages_from)
                 }
                 }
                 else{
                     stacjviewReadReceipts.isHidden=true
 
-                    var seendata=sqliteDB.getSeenUsers(uniqueid: messages_uniqueid)
+                    var seendata=sqliteDB.getSeenUsers(daystatus_id1: messages_uniqueid)
                     if(seendata.count>0)
                     {
                     var seencontact=seendata["daystatus_contactphone"] as! String
-                    
-                    seenList.append(["seenby":seencontact as AnyObject])
+                        var time=seendata["daystatus_time"] as! Date
+                     
+                        
+                        let formatter = DateFormatter();
+                        formatter.dateFormat = "hh:mm a";
+                        ///newwwwwwww
+                        formatter.timeZone = TimeZone.autoupdatingCurrent
+                        
+                        
+                        
+                        //formatter.dateFormat = "MM/dd hh:mm a"";
+                        ////////////////==formatter.timeZone = NSTimeZone.defaultTimeZone()
+                        //formatter.dateStyle = .ShortStyle
+                        //formatter.timeStyle = .ShortStyle
+                        let defaultTimeZoneStr2 = formatter.string(from: time);
+                        
+                       
+            
+                        
+                    seenList.append(["seenby":seencontact as AnyObject,"time":defaultTimeZoneStr2 as AnyObject])
+                    }
+                    else{
+                      seenList.append([:])
                     }
                     //daystatus_contactphone
                 }
+                print("seenlist is \(seenList)")
                 //uniqueid, time, uploadedBy
 
                 
@@ -402,7 +448,16 @@ import AVKit
             {
             var newview=UIView.init(frame: stacjviewReadReceipts.subviews[0].bounds)
             var seenbylabel=stacjviewReadReceipts.subviews[0].subviews[0] as! UILabel
-            seenbylabel.text = seenList[0]["seenby"] as! String
+                var timeseen=stacjviewReadReceipts.subviews[0].subviews[1] as! UILabel
+            if(seenList[0]["seenby"] != nil)
+            {
+                seenbylabel.text = seenList[0]["seenby"] as! String
+                timeseen.text = seenList[0]["time"] as! String
+                }
+            else{
+                seenbylabel.text = "No Views"
+                timeseen.text = ""
+                }
             }
             //.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(self.startProgressViewTimer(_:)), userInfo: nil, repeats: true)
             
@@ -511,6 +566,23 @@ func configurePageControl() {
         pageControl.currentPage=nextPage;
        lblCaption.text=captionList[nextPage]
         
+        if(seenList.count>nextPage)
+        {
+            var newview=UIView.init(frame: stacjviewReadReceipts.subviews[0].bounds)
+            var seenbylabel=stacjviewReadReceipts.subviews[0].subviews[0] as! UILabel
+            var timeseen=stacjviewReadReceipts.subviews[0].subviews[1] as! UILabel
+            
+            if(seenList[nextPage]["seenby"] != nil)
+            {
+            seenbylabel.text = seenList[nextPage]["seenby"] as! String
+            timeseen.text = seenList[nextPage]["time"] as! String
+            }
+            else{
+                seenbylabel.text = "No Views"
+                timeseen.text = ""
+
+            }
+        }
         //mytimer.invalidate()
         
         

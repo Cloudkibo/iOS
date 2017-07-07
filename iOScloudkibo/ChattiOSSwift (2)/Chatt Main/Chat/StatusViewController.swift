@@ -134,7 +134,7 @@ class StatusViewController: UIViewController,UITableViewDataSource,UITableViewDe
             var messages_file_pic=Data.init()
             //var messages_pic=Data.init()
             var messages_file_caption=statuses["file_caption"] as! String
-            
+            print("messages_file_name is \(messages_file_name)")
             let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
             let docsDir1 = dirPaths[0]
             var documentDir=docsDir1 as NSString
@@ -465,8 +465,9 @@ class StatusViewController: UIViewController,UITableViewDataSource,UITableViewDe
                     }
                 }
                 else{
-                               if let img=UIImage(data:messages_file_pic)
+                            if let img=UIImage(data:messages_file_pic)
                 {
+                    print("got image")
                     profilePic.layer.borderWidth = 1.0
                     profilePic.layer.masksToBounds = false
                     profilePic.layer.borderColor = UIColor.white.cgColor
@@ -484,6 +485,9 @@ class StatusViewController: UIViewController,UITableViewDataSource,UITableViewDe
                     
                     
                 }
+                               else{
+                                print("img not found")
+                    }
                 }
                 if(messages_duration=="0 minutes")
                 {

@@ -867,18 +867,23 @@ print("alter table needed")
     
     func createDayStatusUpdatesTable()
     {
+        let uniqueid = Expression<String>("uniqueid")
         let daystatus_id = Expression<String>("daystatus_id")
         let daystatus_status = Expression<String>("daystatus_status")
         let daystatus_contactphone = Expression<String>("daystatus_contactphone")
-        
+        let daystatus_uploadedBy = Expression<String>("daystatus_uploadedBy")
+        let daystatus_time = Expression<Date>("daystatus_time")
         
         
         self.dayStatusUpdatesTable = Table("dayStatusUpdatesTable")
         do{
             try db.run(dayStatusUpdatesTable.create(ifNotExists: retainOldDatabase) { t in
+                t.column(uniqueid)
                 t.column(daystatus_id)
                 t.column(daystatus_status)
                 t.column(daystatus_contactphone)
+                t.column(daystatus_uploadedBy)
+                t.column(daystatus_time)
             })
             
         }
@@ -924,11 +929,14 @@ print("alter table needed")
         
     }
     */
-    func storeDayStatusUpdatesInfoTable(_ daystatus_id1:String,daystatus_status1:String,daystatus_contactphone1:String)
+    func storeDayStatusUpdatesInfoTable(uniqueid1:String,daystatus_id1:String,daystatus_status1:String,daystatus_contactphone1:String,daystatus_uploadedBy1:String,daystatus_time1:Date)
     {
+        let uniqueid = Expression<String>("uniqueid")
         let daystatus_id = Expression<String>("daystatus_id")
         let daystatus_status = Expression<String>("daystatus_status")
         let daystatus_contactphone = Expression<String>("daystatus_contactphone")
+        let daystatus_uploadedBy = Expression<String>("daystatus_uploadedBy")
+        let daystatus_time = Expression<Date>("daystatus_time")
         
         
         
@@ -936,9 +944,12 @@ print("alter table needed")
         
         do {
             let rowid = try db.run((dayStatusUpdatesTable?.insert(
+                uniqueid<-uniqueid1,
                 daystatus_id<-daystatus_id1,
                 daystatus_status<-daystatus_status1,
-                daystatus_contactphone<-daystatus_contactphone1
+                daystatus_contactphone<-daystatus_contactphone1,
+                daystatus_uploadedBy<-daystatus_uploadedBy1,
+                daystatus_time<-daystatus_time1
                 ))!)
             
             
@@ -3374,11 +3385,15 @@ print("--------")
         return statusObjectList
     }
     
-    func getSeenUsers(uniqueid:String)->[String:AnyObject]
+    func getSeenUsers(daystatus_id1:String)->[String:AnyObject]
     {
+        let uniqueid = Expression<String>("uniqueid")
         let daystatus_id = Expression<String>("daystatus_id")
         let daystatus_status = Expression<String>("daystatus_status")
         let daystatus_contactphone = Expression<String>("daystatus_contactphone")
+        let daystatus_uploadedBy = Expression<String>("daystatus_uploadedBy")
+        let daystatus_time = Expression<Date>("daystatus_time")
+        
         
         
         
@@ -3389,11 +3404,14 @@ print("--------")
         
         //  var filesObjectList=[[String:AnyObject]]()
         do
-        {for daystatusupdates in try self.db.prepare(dayStatusUpdatesTable.filter(daystatus_id==uniqueid && daystatus_status=="seen")){
+        {for daystatusupdates in try self.db.prepare(dayStatusUpdatesTable.filter(daystatus_id==daystatus_id1 && daystatus_status=="seen")){
             // print("found status object matchedddd")
+            fileObj["uniqueid"]=daystatusupdates[uniqueid] as AnyObject?
             fileObj["daystatus_id"]=daystatusupdates[daystatus_id] as AnyObject?
             fileObj["daystatus_status"]=daystatusupdates[daystatus_status] as AnyObject?
             fileObj["daystatus_contactphone"]=daystatusupdates[daystatus_contactphone] as AnyObject?
+            fileObj["daystatus_uploadedBy"]=daystatusupdates[daystatus_uploadedBy] as AnyObject?
+            fileObj["daystatus_time"]=daystatusupdates[daystatus_time] as AnyObject?
             
             // StatusObjList.append(fileObj)
             
@@ -3408,10 +3426,13 @@ print("--------")
     
     func getDayStatusesUpdatesInfoData(uniqueid:String,seenby:String)->[String:AnyObject]
     {
-    let daystatus_id = Expression<String>("daystatus_id")
-    let daystatus_status = Expression<String>("daystatus_status")
-    let daystatus_contactphone = Expression<String>("daystatus_contactphone")
-    
+        let uniqueid = Expression<String>("uniqueid")
+        let daystatus_id = Expression<String>("daystatus_id")
+        let daystatus_status = Expression<String>("daystatus_status")
+        let daystatus_contactphone = Expression<String>("daystatus_contactphone")
+        let daystatus_uploadedBy = Expression<String>("daystatus_uploadedBy")
+        let daystatus_time = Expression<Date>("daystatus_time")
+        
     
     
     self.dayStatusUpdatesTable = Table("dayStatusUpdatesTable")

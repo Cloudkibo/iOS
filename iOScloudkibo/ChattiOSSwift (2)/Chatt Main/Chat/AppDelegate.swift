@@ -262,7 +262,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate,
         GMSPlacesClient.provideAPIKey("AIzaSyA4ayZ7WiMRkulzF6OxZhBa8WXp7w4BkhI")
         GMSServices.provideAPIKey("AIzaSyA4ayZ7WiMRkulzF6OxZhBa8WXp7w4BkhI")
         
-       self.checkFirstRun()
+       //==--self.checkFirstRun()
         
         
         let nsObject: AnyObject? = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as AnyObject?
@@ -4036,8 +4036,11 @@ else{
                     var uniqueid=userInfo["uniqueid"] as? String
                     
                     //var res=delegateCheckConvWindow.checkConversationWindowOpen(phone: (userInfo["senderId"] as? String)!)
-                    sqliteDB.storeDayStatusUpdatesInfoTable(uniqueid!, daystatus_status1: "pending", daystatus_contactphone1: senderId!)                   ////
-                    managerFile.downloadDayStatus(uniqueid: uniqueid!,senderId:senderId!)
+                    var id1=UtilityFunctions.init().generateUniqueid()
+                    //!!!sqliteDB.storeDayStatusUpdatesInfoTable(uniqueid1:id1,daystatus_id1:uniqueid!, daystatus_status1: "pending", daystatus_contactphone1: senderId!)
+                    ////
+                    managerFile.checkDayStatusMetaData(uniqueid1: uniqueid!)
+                   //!!! managerFile.downloadDayStatus(uniqueid: uniqueid!,senderId:senderId!)
                 }
                 
                 if(type=="status:your_status_seen")
@@ -4045,9 +4048,37 @@ else{
                     print("got push of day_status_chat")
                     var senderId=userInfo["senderId"] as? String  //from
                     var uniqueid=userInfo["uniqueid"] as? String
-                    var time=userInfo["time"] as? String
+                    //var time=userInfo["time"]
+                    
+                      var id1=UtilityFunctions.init().generateUniqueid()
+                    
+                    let date22=Date()
+                    let formatter = DateFormatter();
+                    formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+                    ///newwwwwwww
+                    formatter.timeZone = TimeZone.autoupdatingCurrent
+                    
+                    
+                    
+                    //formatter.dateFormat = "MM/dd hh:mm a"";
+                    ////////////////==formatter.timeZone = NSTimeZone.defaultTimeZone()
+                    //formatter.dateStyle = .ShortStyle
+                    //formatter.timeStyle = .ShortStyle
+                    let defaultTimeZoneStr2 = formatter.string(from: date22);
+                    
+                    
+                    let formatter2 = DateFormatter();
+                    formatter2.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+                    
+                    //////formatter.timeZone = NSTimeZone.local()
+                    let defaultTimeZoneStr = formatter2.date(from: defaultTimeZoneStr2)
+                    print("default db date is \(defaultTimeZoneStr!)")
+
+                    
+                    
+                    
                     //var res=delegateCheckConvWindow.checkConversationWindowOpen(phone: (userInfo["senderId"] as? String)!)
-                    sqliteDB.storeDayStatusUpdatesInfoTable(uniqueid!, daystatus_status1: "seen", daystatus_contactphone1: senderId!)                   ////
+                    sqliteDB.storeDayStatusUpdatesInfoTable(uniqueid1:id1,daystatus_id1:uniqueid!, daystatus_status1: "seen", daystatus_contactphone1: senderId!, daystatus_uploadedBy1:senderId!, daystatus_time1:defaultTimeZoneStr!)                   ////
                     
                 }
                 

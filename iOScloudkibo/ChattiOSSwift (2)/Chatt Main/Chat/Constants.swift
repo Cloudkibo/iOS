@@ -115,6 +115,7 @@ static let connectionstring="Endpoint=sb://cloudkiboiospush.servicebus.windows.n
     static var muteContact="/api/contactslist/muteContact"
     static var unmutecontact="/api/contactslist/unmuteContact"
     static var daystatusDownload="/api/daystatus/getMedia"
+    static var daystatusGetMetaData="/api/daystatus/getInfo"
     static var sendDayStatusUpdate = "/api/daystatusupdate/create"
   //  static var fetchSingleGroupChat="/api/groupchat/fetchSingleChat"
     /*

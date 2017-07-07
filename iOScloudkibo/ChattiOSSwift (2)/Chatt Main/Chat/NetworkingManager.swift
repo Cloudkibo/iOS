@@ -1906,10 +1906,126 @@ class NetworkingManager
         
     }
     
-    func downloadDayStatus(uniqueid:String,senderId:String)
+    func checkDayStatusMetaData(uniqueid1:String)
+    {
+        print("inside checkDayStatusMetaData")
+        var checkPendingFiles=Constants.MainUrl+Constants.daystatusGetMetaData
+        
+        
+        Alamofire.request("\(checkPendingFiles)", method: .post, parameters: ["uniqueid":uniqueid1],headers:header).validate(statusCode: 200..<300).responseJSON{
+            
+            response in
+            
+            
+            /*
+             Alamofire.request(.POST,"\(checkPendingFiles)",headers:header,parameters: ["uniqueid":uniqueid1]).validate(statusCode: 200..<300).responseJSON{
+             
+             response in*/
+            
+            ////// print(response.data!)
+            
+            switch response.result {
+            case .success:
+                
+                //debugPrint(response)
+                print("checking pending day status success")
+                ///////print(response.result.value)
+                if(response.result.value != nil)
+                {print(JSON(response.result.value!)) // "status":"success"
+                    var jsonResult=JSON(response.result.value!)
+                    //print("count jsonresult is \(jsonResult.count)")
+                    // print("count jsonresult zeroth is \(jsonResult[0].count)")
+                    print("count jsonresult day status \(jsonResult["data"].count)")
+                    
+                    if(jsonResult["data"].count>0)
+                    {//print("count filepending is \(jsonResult["filepending"].count)")
+                        // for(var i=0;i<jsonResult.count;i++)
+                        //{
+                        //  if(jsonResult[i]["filepending"]["from"].isExists())
+                        //{
+                        
+                        /*
+                         
+                         "filepending" : {
+                         "from" : "+923201211991",
+                         "uniqueid" : "ovDA992233720368547758079223372036854775807922337203685477580713289223372036854775807",
+                         "_id" : "57a842cfc42c92dc695b162c",
+                         "__v" : 0,
+                         "file_type" : "JPG",
+                         "file_size" : 0,
+                         "file_name" : "IMG_0073.JPG",
+                         "date" : "2016-08-08T08:29:03.233Z",
+                         "path" : "\/f6fdf7ed82d2016884293.jpeg",
+                         "to" : "+923333864540"
+                         }
+                         */
+                        print("downloading day status with id \(jsonResult["data"]["uniqueid"])")
+                        print("downloading day status from \(jsonResult["data"]["uploadedBy"])")
+                        if(jsonResult["data"]["uploadedBy"] != nil)
+                        {
+                            print("downloading day status with id \(jsonResult["data"]["uniqueid"])")
+                            
+                            var fileuniqueid=jsonResult["data"]["uniqueid"].string!
+                            var filePendingName=jsonResult["data"]["file_name"].string!
+                            var filefrom=jsonResult["data"]["uploadedBy"].string!
+                            var filetype=jsonResult["data"]["file_type"].string!
+                            var filePendingSize="\(jsonResult["data"]["file_size"])"
+                            var filependingDate=jsonResult["data"]["date"].string!
+                            //var filePendingTo=jsonResult["filepending"]["to"].string!
+                            
+                            var caption=""
+                            if(jsonResult["data"]["label"] != nil)
+                            {
+                                caption=jsonResult["data"]["label"].string!
+                            }
+                            //  self.downloadFile("\(jsonResult["filepending"]["uniqueid"])")
+                          
+                            
+                            self.downloadDayStatus(uniqueid: fileuniqueid,filePendingName: filePendingName,senderId: filefrom,filetype: filetype,filePendingSize: filePendingSize,filependingDate: filependingDate,filePendingTo: "-",filecaption: caption)
+                        }
+                        //}
+                        
+                        //}
+                        
+                    }
+                }
+                else{
+                    print("no pending files found")
+                }
+                
+            case .failure(let error):
+                print("\(error) file check pending failed")
+            }
+            //request1, response1, data1, error1 in
+            
+            //===========INITIALISE SOCKETIOCLIENT=========
+            // dispatch_async(dispatch_get_main_queue(), {
+            
+            //self.dismiss(true, completion: nil);
+            /// self.performSegueWithIdentifier("loginSegue", sender: nil)
+            
+            /*if response1?.statusCode==200 {
+             print("checkPendingFiles success")
+             if(data1 != nil)
+             {
+             print(data1.debugDescription)
+             }
+             else{
+             print("no pending file")
+             }
+             //print(JSON(data1!.debugDescription).debugDescription)
+             }
+             else{
+             print("checkpendingfiles failed")
+             }*/
+        }
+    }
+
+    
+    func downloadDayStatus(uniqueid:String,filePendingName: String,senderId: String,filetype: String,filePendingSize: String,filependingDate: String,filePendingTo:String,filecaption: String)
     {
         print("downloadDayStatus")
-       
+    
     /// else{
     //uncomment
     
@@ -1919,7 +2035,7 @@ class NetworkingManager
     
     let destination1: DownloadRequest.DownloadFileDestination = { _, _ in
         var documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        var localImageURL = documentsURL.appendingPathComponent(uniqueid+".jpg")
+        var localImageURL = documentsURL.appendingPathComponent(filePendingName)
         return (localImageURL, [.removePreviousFile])
     }
     
@@ -1977,9 +2093,14 @@ class NetworkingManager
     let dirPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
     let docsDir1 = dirPaths[0]
     var documentDir=docsDir1 as NSString
-    var filePendingPath=documentDir.appendingPathComponent(uniqueid+".jpg")
+    var filePendingPath=documentDir.appendingPathComponent(filePendingName)
     
-        sqliteDB.saveFile("all", from1: senderId, owneruser1: username!, file_name1: uniqueid+".jpg", date1: nil, uniqueid1: uniqueid, file_size1: "0", file_type1: "jpg", file_path1: filePendingPath, type1: "day_status",caption1:"")
+        
+        sqliteDB.saveFile(filePendingTo, from1: senderId, owneruser1: username!, file_name1: filePendingName, date1: nil, uniqueid1: uniqueid, file_size1: filePendingSize, file_type1: filetype, file_path1: filePendingPath, type1: "day_status",caption1: filecaption)
+        
+        
+        
+       //==-- sqliteDB.saveFile("all", from1: senderId, owneruser1: username!, file_name1: uniqueid+".jpg", date1: nil, uniqueid1: uniqueid, file_size1: "0", file_type1: "jpg", file_path1: filePendingPath, type1: "day_status",caption1:"")
         
     /*if(self.imageExtensions.contains(filetype.lowercased()))
     {

@@ -104,7 +104,7 @@ class syncService{
     
     func getDayStatuses(daystatuses:JSON)
     {
-        for var i in 0 ..< daystatuses.count
+       for var i in 0 ..< daystatuses.count
         {
             var date=daystatuses[i]["date"].string!
              var uniqueid=daystatuses[i]["uniqueid"].string!
@@ -116,9 +116,11 @@ class syncService{
 
     var uploadedBy=daystatuses[i]["uploadedBy"].string!
           
-            sqliteDB.storeDayStatusUpdatesInfoTable(uniqueid, daystatus_status1: "pending", daystatus_contactphone1: uploadedBy)
+            var id1=UtilityFunctions.init().generateUniqueid()
+            //!!sqliteDB.storeDayStatusUpdatesInfoTable(uniqueid1:id1,daystatus_id1:uniqueid, daystatus_status1: "pending", daystatus_contactphone1: uploadedBy)
             ////
-            managerFile.downloadDayStatus(uniqueid: uniqueid,senderId:uploadedBy)
+            managerFile.checkDayStatusMetaData(uniqueid1:uniqueid)
+            //!!managerFile.downloadDayStatus(uniqueid: uniqueid,senderId:uploadedBy)
     
         }
     }
@@ -128,11 +130,18 @@ class syncService{
         for var i in 0 ..< daystatusupdates.count
         {
             var uniqueid=daystatusupdates[i]["uniqueid"].string!
-            //var time=daystatusupdates[i]["time"].string!
+            var time=daystatusupdates[i]["time"].string!
             var uploadedBy=daystatusupdates[i]["uploadedBy"].string!
             var contact=daystatusupdates[i]["contact"].string!
+            var id1=UtilityFunctions.init().generateUniqueid()
             
-            sqliteDB.storeDayStatusUpdatesInfoTable(uniqueid, daystatus_status1: "seen", daystatus_contactphone1: contact)
+            
+            var formatterDateSendtoDateType = DateFormatter();
+            formatterDateSendtoDateType.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+            var dateDateType = formatterDateSendtoDateType.date(from: time)
+            
+            
+            sqliteDB.storeDayStatusUpdatesInfoTable(uniqueid1:id1,daystatus_id1:uniqueid, daystatus_status1: "seen", daystatus_contactphone1: contact,daystatus_uploadedBy1:uploadedBy,daystatus_time1:dateDateType!)
             
         }
     }

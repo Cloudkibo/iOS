@@ -16,6 +16,8 @@ import MobileCoreServices
 
 class VideoViewController: UIViewController,RTCPeerConnectionDelegate,RTCSessionDescriptionDelegate,RTCEAGLVideoViewDelegate,SocketClientDelegateWebRTC,RTCDataChannelDelegate,UIDocumentPickerDelegate,UIDocumentMenuDelegate,DelegateSendScreenshotDelegate {
     
+    
+    
     var delegateCallRingingGo:CallRingingGoBackDelegate!
     let picker = UIImagePickerController()
     open var delegateFileReceived:FileReceivedAlertDelegate!
