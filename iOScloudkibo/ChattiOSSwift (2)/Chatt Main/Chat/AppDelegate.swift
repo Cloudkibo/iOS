@@ -180,11 +180,739 @@ class AppDelegate: UIResponder, UIApplicationDelegate,AppDelegateScreenDelegate,
         {
             print("helloo \(i)")
         }
+        var userInfo = payload.dictionaryPayload
+        //var userInfo = dicn"
+        
+        if(userInfo==nil)
+        {
+            
+            return;
+            
+        }
+        /*if (sinchinfo == nil)
+        return;
+        UILocalNotification* notif = [[UILocalNotification alloc] init];
+        notif.alertBody = @"incoming call";
+        [[UIApplication sharedApplication] presentLocalNotificationNow:notif];
+        dispatch_async(dispatch_get_main_queue(), ^{
+        [_client relayRemotePushNotificationPayload:sinchinfo];
+        });
+        */
+       // UtilityFunctions.init().getAppState(currentState: UIApplication.shared.applicationState.rawValue)
+       // UtilityFunctions.init().log_papertrail("IPHONE: receivednotification(old) iOS9 \(userInfo)")
+        
+        if(UIApplication.shared.applicationState.rawValue != UIApplicationState.inactive.rawValue )
+        {
+            UtilityFunctions.init().log_papertrail("IPHONE: \(username!) iOS 9+ receivednotification method called mode not inactive \(UIApplication.shared.applicationState.rawValue) \(userInfo) ")
+            /*Alamofire.request("https://api.cloudkibo.com/api/users/log", method: .post, parameters: ["data":"IPHONE_LOG: \(username!) received push notification in mode value \(UIApplication.shared.applicationState.rawValue) as \(userInfo.description)"],headers:header).response{
+             response in
+             print(response.error)
+             }*/
+            
+            /*
+             
+             Alamofire.request(.POST,"https://api.cloudkibo.com/api/users/log",headers:header,parameters: ["data":"IPHONE_LOG: \(username!) received push notification as \(userInfo.description)"]).response{
+             request, response_, data, error in
+             print(error)
+             }
+             */
+            
+            
+            ////////  if (application.applicationState != UIApplicationState.Background) {
+            // NSLog("received remote notification \(userInfo)")
+            /* if(socketObj != nil)
+             {
+             socketObj.socket.emit("logClient","\(username) didReceiveRemoteNotification: ..... \(userInfo["userInfo"]).....\(userInfo.description)")
+             //   print(userInfo["userInfo"])
+             
+             }*/
+            
+            
+            
+            if  let singleuniqueid = userInfo["uniqueId"] as? String {
+                // Printout of (userInfo["aps"])["type"]
+                print("\nFrom APS-dictionary with key \"singleuniqueid\":  \( singleuniqueid)")
+                if  let notifType = userInfo["type"] as? String {
+                    print("payload of satus or iOS chat")
+                    if(notifType=="status")
+                    {
+                        updateMessageStatus(singleuniqueid, status: (userInfo["status"] as? String)!)
+                        print("calling completion handler for status update now")
+                        
+                        /*
+                         else if (payload.getString("type").equals("message_status")) {
+                         
+                         JSONObject row = payload.getJSONObject("data");
+                         
+                         sendMessageStatusUsingAPI(row.getString("status"),
+                         row.getString("uniqueid"), row.getString("sender")); //this is when desktop sends to us
+                         */
+                        
+                        var dataForDesktopApp=["uniqueid":singleuniqueid,"status":userInfo["status"] as? String]
+                        UtilityFunctions.init().sendDataToDesktopApp(data1: dataForDesktopApp as AnyObject, type1: "message_status")
+                        
+                        UIDelegates.getInstance().UpdateSingleChatDetailDelegateCall()
+                        UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+                       ////- completionHandler(UIBackgroundFetchResult.newData)
+                        
+                        //completionHandler(UIBackgroundFetchResult.newData)
+                        NotificationCenter.default.post(name: Notification.Name(rawValue: "ReceivedNotification"), object:userInfo)
+                        
+                    }
+                    else
+                    {/*
+                         group:you_are_added
+                         */
+                        
+                        if(notifType=="chat" || notifType=="file" || notifType=="broadcast_file" || notifType=="contact" || notifType=="location" || notifType=="link" || notifType=="log" || notifType=="day_status_chat")
+                            
+                        {print("payload of iOS chat")
+                            fetchSingleChatMessage(singleuniqueid)
+                            print("calling completion handler for fetch chat now")
+                            UIDelegates.getInstance().UpdateSingleChatDetailDelegateCall()
+                            UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+                     ////-       completionHandler(UIBackgroundFetchResult.newData)
+                            
+                            // completionHandler(UIBackgroundFetchResult.newData)
+                            NotificationCenter.default.post(name: Notification.Name(rawValue: "ReceivedNotification"), object:userInfo)
+                        }
+                            
+                        else
+                        {
+                            if(notifType=="group:msg_status_changed")
+                                
+                            {print("inside here updating status")
+                                //change message status
+                                //status : 'delivered',
+                                //uniqueId : req.body.unique_id
+                                var uniqueId=userInfo["uniqueId"] as! String
+                                var status=userInfo["status"] as! String
+                                var user_phone=userInfo["user_phone"] as? String
+                                
+                                let dateFormatter = DateFormatter()
+                                dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                                var delivered_date=Date()
+                                var read_date=Date()
+                                
+                                
+                                
+                                /* if(status == "delivered")
+                                 {
+                                 var delivered_dateString=userInfo["delivered_date"] as! String
+                                 delivered_date = dateFormatter.date(from:delivered_dateString)!
+                                 
+                                 
+                                 }
+                                 else
+                                 {
+                                 var read_dateString=userInfo["read_date"] as! String
+                                 read_date = dateFormatter.date(from:read_dateString)!
+                                 
+                                 
+                                 }
+                                 
+                                 */
+                                
+                                if(user_phone == nil)
+                                {
+                                    user_phone=""
+                                }
+                                sqliteDB.updateGroupChatStatus(uniqueId,memberphone1: user_phone!,status1: status, delivereddate1: delivered_date, readDate1: read_date)
+                                UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+                                UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
+                                UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
+                                
+                            }
+                            else{
+                                
+                                if(notifType=="block:blockedyou")
+                                    
+                                {print("inside i am blocked")
+                                    //change message status
+                                    //status : 'delivered',
+                                    //uniqueId : req.body.unique_id
+                                    var phone=userInfo["phone"] as! String
+                                    sqliteDB.IamBlockedUpdateStatus(phone1: phone, status1: true)
+                                    UIDelegates.getInstance().UpdateSingleChatDetailDelegateCall()
+                                    UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+                                ////-    completionHandler(UIBackgroundFetchResult.newData)
+                                    
+                                }
+                                else{
+                                    
+                                    if(notifType=="block:unblockedyou")
+                                        
+                                    {print("inside i am unblocked")
+                                        //change message status
+                                        //status : 'delivered',
+                                        //uniqueId : req.body.unique_id
+                                        var phone=userInfo["phone"] as! String
+                                        sqliteDB.IamBlockedUpdateStatus(phone1: phone, status1: false)
+                                    }
+                                }
+                            }
+                        }
+                        
+                        /* else
+                         {
+                         if(notifType=="group:you_are_added")
+                         {
+                         
+                         //you are added to group
+                         /*   Body: group_unique_id = <group_unique_id>, members = [‘+9233232900920’, ‘+9432233919233’, ....]
+                         Push notification will be sent to other members of group:
+                         var payload = {
+                         type : 'group:you_are_added',
+                         senderId : ‘<admin phone number>’,
+                         groupId : ‘<unique id of group>’,
+                         isAdmin: 'No',
+                         membership_status : 'joined',
+                         group_name: ‘<name of the group>’,
+                         badge : <ignore this field>
+                         };
+                         */
+                         }
+                         }
+                         
+                         }*/
+                        
+                    }
+                }
+                else
+                {
+                    print("rwong payload without type field")
+                    
+                    /*
+                     //==
+                     // this is from android
+                     //==
+                     
+                     fetchSingleChatMessage(singleuniqueid)
+                     
+                     */
+                   ////- completionHandler(UIBackgroundFetchResult.newData)
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: "ReceivedNotification"), object:userInfo)
+                    
+                    
+                }
+                
+                // Do your stuff?
+                
+                
+            }
+                
+            else
+            {
+                //handle Group Push here
+                //you are added to group
+                /* Body: group_unique_id = <group_unique_id>, members = [‘+9233232900920’, ‘+9432233919233’, ....]
+                 Push notification will be sent to other members of group:
+                 var payload = {
+                 type : 'group:you_are_added',
+                 senderId : ‘<admin phone number>’,
+                 groupId : ‘<unique id of group>’,
+                 isAdmin: 'No',
+                 membership_status : 'joined',
+                 group_name: ‘<name of the group>’,
+                 badge : <ignore this field>
+                 };
+                 *?
+                 }
+                 }
+                 
+                 }*/
+                if  let type = userInfo["type"] as? String {
+                    print(userInfo)
+                    // Printout of (userInfo["aps"])["type"]
+                    print("group push unique_id is \( type)")
+                    // if  let notifType = userInfo["type"] as? String {
+                    
+                    if(type=="group:you_are_added")
+                    {
+                        var senderid = userInfo["senderId"] as! String
+                        var groupId = userInfo["groupId"] as? String
+                        var isAdmin = userInfo["isAdmin"] as! String
+                        var membership_status = userInfo["membership_status"] as! String
+                        var group_name = userInfo["group_name"] as! String
+                        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background).async {
+                            self.fetchSingleGroup(groupId!, completion: { (result, error) in
+                                
+                                self.fetchGroupMembersSpecificGroup(groupId!,completion: { (result, error) in
+                                    
+                                    sqliteDB.storeGroupsChat("Log:", group_unique_id1: groupId!, type1: "log", msg1: "You are added by \(senderid)", from_fullname1: "", date1: Date(), unique_id1:UtilityFunctions.init().generateUniqueid())
+                                    UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+                                    UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
+                                    
+                                  ////-  completionHandler(UIBackgroundFetchResult.newData)
+                                })
+                                
+                            })
+                        }
+                        /* dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
+                         print("synccccc fetching contacts in background...")
+                         {
+                         self.fetchSingleGroup(groupId, completion: { (result, error) in
+                         
+                         print("group fetched now fetch members")
+                         
+                         })}}*/
+                        
+                    }
+                    //group:name_update
+                    //group:role_updated
+                    if(type=="group:name_update")
+                    {
+                        var senderId=userInfo["senderId"] as! String  //from
+                        var groupId=userInfo["groupId"] as! String
+                        var new_name=userInfo["new_name"] as! String
+                        sqliteDB.updateGroupname(groupid:groupId,newname:new_name)
+                        
+                        var uniqueid1=UtilityFunctions.init().generateUniqueid()
+                        sqliteDB.storeGroupsChat("Log:", group_unique_id1: groupId, type1: "log", msg1: "\(senderId) changed the subject to \(new_name)", from_fullname1: "", date1: Date(), unique_id1: uniqueid1)
+                        
+                        
+                        
+                        
+                        
+                    }
+                    if(type=="group:role_updated")
+                    {
+                        /*type : 'group:role_updated',
+                         senderId : req.user.phone,
+                         personUpdated : req.body.member_phone,
+                         groupId : req.body.group_unique_id,
+                         isAdmin: req.body.makeAdmin,
+                         badge : dataUser.iOS_badge
+                         
+                         */
+                        var senderId=userInfo["senderId"] as! String  //from
+                        var groupId=userInfo["groupId"] as! String
+                        var isAdmin=userInfo["isAdmin"] as! String
+                        var personUpdated=userInfo["personUpdated"] as! String
+                        
+                        var uniqueid1=UtilityFunctions.init().generateUniqueid()
+                        sqliteDB.changeRole(groupId, member1: personUpdated, isAdmin1: isAdmin)
+                        //sqliteDB.updateMembershipStatus(groupId,memberphone1: senderId, membership_status1: "left")
+                        sqliteDB.storeGroupsChat("Log:", group_unique_id1: groupId, type1: "log", msg1: "\(senderId) has made \(personUpdated) as group admin", from_fullname1: "", date1: Date(), unique_id1: uniqueid1)
+                        ///////  sqliteDB.removeMember(groupId!,member_phone1: senderId!)
+                        /*if(delegateRefreshChat != nil)
+                         {
+                         print("refresh UI after member leaves")
+                         delegateRefreshChat?.refreshChatsUI(nil, uniqueid:nil, from:nil, date1:nil, type:"status")
+                         }*/
+                        UIDelegates.getInstance().UpdateSingleChatDetailDelegateCall()
+                        UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+                        UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
+                        UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
+                        
+                       ////- completionHandler(UIBackgroundFetchResult.newData)
+                        
+                        
+                    }
+                    if(type=="group:chat_received")
+                    {
+                        
+                        
+                        var senderId=userInfo["senderId"] as? String  //from
+                        var groupId=userInfo["groupId"] as? String
+                        var msg_type=userInfo["msg_type"] as? String
+                        var unique_id=userInfo["unique_id"] as? String
+                        
+                        self.fetchSingleGroupChatMessage(unique_id!,completion: {(result,error) in
+                            
+                            UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
+                            UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+                            UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
+                            
+                        })
+                        
+                    ////-    completionHandler(UIBackgroundFetchResult.newData)
+                        
+                        
+                    }
+                    
+                    
+                    
+                    
+                    if(type=="group:member_left_group")
+                    {
+                        var senderId=userInfo["senderId"] as! String  //from
+                        var groupId=userInfo["groupId"] as! String
+                        var isAdmin=userInfo["isAdmin"] as! String
+                        var membership_status=userInfo["membership_status"] as! String
+                        
+                        var uniqueid1=UtilityFunctions.init().generateUniqueid()
+                        
+                        sqliteDB.updateMembershipStatus(groupId,memberphone1: senderId, membership_status1: "left")
+                        sqliteDB.storeGroupsChat("Log:", group_unique_id1: groupId, type1: "log", msg1: "\(senderId) has left this group", from_fullname1: "", date1: Date(), unique_id1: uniqueid1)
+                        ///////  sqliteDB.removeMember(groupId!,member_phone1: senderId!)
+                        /*if(delegateRefreshChat != nil)
+                         {
+                         print("refresh UI after member leaves")
+                         delegateRefreshChat?.refreshChatsUI(nil, uniqueid:nil, from:nil, date1:nil, type:"status")
+                         }*/
+                        UIDelegates.getInstance().UpdateSingleChatDetailDelegateCall()
+                        UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+                        UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
+                        UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
+                        
+                   ////-     completionHandler(UIBackgroundFetchResult.newData)
+                        
+                        //updateUI
+                        
+                    }
+                    //removed_from_group
+                    if(type=="group:removed_from_group")
+                    {
+                        var senderId=userInfo["senderId"] as! String
+                        var isAdmin=userInfo["isAdmin"] as! String
+                        var membership_status=userInfo["membership_status"] as! String
+                        var personRemoved=userInfo["personRemoved"] as! String
+                        var groupId=userInfo["groupId"] as! String
+                        
+                        var uniqueid1=UtilityFunctions.init().generateUniqueid()
+                        
+                        sqliteDB.updateMembershipStatus(groupId,memberphone1: personRemoved, membership_status1: "left")
+                        
+                        if(personRemoved == username!)
+                        {
+                            sqliteDB.storeGroupsChat("Log:", group_unique_id1: groupId, type1: "log", msg1: "\(senderId) removed you", from_fullname1: "", date1: Date(), unique_id1: uniqueid1)
+                        }
+                        else{
+                            sqliteDB.storeGroupsChat("Log:", group_unique_id1: groupId, type1: "log", msg1: "\(personRemoved) is removed from this group", from_fullname1: "", date1: Date(), unique_id1: uniqueid1)
+                        }
+                        ///////  sqliteDB.removeMember(groupId!,member_phone1: senderId!)
+                        /* if(delegateRefreshChat != nil)
+                         {
+                         print("refresh UI after member leaves")
+                         delegateRefreshChat?.refreshChatsUI(nil, uniqueid:nil, from:nil, date1:nil, type:"status")
+                         }*/
+                        UIDelegates.getInstance().UpdateSingleChatDetailDelegateCall()
+                        UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+                        UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
+                        UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
+                        
+                   ////-     completionHandler(UIBackgroundFetchResult.newData)
+                        
+                        /*
+                         [senderId: +923201211991, badge: 0, aps: {
+                         }, isAdmin: No, membership_status: left, type: group:removed_from_group, personRemoved: +923323800399, groupId: cFBhfRu201611116656]
+                         [senderId: +923201211991, badge: 0, aps: {
+                         }, isAdmin: No, membership_status: left, type: group:removed_from_group, personRemoved: +923323800399, groupId: cFBhfRu201611116656]
+                         
+                         */
+                    }
+                    
+                    if(type=="group:icon_update")
+                    {
+                        print("group icon is changed \(userInfo["groupId"] as! String)")
+                        var groupId=userInfo["groupId"] as! String
+                        var senderId=userInfo["senderId"] as! String
+                        
+                        print("group icon changed of: \(sqliteDB.getSingleGroupInfo(userInfo["groupId"] as! String))")
+                        //"exists".dataUsingEncoding(NSUTF8StringEncoding)!
+                        sqliteDB.storeGroupsChat("Log:", group_unique_id1: groupId, type1: "log", msg1: "\(senderId) has changed the group icon".localized, from_fullname1: "", date1:NSDate() as Date , unique_id1: groupId)
+                        
+                        
+                        UtilityFunctions.init().downloadProfileImage(groupId)
+                    }
+                    
+                    if(type=="status:new_status_added")
+                    {
+                        
+                        print("got push of day_status_chat")
+                        var senderId=userInfo["senderId"] as? String  //from
+                        var uniqueid=userInfo["uniqueid"] as? String
+                        
+                        //var res=delegateCheckConvWindow.checkConversationWindowOpen(phone: (userInfo["senderId"] as? String)!)
+                        var id1=UtilityFunctions.init().generateUniqueid()
+                        //!!!sqliteDB.storeDayStatusUpdatesInfoTable(uniqueid1:id1,daystatus_id1:uniqueid!, daystatus_status1: "pending", daystatus_contactphone1: senderId!)
+                        ////
+                        managerFile.checkDayStatusMetaData(uniqueid1: uniqueid!)
+                        //!!! managerFile.downloadDayStatus(uniqueid: uniqueid!,senderId:senderId!)
+                    }
+                    
+                    if(type=="status:your_status_seen")
+                    {
+                        print("got push of day_status_chat")
+                        var senderId=userInfo["senderId"] as? String  //from
+                        var uniqueid=userInfo["uniqueid"] as? String
+                        //var time=userInfo["time"]
+                        
+                        var id1=UtilityFunctions.init().generateUniqueid()
+                        
+                        let date22=Date()
+                        let formatter = DateFormatter();
+                        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+                        ///newwwwwwww
+                        formatter.timeZone = TimeZone.autoupdatingCurrent
+                        
+                        
+                        
+                        //formatter.dateFormat = "MM/dd hh:mm a"";
+                        ////////////////==formatter.timeZone = NSTimeZone.defaultTimeZone()
+                        //formatter.dateStyle = .ShortStyle
+                        //formatter.timeStyle = .ShortStyle
+                        let defaultTimeZoneStr2 = formatter.string(from: date22);
+                        
+                        
+                        let formatter2 = DateFormatter();
+                        formatter2.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+                        
+                        //////formatter.timeZone = NSTimeZone.local()
+                        let defaultTimeZoneStr = formatter2.date(from: defaultTimeZoneStr2)
+                        print("default db date is \(defaultTimeZoneStr!)")
+                        
+                        
+                        
+                        
+                        //var res=delegateCheckConvWindow.checkConversationWindowOpen(phone: (userInfo["senderId"] as? String)!)
+                        sqliteDB.storeDayStatusUpdatesInfoTable(uniqueid1:id1,daystatus_id1:uniqueid!, daystatus_status1: "seen", daystatus_contactphone1: senderId!, daystatus_uploadedBy1:senderId!, daystatus_time1:defaultTimeZoneStr!)                   ////
+                        
+                    }
+                    
+                    
+                    if(type=="syncUpward")
+                    {
+                        
+                        UtilityFunctions.init().log_papertrail("IPHONE: UPWARD SYNC PUSH \(userInfo) ... PAYLOAD: \(userInfo["payload"])")
+                        var sub_type = userInfo["sub_type"] as! String
+                        
+                        if(sub_type=="unsentMessages")
+                        {
+                            if let payload=userInfo["payload"] as? [AnyHashable : Any]
+                            {
+                                var uniqueid=payload["uniqueid"] as! String
+                                var status=payload["status"] as! String
+                                
+                                sqliteDB.UpdateChatStatus(uniqueid, newstatus: status)
+                                
+                                UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+                                UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
+                                UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
+                                
+                     ////-           completionHandler(UIBackgroundFetchResult.newData)
+                            }
+                            
+                        }
+                        if(sub_type=="unsentGroupMessages")
+                        {
+                            UtilityFunctions.init().log_papertrail("IPHONE: UPWARD SYNC PUSH \(userInfo) ... PAYLOAD: \(userInfo["payload"])")
+                            print("push got group chat \(userInfo)")
+                            
+                            if let payload=userInfo["payload"] as? [AnyHashable : Any]
+                            {
+                                var uniqueid=payload["unique_id"] as! String
+                                
+                                
+                                let msg_unique_id = Expression<String>("msg_unique_id")
+                                let Status = Expression<String>("Status")
+                                let user_phone = Expression<String>("user_phone")
+                                
+                                let read_date = Expression<Date>("read_date")
+                                let delivered_date = Expression<Date>("delivered_date")
+                                
+                                
+                                
+                                sqliteDB.group_chat_status = Table("group_chat_status")
+                                
+                                let query = sqliteDB.group_chat_status.select(Status).filter(msg_unique_id == uniqueid)
+                                do
+                                {let row=try sqliteDB.db.run(query.update(Status <- "sent"))
+                                    UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+                                    UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
+                                    
+                                    UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
+                          ////-          completionHandler(UIBackgroundFetchResult.newData)
+                                    
+                                }
+                                catch{
+                                    
+                                }
+                                
+                            }
+                            
+                        }
+                        //unsentChatMessageStatus
+                        //unsentGroupChatMessageStatus
+                        //unsentGroups
+                        //unsentAddedGroupMembers
+                        //unsentRemovedGroupMembers
+                        //statusOfSentMessages
+                        //statusOfSentGroupMessages
+                        if(sub_type=="unsentChatMessageStatus")
+                        {
+                            if let payload=userInfo["payload"] as? [AnyHashable : Any]
+                            {if(payload.count>0)
+                            {
+                                var uniqueid=payload["uniqueid"] as! String
+                                sqliteDB.removeMessageStatusSeen(uniqueid)
+                                UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
+                                UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+                                UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
+                          ////-      completionHandler(UIBackgroundFetchResult.newData)
+                                
+                                }
+                            }
+                        }
+                        
+                        if(sub_type=="unsentGroupChatMessageStatus")
+                        {
+                            if let payload=userInfo["payload"] as? [AnyHashable : Any]
+                            {if(payload.count>0)
+                            {
+                                
+                                var chat_uniqueid=payload["chat_uniqueid"] as! String
+                                var status=payload["status"] as! String
+                                
+                                sqliteDB.removeGroupStatusTemp(status, memberphone1: username!, messageuniqueid1: chat_uniqueid)
+                                sqliteDB.updateGroupChatStatus(chat_uniqueid, memberphone1: username!, status1: status, delivereddate1: NSDate() as Date!, readDate1: NSDate() as Date!)
+                                UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
+                                UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+                                UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
+                         ////-       completionHandler(UIBackgroundFetchResult.newData)
+                                
+                                }
+                            }
+                        }
+                        if(sub_type=="unsentGroups")
+                        {
+                            
+                        }
+                        
+                        if(sub_type=="unsentAddedGroupMembers")
+                        {
+                            
+                        }
+                        
+                        if(sub_type=="unsentRemovedGroupMembers")
+                        {
+                            
+                        }
+                        
+                        if(sub_type=="statusOfSentMessages")
+                        {
+                            //"uniqueid":"3fc8d6548c22c3341172114344","status":"delivered
+                            
+                            if let payload=userInfo["payload"] as? [AnyHashable : Any]
+                            {
+                                if(payload.count>0)
+                                {
+                                    var uniqueid=payload["uniqueid"] as! String
+                                    var status=payload["status"] as! String
+                                    
+                                    sqliteDB.UpdateChatStatus(uniqueid, newstatus: status)
+                                    UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
+                                    UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+                                    UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
+                             ////-       completionHandler(UIBackgroundFetchResult.newData)
+                                    
+                                }
+                            }
+                        }
+                        
+                        if(sub_type=="statusOfSentGroupMessages")
+                        {
+                            UtilityFunctions.init().log_papertrail("IPHONE: UPWARD SYNC PUSH \(userInfo) ... PAYLOAD: \(userInfo["payload"])")
+                            print("statusOfSentGroupMessages")
+                            
+                            
+                            if let payload=userInfo["payload"] as? [AnyHashable : Any]
+                            {
+                                if(payload.count>0)
+                                {
+                                    
+                                    var chat_unique_id=payload["chat_unique_id"] as! String
+                                    var user_phone=payload["user_phone"] as! String
+                                    var read_date=payload["read_date"] as! String
+                                    var delivered_date=payload["delivered_date"] as! String
+                                    var status=payload["status"] as! String
+                                    
+                                    for var i in 0 ..< payload.count
+                                    {
+                                        var uniqueid1=chat_unique_id
+                                        var user_phone1=user_phone
+                                        var read_dateString=read_date
+                                        
+                                        var delivered_dateString=delivered_date
+                                        var status1=status
+                                        
+                                        let dateFormatter = DateFormatter()
+                                        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                                        
+                                        let delivered_date = dateFormatter.date(from: delivered_dateString)
+                                        let read_date = dateFormatter.date(from:read_dateString)
+                                        
+                                        print("updating status ......... \(i)")
+                                        sqliteDB.updateGroupChatStatus(uniqueid1, memberphone1: user_phone1, status1: status1, delivereddate1: delivered_date, readDate1: read_date)
+                                    }
+                                }
+                                UIDelegates.getInstance().UpdateGroupChatDetailsDelegateCall()
+                                UIDelegates.getInstance().UpdateMainPageChatsDelegateCall()
+                                UIDelegates.getInstance().UpdateGroupInfoDetailsDelegateCall()
+                             ////-   completionHandler(UIBackgroundFetchResult.newData)
+                                
+                            }
+                            
+                            
+                        }
+                    }
+                    if(type=="new_user")
+                    {
+                        UtilityFunctions.init().log_papertrail("IPHONE: new user found PAYLOAD: \(userInfo["payload"])")
+                        var userobj = userInfo["user"] as! JSON
+                        var newuserphone=userobj["phone"].string!
+                        var addressbookname=sqliteDB.getNameFromAddressbook(newuserphone)
+                        if(addressbookname != nil)
+                        {
+                            // in addressbook
+                            sqliteDB.updateKiboStatusInAddressbook(newuserphone)
+                        }
+                        /*
+                         self.country_prefix<-json["country_prefix"].string!,
+                         self.nationalNumber<-json["national_number"].string!,
+                         //lastname<-"",
+                         //lastname<-json["lastname"].string!,
+                         //email<-json["email"].string!,
+                         self.username1<-json["phone"].string!,
+                         self.status<-json["status"].string!,
+                         self.phone<-json["phone"].string!))!)
+                         
+                         */
+                        
+                    }
+                    
+                    
+                    //}
+                }
+                
+                
+                
+                
+                
+                
+                
+                
+            }
+        }
+        else
+        {
+            
+            var stateApp=UtilityFunctions.init().getAppState(currentState: UIApplication.shared.applicationState.rawValue)
+            UtilityFunctions.init().log_papertrail("IPHONE: \(username!) app in \(stateApp) state received push iOS9 but will not preocess ----- \(userInfo)")
+            
+            /*  Alamofire.request(.POST,"https://api.cloudkibo.com/api/users/log",headers:header,parameters: ["data":"IPHONE_LOG: \(username!) received push notification when in inactive mode so nothing will be processed \(userInfo.description)"]).response{
+             request, response_, data, error in
+             print(error)
+             }*/
+        }
+
     }
 
     
     var window: UIWindow?
  
+    
 
 
     
@@ -1371,6 +2099,8 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     //Called to let your app know which action was selected by the user for a given notification.
     @available(iOS 10.0, *)
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        
+        /*
         UtilityFunctions.init().getAppState(currentState: UIApplication.shared.applicationState.rawValue)
         UtilityFunctions.init().log_papertrail("IPHONE: didReceive notification iOS10 \(response.notification.request.content.userInfo)")
       
@@ -1893,6 +2623,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
         }
         */
         completionHandler()
+        */
     }
     
     
@@ -3572,6 +4303,7 @@ id currentiCloudToken = fileManager.ubiquityIdentityToken;
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         
         
+        /*
      
        // else{
     
@@ -4348,6 +5080,9 @@ var uniqueid=payload["uniqueid"] as! String
          */
        // print("json received is is \(notificationJSON["aps"])")
  ///////   }
+        
+        
+        */
     }
     
     /*

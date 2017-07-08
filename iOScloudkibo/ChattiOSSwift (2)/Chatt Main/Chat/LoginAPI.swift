@@ -316,7 +316,8 @@ class LoginAPI{
                 var chunkNum=Int(jsondata1["chunkNum"] as! Double)
                 var filesize=Int(jsondata1["filesize"] as! Double)
                 var filename=jsondata1["filename"] as! String
-                if(chunkNum<=self.totalChunks)
+               
+                /*if(chunkNum<=self.totalChunks)
                 {
                     var bytes=Array<UInt8>(repeating: 0, count: filesize)
                     for eachbyte in bytes
@@ -343,7 +344,7 @@ class LoginAPI{
                   self.utilityService.sendAttachmentToServer(furl2)
                     }
                 }
-                
+                */
                // self.utilityService.sendAttachment(profilepic, unique_id1: "1234456")
                 
             }
