@@ -308,6 +308,14 @@ class LoginAPI{
             //==serviceSendInitialData.startInitialDataLoad(phone: username!, to_connection_id: self.desktopRoomID, from_connection_id: self.mobileSocketID, data: dataconversations as AnyObject, type: "loading_conversation")
             
 
+            if(type=="waket")
+            {
+                var jsondata1=(JSON(data[0] as! String))["data"] as! [String:AnyObject]
+                var unique_id=jsondata1["unique_id"] as! String
+                
+                UtilityFunctions.init().sendDataToDesktopApp(data1: ["unique_id":unique_id] as AnyObject, type1: "getpendingmessage")
+            
+            }
             if(type=="received_attachment")
             {
                 var jsondata1=(JSON(data[0] as! String))["data"] as! [String:AnyObject]
@@ -362,7 +370,7 @@ class LoginAPI{
         do{
             for account in try sqliteDB.db.prepare(tbl_accounts!)
             {
-            socketObj.socket.emit("join_platform_room", ["phone":"\(account[phone])"])
+            socketObj.socket.emit("join_platform_room", ["phone":"\(account[phone])","platform":"iOS"])
             }
         }
         catch{
